@@ -6,7 +6,7 @@ using namespace std;
 
 bool VERBOSE = false;
 
-void	displayHelp(char *executable_name) {
+static void	displayHelp(char *executable_name) {
 	cout << BGreen <<"=== 42 Scop by DailyWind ===\n" << ResetColor;
 	cout << "Usage: " << executable_name<< " [options] <.obj file>\n";
 	cout << "Options:\n";
@@ -15,7 +15,7 @@ void	displayHelp(char *executable_name) {
 }
 
 // return the number of flags
-int	checkFlags(int argc, char **argv) {
+static int	checkFlags(int argc, char **argv) {
 	int i;
 	int flags = 0;
 
