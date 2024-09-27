@@ -7,6 +7,7 @@ using namespace std;
 bool VERBOSE = false;
 
 void	displayHelp(char *executable_name) {
+	cout << BGreen <<"=== 42 Scop by DailyWind ===\n" << ResetColor;
 	cout << "Usage: " << executable_name<< " [options] <.obj file>\n";
 	cout << "Options:\n";
 	cout << "\t-v, --verbose\t\tVerbose mode\n";
@@ -60,7 +61,8 @@ int main(int argc, char **argv) {
 
 	try {
 		OBJ obj(file_name);
-		cout << "File " << file_name << " loaded successfully\n";
+		if (VERBOSE)
+			cout << "File " << file_name << " loaded successfully\n";
 	}
 	catch(const std::exception& e) {
 		std::cerr << BRed <<  "Critical Error : " << e.what() << ResetColor <<'\n';
