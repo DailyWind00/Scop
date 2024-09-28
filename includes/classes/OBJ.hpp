@@ -28,7 +28,9 @@ class OBJ {
 		OBJ(const string &file_name);
 		~OBJ();
 
+
 		// Getters
+
 		const string &getObjectName() const;
 		const Vertex_t &getVertice(size_t index) const;
 		const Vertex_t &getNormal(size_t index) const;
