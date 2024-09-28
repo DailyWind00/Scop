@@ -1,7 +1,7 @@
 #pragma once
 
 # include <iostream>
-# include <deque>
+# include <vector>
 # include <sstream>
 
 using namespace std;
@@ -14,10 +14,10 @@ typedef struct Vertex_s {
 
 typedef struct Object_s {
 	string name;
-	deque<Vertex_t> vertices;
-	deque<Vertex_t> normals;
-	deque<Vertex_t> textures;
-	deque<deque<int>> faces; // 3+ vertices
+	vector<Vertex_t> vertices;
+	vector<Vertex_t> normals;
+	vector<Vertex_t> textures;
+	vector<vector<int>> faces; // 3+ vertices
 } Object_t;
 
 class OBJ {
@@ -35,6 +35,6 @@ class OBJ {
 		const Vertex_t &getVertice(size_t index) const;
 		const Vertex_t &getNormal(size_t index) const;
 		const Vertex_t &getTexture(size_t index) const;
-		const deque<int> &getFace(size_t index) const;
+		const vector<int> &getFace(size_t index) const;
 
 };

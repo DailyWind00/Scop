@@ -42,7 +42,7 @@ const Vertex_t &OBJ::getTexture(size_t index) const {
 }
 
 // return the face at the given index (f <v1>/[vn1]/[vt1] <v2>/[vn2]/[vt2] <v3>/[vn3]/[vt3])
-const deque<int> &OBJ::getFace(size_t index) const {
+const vector<int> &OBJ::getFace(size_t index) const {
 	if (index >= this->obj.vertices.size())
 		throw out_of_range("Index out of range");
 	return this->obj.faces[index];
