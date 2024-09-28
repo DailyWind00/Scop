@@ -5,7 +5,8 @@ cmake_policy(SET CMP0072 NEW)
 find_package(OpenGL REQUIRED)
 
 add_executable(Scop 
-	srcs/main.cpp 
+	srcs/main.cpp
+	srcs/window.cpp
 	includes/classes/OBJ.cpp
 	dependencies/glad/glad.c
 )
@@ -13,5 +14,7 @@ add_executable(Scop
 target_include_directories(Scop PRIVATE dependencies)
 target_include_directories(Scop PRIVATE includes)
 target_include_directories(Scop PRIVATE includes/classes)
+
+target_compile_options(Scop PRIVATE -Wall -Wextra -Werror -O3 -g)
 
 target_link_libraries(Scop glfw OpenGL::GL)
