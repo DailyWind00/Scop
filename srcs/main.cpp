@@ -1,6 +1,4 @@
 #include "config.hpp"
-#include "OBJ.hpp"
-#include "color.h"
 
 using namespace std;
 
