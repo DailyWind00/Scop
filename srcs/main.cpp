@@ -1,7 +1,5 @@
 #include "config.hpp"
 
-using namespace std;
-
 bool VERBOSE = false;
 
 static void	displayHelp(char *executable_name) {
@@ -61,6 +59,12 @@ int main(int argc, char **argv) {
 		OBJ obj(file_name);
 		if (VERBOSE)
 			cout << "File " << file_name << " loaded successfully\n";
+
+		GLFWwindow *window = CreateWindow(obj);
+		(void)window;
+		// RenderObject(window, obj);
+
+		DestroyWindow(window);
 	}
 	catch(const std::exception& e) {
 		std::cerr << BRed <<  "Critical Error : " << e.what() << ResetColor <<'\n';
