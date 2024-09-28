@@ -61,9 +61,7 @@ int main(int argc, char **argv) {
 			cout << "File " << file_name << " loaded successfully\n";
 
 		GLFWwindow *window = CreateWindow(obj);
-		(void)window;
-		// RenderObject(window, obj);
-
+		RenderObject(window, obj);
 		DestroyWindow(window);
 	}
 	catch(const std::exception& e) {

@@ -7,6 +7,8 @@ find_package(OpenGL REQUIRED)
 add_executable(Scop 
 	srcs/main.cpp
 	srcs/window.cpp
+	srcs/shader.cpp
+	srcs/routine.cpp
 	includes/classes/OBJ.cpp
 	dependencies/glad/glad.c
 )

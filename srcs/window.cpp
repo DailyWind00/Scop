@@ -31,6 +31,8 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 		glfwTerminate();
 		throw runtime_error("Failed to initialize GLAD");
 	}
+	if (VERBOSE)
+		cout << "GLAD initialized\n";
 
 	return window;
 }
