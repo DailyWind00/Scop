@@ -17,6 +17,6 @@ target_include_directories(Scop PRIVATE dependencies)
 target_include_directories(Scop PRIVATE includes)
 target_include_directories(Scop PRIVATE includes/classes)
 
-target_compile_options(Scop PRIVATE -Wall -Wextra -Werror -O3 -g)
+target_compile_options(Scop PRIVATE -Wall -Wextra -Werror -O3 -g -fPIE)
 
 target_link_libraries(Scop glfw OpenGL::GL)
