@@ -18,7 +18,7 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 		cout << "GLFW initialized\n";
 
 	const string title = "Scop - " + obj.getObjectName();
-	window = glfwCreateWindow(800, 600, title.c_str(), NULL, NULL);
+	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title.c_str(), NULL, NULL);
 	if (!window) {
 		glfwTerminate();
 		throw runtime_error("Failed to create window");
@@ -33,6 +33,8 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 	}
 	if (VERBOSE)
 		cout << "GLAD initialized\n";
+
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	return window;
 }
