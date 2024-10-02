@@ -2,9 +2,21 @@
 
 // Constructors & Destructors 
 OBJ::OBJ(const string &file_name) {
-	// parseOBJ(file_name);
-	obj.name = "test"; // to remove
-	(void)file_name;
+	cout << file_name.substr(file_name.size() - 4);
+	if (file_name.substr(file_name.size() - 4) != ".obj")
+		throw runtime_error("Error while opening object file : invalid extension");
+
+	ifstream	object_file(file_name.c_str());
+	if (!object_file.is_open() || object_file.bad())
+		throw runtime_error("Error while opening object file : " + (string)strerror(errno));
+	
+	try {
+		// this->obj = parseOBJ(object_file);
+	}
+	catch(const std::exception& e) {
+		throw runtime_error("Error in " + file_name + " : " + e.what());
+	}
+	object_file.close();
 }
 
 OBJ::~OBJ() {
