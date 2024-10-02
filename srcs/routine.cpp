@@ -9,7 +9,7 @@ static void	handleEvents(GLFWwindow *window) {
 }
 
 // Keep the window alive, exiting this function mean the process is over
-static void program_loop(GLFWwindow *window, OBJ &obj, unsigned int shader) {
+static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -24,7 +24,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, unsigned int shader) {
 // Will call the program loop
 void	RenderObject(GLFWwindow *window, OBJ &obj) {
 
-	unsigned int shader = make_shader(
+	GLuint shader = make_shader(
 		"./srcs/shaders/vertex.vert",
 		"./srcs/shaders/fragment.frag"
 	);

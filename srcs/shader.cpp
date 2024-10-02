@@ -1,6 +1,6 @@
 #include "config.hpp"
 
-static unsigned int make_module(const string &filepath, unsigned int module_type) {
+static GLuint make_module(const string &filepath, GLuint module_type) {
 	ifstream file(filepath);
 	stringstream buffer;
 	string line;
@@ -19,7 +19,7 @@ static unsigned int make_module(const string &filepath, unsigned int module_type
 	const char *shaderSource = shaderSourceStr.c_str(); // in a single line
 	file.close();
 
-	unsigned int shaderModule = glCreateShader(module_type);
+	GLuint shaderModule = glCreateShader(module_type);
 	glShaderSource(shaderModule, 1, &shaderSource, NULL);
 	glCompileShader(shaderModule);
 
@@ -37,13 +37,13 @@ static unsigned int make_module(const string &filepath, unsigned int module_type
 	return shaderModule;
 }
 
-unsigned int make_shader(const string &vertex_path, const string &fragment_path) {
-	vector<unsigned int> modules;
+GLuint make_shader(const string &vertex_path, const string &fragment_path) {
+	vector<GLuint> modules;
 	modules.push_back(make_module(vertex_path, GL_VERTEX_SHADER));
 	modules.push_back(make_module(fragment_path, GL_FRAGMENT_SHADER));
 
-	unsigned int shader = glCreateProgram();
-	for (unsigned int module : modules) {
+	GLuint shader = glCreateProgram();
+	for (GLuint module : modules) {
 		glAttachShader(shader, module);
 		glDeleteShader(module);
 	}

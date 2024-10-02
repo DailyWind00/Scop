@@ -23,7 +23,7 @@ GLFWwindow		*CreateWindow(OBJ &obj);
 void			DestroyWindow(GLFWwindow *window);
 
 // shader.cpp
-unsigned int 	make_shader(const string &vertex_path, const string &fragment_path);
+GLuint 	make_shader(const string &vertex_path, const string &fragment_path);
 
 // routine.cpp
 void			RenderObject(GLFWwindow *window, OBJ &obj);
