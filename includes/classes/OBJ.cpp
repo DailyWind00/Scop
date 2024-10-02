@@ -2,8 +2,7 @@
 
 // Constructors & Destructors 
 OBJ::OBJ(const string &file_name) {
-	cout << file_name.substr(file_name.size() - 4);
-	if (file_name.substr(file_name.size() - 4) != ".obj")
+	if (file_name.size() < 4 || file_name.substr(file_name.size() - 4) != ".obj")
 		throw runtime_error("Error while opening object file : invalid extension");
 
 	ifstream	object_file(file_name.c_str());

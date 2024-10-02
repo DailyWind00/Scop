@@ -1,12 +1,14 @@
 #include "config.hpp"
 
 bool VERBOSE = false;
+bool RESIZABLE = false;
 
 static void	displayHelp(char *executable_name) {
 	cout << BGreen <<"=== 42 Scop by DailyWind ===\n" << ResetColor;
 	cout << "Usage: " << executable_name<< " [options] <.obj file>\n";
 	cout << "Options:\n";
 	cout << "\t-v, --verbose\t\tVerbose mode\n";
+	cout << "\t-r, --resizable\t\tResizable window\n";
 	cout << "\t-h, --help\t\tDisplay this information\n";
 }
 
@@ -27,12 +29,16 @@ static int	checkFlags(int argc, char **argv) {
 			VERBOSE = true;
 			flags++;
 		}
+		else if (arg == "-r" || arg == "--resizable") {
+			RESIZABLE = true;
+			flags++;
+		}
 		else if (arg == "-h" || arg == "--help") {
 			displayHelp(argv[0]);
 			exit(EXIT_SUCCESS);
 		}
 		else {
-			if (i == argc - 1)
+			if (i == argc - 1) // object file
 				return flags;
 			cerr << BRed << "Unknown flag : " << arg << ResetColor << '\n';
 			exit(EXIT_FAILURE);

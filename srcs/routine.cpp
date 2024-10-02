@@ -9,7 +9,8 @@ static void resize_viewport(GLFWwindow *window, int width, int height) {
 static void	handleEvents(GLFWwindow *window) {
 	glfwPollEvents();
 
-	glfwSetFramebufferSizeCallback(window, resize_viewport);
+	if (RESIZABLE)
+		glfwSetFramebufferSizeCallback(window, resize_viewport);
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);

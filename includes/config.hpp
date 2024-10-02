@@ -14,6 +14,7 @@
 using namespace std;
 
 extern bool VERBOSE;
+extern bool RESIZABLE;
 extern int WINDOW_WIDTH;
 extern int WINDOW_HEIGHT;
 
