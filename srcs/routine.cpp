@@ -1,8 +1,15 @@
 #include "config.hpp"
 
+static void resize_viewport(GLFWwindow *window, int width, int height) {
+	glViewport(0, 0, width, height);
+	(void)window;
+}
+
 // Handle all keyboard & other events
 static void	handleEvents(GLFWwindow *window) {
 	glfwPollEvents();
+
+	glfwSetFramebufferSizeCallback(window, resize_viewport);
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -33,7 +40,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		glUseProgram(shader);
 		glBindVertexArray(vertexbuffer);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
