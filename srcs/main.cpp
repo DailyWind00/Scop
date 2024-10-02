@@ -57,8 +57,7 @@ int main(int argc, char **argv) {
 
 	try {
 		OBJ obj(file_name);
-		if (VERBOSE)
-			cout << "File " << file_name << " loaded successfully\n";
+		printVerbose("File " + file_name + " loaded successfully");
 
 		GLFWwindow *window = CreateWindow(obj);
 		RenderObject(window, obj);

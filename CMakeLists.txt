@@ -9,6 +9,7 @@ add_executable(Scop
 	srcs/window.cpp
 	srcs/shader.cpp
 	srcs/routine.cpp
+	srcs/utils.cpp
 	includes/classes/OBJ.cpp
 	dependencies/glad/glad.c
 )

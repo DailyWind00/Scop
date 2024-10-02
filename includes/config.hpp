@@ -27,3 +27,6 @@ unsigned int 	make_shader(const string &vertex_path, const string &fragment_path
 
 // routine.cpp
 void			RenderObject(GLFWwindow *window, OBJ &obj);
+
+// utils.cpp
+void			printVerbose(const string &message, bool newline = true);

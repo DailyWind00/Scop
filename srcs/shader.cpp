@@ -5,11 +5,12 @@ static unsigned int make_module(const string &filepath, unsigned int module_type
 	stringstream buffer;
 	string line;
 
-	if (VERBOSE)
-		cout << "Compiling shader : " << filepath;
+	printVerbose("Compiling shader : " + filepath + " -> ", false);
 
-	if (!file.is_open())
+	if (!file.is_open()) {
+		printVerbose((string)BRed + "Error" + Color_Off);
 		throw runtime_error("Failed to open file " + filepath);
+	}
 
 	while (getline(file, line))
 		buffer << line << '\n';
@@ -25,14 +26,13 @@ static unsigned int make_module(const string &filepath, unsigned int module_type
 	int success;
 	glGetShaderiv(shaderModule, GL_COMPILE_STATUS, &success);
 	if (!success) {
-		cout << " -> " << BRed << "Error" << Color_Off << endl;
+		cout << BRed << "Error" << Color_Off << endl;
 		char infoLog[1024];
 		glGetShaderInfoLog(shaderModule, 1024, NULL, infoLog);
 		throw runtime_error("Failed to compile shader " + filepath + ":\n\t" + infoLog);
 	}
 
-	if (VERBOSE)
-		cout << " ->" << BGreen << " Shader compiled" << Color_Off << endl;
+	printVerbose((string)BGreen + "Shader compiled" + Color_Off);
 
 	return shaderModule;
 }
@@ -48,8 +48,7 @@ unsigned int make_shader(const string &vertex_path, const string &fragment_path)
 		glDeleteShader(module);
 	}
 
-	if (VERBOSE)
-		cout << "Linking shader";
+	printVerbose("Linking shader -> ", false);
 
 	glLinkProgram(shader);
 
@@ -62,8 +61,7 @@ unsigned int make_shader(const string &vertex_path, const string &fragment_path)
 		throw runtime_error("Failed to link shader:\n\t" + *infoLog);
 	}
 
-	if (VERBOSE)
-		cout << " ->" << BGreen << " Shader linked" << Color_Off << endl;
+	printVerbose((string)BGreen + "Shader linked" + Color_Off);
 
 	return shader;
 }

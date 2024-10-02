@@ -14,8 +14,7 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	if (VERBOSE)
-		cout << "GLFW initialized\n";
+	printVerbose("GLFW initialized");
 
 	const string title = "Scop - " + obj.getObjectName();
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title.c_str(), NULL, NULL);
@@ -23,16 +22,14 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 		glfwTerminate();
 		throw runtime_error("Failed to create window");
 	}
-	if (VERBOSE)
-		cout << "Window \"" << title << "\" created\n";
+	printVerbose("Window \"" + title + "\" created");
 
 	glfwMakeContextCurrent(window);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		glfwTerminate();
 		throw runtime_error("Failed to initialize GLAD");
 	}
-	if (VERBOSE)
-		cout << "GLAD initialized\n";
+	printVerbose("GLAD initialized");
 
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -46,7 +43,6 @@ void	DestroyWindow(GLFWwindow *window) {
 		return;
 	glfwDestroyWindow(window);
 	glfwTerminate();
-	if (VERBOSE)
-		cout << "Window destroyed\n";
+	printVerbose("Window destroyed");
 }
 

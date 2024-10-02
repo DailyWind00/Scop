@@ -10,7 +10,7 @@ static void	handleEvents(GLFWwindow *window) {
 
 // Keep the window alive, exiting this function mean the process is over
 static void program_loop(GLFWwindow *window, OBJ &obj, unsigned int shader) {
-	
+
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glfwSwapBuffers(window);
@@ -30,6 +30,10 @@ void	RenderObject(GLFWwindow *window, OBJ &obj) {
 	);
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+	printVerbose("Entering program's loop");
 	program_loop(window, obj, shader);
+	printVerbose("Exiting program's loop");
+	
 	glDeleteProgram(shader);
 }
