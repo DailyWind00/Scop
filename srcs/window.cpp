@@ -37,6 +37,8 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 	printVerbose("GLAD initialized");
 
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (WIREFRAME)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	return window;
 }

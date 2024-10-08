@@ -2,6 +2,7 @@
 
 bool VERBOSE = false;
 bool RESIZABLE = false;
+bool WIREFRAME = false;
 
 static void	displayHelp(char *executable_name) {
 	cout << BGreen <<"=== 42 Scop by DailyWind ===\n" << ResetColor;
@@ -9,6 +10,7 @@ static void	displayHelp(char *executable_name) {
 	cout << "Options:\n";
 	cout << "\t-v, --verbose\t\tVerbose mode\n";
 	cout << "\t-r, --resizable\t\tResizable window\n";
+	cout << "\t-w, --wireframe\t\tWireframe mode\n";
 	cout << "\t-h, --help\t\tDisplay this information\n";
 }
 
@@ -31,6 +33,10 @@ static int	checkFlags(int argc, char **argv) {
 		}
 		else if (arg == "-r" || arg == "--resizable") {
 			RESIZABLE = true;
+			flags++;
+		}
+		else if (arg == "-w" || arg == "--wireframe") {
+			WIREFRAME = true;
 			flags++;
 		}
 		else if (arg == "-h" || arg == "--help") {
