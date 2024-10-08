@@ -15,9 +15,21 @@
 /// global variables
 using namespace std;
 
+/// enums
+enum ROTATION {
+	NONE = 0,
+	PITCH,      // x
+	YAW,        // y
+	ROLL        // z
+};
+
+/// Flags
 extern bool VERBOSE;
 extern bool RESIZABLE;
 extern bool WIREFRAME;
+extern char AUTOROTATE; // use ROTATION enum
+
+/// Global variables
 extern int WINDOW_WIDTH;
 extern int WINDOW_HEIGHT;
 
