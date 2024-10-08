@@ -1,6 +1,8 @@
 #include "config.hpp"
 
 static void resize_viewport(GLFWwindow *window, int width, int height) {
+	WINDOW_WIDTH = width;
+	WINDOW_HEIGHT = height;
 	glViewport(0, 0, width, height);
 	(void)window;
 }
@@ -19,40 +21,70 @@ static void	handleEvents(GLFWwindow *window) {
 // Keep the window alive, exiting this function mean the process is over
 static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
 
-	// tests to remove
-	static const GLfloat g_vertex_buffer_data[] = {
-		-0.5f, -0.5f, 0.0f, 
-		0.5f, -0.5f, 0.0f,
-		0.0f,  0.75f, 0.0f,
+	/// tests to remove / put in a class
+    GLfloat positions[] = {
+        0.5f,  0.5f, 0.0f,  // Top Right
+        0.5f, -0.5f, 0.0f,  // Bottom Right
+       -0.5f, -0.5f, 0.0f,  // Bottom Left
+       -0.5f,  0.5f, 0.0f   // Top Left 
+    };
+    GLfloat colors[] = {
+        1.0f, 0.0f, 0.0f,   // Red
+        0.0f, 1.0f, 0.0f,   // Green
+        0.0f, 0.0f, 1.0f,   // Blue
+        1.0f, 1.0f, 0.0f    // Yellow
+    };
+	GLuint indices[] = {
+		0, 1, 3,
+		1, 2, 3
 	};
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+	GLuint VAO; // Vertex Array Object
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
 
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-	
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	// ---
+    GLuint VBOs[2]; // Vertex Buffer Objects
+    glGenBuffers(2, VBOs);
+
+    // Position VBO
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // Color VBO
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(1);
+
+	GLuint EBO; // Element Buffer Object
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); // May change to dynamic draw
+
+	glBindVertexArray(0);
+	/// ---
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glUseProgram(shader);
-		glBindVertexArray(vertexbuffer);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
 
 		handleEvents(window);
 		glfwSwapBuffers(window);
 	}
-	glDisableVertexAttribArray(0);
-    glDeleteBuffers(1, &vertexbuffer);
-    glDeleteVertexArrays(1, &VertexArrayID);
-	(void)obj;
+
+    // Cleanup
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDeleteBuffers(2, VBOs);
+    glDeleteBuffers(1, &EBO);
+    glDeleteVertexArrays(1, &VAO);
+	(void)obj; // to remove after obj parsing
 }
 
 // Will call the program loop
