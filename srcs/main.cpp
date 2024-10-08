@@ -11,9 +11,9 @@ static void	displayHelp(char *executable_name) {
 	cout << "Options:\n";
 	cout << "\t-v, --verbose\t\t\tVerbose mode\n";
 	cout << "\t-A, --autorotate [option]\tAutorotate the object (desactivate camera control)\n";
-	cout << Gray << "\t\t│ 1, x, pitch\t: autorotate around x axis\n" << ResetColor;
-	cout << Gray << "\t\t│ 2, y, yaw\t: autorotate around y axis\n" << ResetColor;
-	cout << Gray << "\t\t│ 3, z, roll\t: autorotate around z axis\n" << ResetColor;
+	cout << Gray << "\t\t│ x, pitch\t: autorotate around x axis\n" << ResetColor;
+	cout << Gray << "\t\t│ y, yaw\t: autorotate around y axis\n" << ResetColor;
+	cout << Gray << "\t\t│ z, roll\t: autorotate around z axis\n" << ResetColor;
 	cout << "\t-r, --resizable\t\t\tResizable window\n";
 	cout << "\t-w, --wireframe\t\t\tWireframe mode\n";
 	cout << "\t-h, --help\t\t\tDisplay this information\n";
@@ -40,11 +40,11 @@ static int	checkFlags(int argc, char **argv) {
 			if (i == argc - 1)
 				throw runtime_error("No autorotate argument");
 			arg = argv[++i];
-			if (arg == "pitch" || arg == "x" || arg == "1")
+			if (arg == "pitch" || arg == "x")
 				AUTOROTATE = PITCH;
-			else if (arg == "yaw" || arg == "y" || arg == "2")
+			else if (arg == "yaw" || arg == "y")
 				AUTOROTATE = YAW;
-			else if (arg == "roll" || arg == "z" || arg == "3")
+			else if (arg == "roll" || arg == "z")
 				AUTOROTATE = ROLL;
 			else
 				throw runtime_error("Invalid autorotate argument");
