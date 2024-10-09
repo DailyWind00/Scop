@@ -27,9 +27,8 @@ static int	checkFlags(int argc, char **argv) {
 	for (i = 1; i < argc; i++) {
 		string arg(argv[i]);
 		if (arg[0] != '-' && arg.substr(0, 2) != "--" && i != argc - 1) {
-			cerr << BRed << "Not a flag : " << arg << ResetColor << '\n';
 			displayHelp(argv[0]);
-			exit(EXIT_FAILURE);
+			throw runtime_error("Not a flag \"" + arg + "\"");
 		}
 
 		if (arg == "-v" || arg == "--verbose") {
