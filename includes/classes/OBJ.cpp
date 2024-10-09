@@ -1,6 +1,6 @@
 #include "OBJ.hpp"
 
-// Constructors & Destructors 
+/// Constructors & Destructors 
 OBJ::OBJ(const string &file_name) {
 	if (file_name.size() < 4 || file_name.substr(file_name.size() - 4) != ".obj")
 		throw runtime_error("Error while opening object file : invalid extension");
@@ -20,11 +20,11 @@ OBJ::OBJ(const string &file_name) {
 
 OBJ::~OBJ() {
 }
-// ---
+/// ---
 
 
 
-// Getters
+/// Getters
 
 // return the name of the object in the OBJ file (o <name>)
 const string &OBJ::getObjectName() const {
@@ -58,4 +58,4 @@ const vector<int> &OBJ::getFace(size_t index) const {
 		throw out_of_range("Index out of range");
 	return this->obj.faces[index];
 }
-// ---
+/// ---

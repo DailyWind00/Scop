@@ -1,0 +1,155 @@
+#include "Shader.hpp"
+
+/// Constructors & Destructors 
+Shader::Shader() {
+}
+
+Shader::~Shader() {
+	glUseProgram(0);
+
+	ShaderPair	it;
+	for (it = shaders.begin(); it != shaders.end(); it++) {
+		remove_shader(it->first);
+	}
+	shaders.clear();
+}
+/// ---
+
+
+
+/// Privates functions
+
+// Should never be called outside of make_shader()
+GLuint Shader::make_module(const string &filepath, GLuint module_type) {
+	ifstream file(filepath);
+	stringstream buffer;
+	string line;
+
+	printVerbose("Compiling shader : " + filepath + " -> ", false);
+
+	if (!file.is_open()) {
+		printVerbose((string)BRed + "Error" + Color_Off);
+		throw runtime_error("Failed to open file " + filepath);
+	}
+
+	while (getline(file, line))
+		buffer << line << '\n';
+
+	string shaderSourceStr = buffer.str();				// Cause corruption if 
+	const char *shaderSource = shaderSourceStr.c_str(); // in a single line
+	file.close();
+
+	GLuint shaderModule = glCreateShader(module_type);
+	glShaderSource(shaderModule, 1, &shaderSource, NULL);
+	glCompileShader(shaderModule);
+
+	int success;
+	glGetShaderiv(shaderModule, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		cout << BRed << "Error" << Color_Off << endl;
+		char infoLog[1024];
+		glGetShaderInfoLog(shaderModule, 1024, NULL, infoLog);
+		throw runtime_error("Failed to compile shader " + filepath + ":\n\t" + infoLog);
+	}
+
+	printVerbose((string)BGreen + "Shader compiled" + Color_Off);
+
+	return shaderModule;
+}
+
+GLuint Shader::make_shader(const string &vertex_path, const string &fragment_path) {
+	vector<GLuint> modules;
+	modules.push_back(make_module(vertex_path, GL_VERTEX_SHADER));
+	modules.push_back(make_module(fragment_path, GL_FRAGMENT_SHADER));
+
+	GLuint shader = glCreateProgram();
+	for (GLuint module : modules) {
+		glAttachShader(shader, module);
+		glDeleteShader(module);
+	}
+
+	printVerbose("Linking shader -> ", false);
+
+	glLinkProgram(shader);
+
+	int success;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		cout << " -> " << BRed << "Error" << Color_Off << endl;
+		char infoLog[1024];
+		glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+		throw runtime_error("Failed to link shader:\n\t" + *infoLog);
+	}
+
+	printVerbose((string)BGreen + "Shader linked" + Color_Off);
+
+	return shader;
+}
+
+void	Shader::remove_shader(GLuint shaderID) {
+	glDeleteProgram(shaderID);
+	// shaders.erase(shaderID); // segfault
+}
+/// ---
+
+
+
+/// Public functions
+
+// Use the shader given with the shaderID,
+void Shader::use(GLuint shaderID) {
+    if (shaders.empty()) {
+        cerr << BRed << "Error: No shaders available to use." << ResetColor << endl;
+        return;
+    }
+
+    auto it = shaders.find(shaderID);
+    if (it == shaders.end()) {
+        cerr << BRed << "Error: Shader ID " << shaderID << " not found." << ResetColor << endl;
+        return;
+    }
+
+    printVerbose("Now using shader \"" + it->second.shaderName + "\"");
+    glUseProgram(it->first);
+}
+
+// Recompile the shader given with the shaderID
+GLuint	Shader::recompile(GLuint shaderID) {
+	ShaderPair	shader = shaders.find(shaderID);
+
+	printVerbose("Recompiling shader \"" + shader->second.shaderName + "\" ...");
+
+	glUseProgram(0);
+
+	GLuint newID;
+	try {
+		newID = make_shader(shader->second.vertexPath, shader->second.fragmentpath);
+		shader->second.shaderID = newID;
+		shaders.insert(pair<GLuint, shaderData>(newID, shader->second));
+	}
+	catch(const std::exception& e) {
+		cerr << "Shader recompilation error :" << e.what() << endl;
+	}
+
+	remove_shader(shaderID);
+
+	printVerbose("Recompilation done");
+	return newID;
+}
+
+// Add a new shader to the Shaders class, return the id of the new shader
+GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, const string &shaderName) {
+	printVerbose("Creating shader \"" + shaderName + "\"");
+	shaderData	data = {
+		make_shader(vertexPath, fragmentPath),
+		vertexPath,
+		fragmentPath,
+		shaderName
+	};
+	shaders.insert(pair<GLuint, shaderData>(data.shaderID, data));
+
+	printVerbose("Added shader \"" + shaderName + "\"");
+
+	return data.shaderID;
+}
+/// ---

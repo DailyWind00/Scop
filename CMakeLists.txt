@@ -7,10 +7,10 @@ find_package(OpenGL REQUIRED)
 add_executable(Scop 
 	srcs/main.cpp
 	srcs/window.cpp
-	srcs/shader.cpp
 	srcs/routine.cpp
 	srcs/utils.cpp
 	includes/classes/OBJ.cpp
+	includes/classes/Shader.cpp
 	dependencies/glad/glad.c
 )
 
@@ -18,6 +18,6 @@ target_include_directories(Scop PRIVATE dependencies)
 target_include_directories(Scop PRIVATE includes)
 target_include_directories(Scop PRIVATE includes/classes)
 
-target_compile_options(Scop PRIVATE -Wall -Wextra -Werror -O3 -g -fPIE)
+target_compile_options(Scop PRIVATE -Wall -Wextra -Werror -O0 -g -fPIE)
 
 target_link_libraries(Scop glfw OpenGL::GL)

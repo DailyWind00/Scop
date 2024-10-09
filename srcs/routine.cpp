@@ -19,7 +19,7 @@ static void	handleEvents(GLFWwindow *window) {
 }
 
 // Keep the window alive, exiting this function mean the process is over
-static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
+static void program_loop(GLFWwindow *window, OBJ &obj) {
 
 	/// tests to remove / put in a class
     GLfloat positions[] = {
@@ -66,10 +66,19 @@ static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
 	glBindVertexArray(0);
 	/// ---
 
+	Shader	shaders = Shader();
+	GLuint shaderID = shaders.add_shader(
+		"./srcs/shaders/vertex.vert",
+		"./srcs/shaders/fragment.frag",
+		"Standard shader"
+	);
+	shaders.use(shaderID);
+
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUseProgram(shader);
+		// GLuint newID = shaders.recompile(shaderID);
+		// shaders.use(newID);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
@@ -90,16 +99,9 @@ static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
 // Will call the program loop
 void	RenderObject(GLFWwindow *window, OBJ &obj) {
 
-	GLuint shader = make_shader(
-		"./srcs/shaders/vertex.vert",
-		"./srcs/shaders/fragment.frag"
-	);
-
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	printVerbose("Entering program's loop");
-	program_loop(window, obj, shader);
+	program_loop(window, obj);
 	printVerbose("Exiting program's loop");
-	
-	glDeleteProgram(shader);
 }

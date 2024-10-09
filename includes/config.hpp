@@ -11,6 +11,7 @@
 /// custom includes
 # include "color.h"
 # include "OBJ.hpp"
+# include "Shader.hpp"
 
 /// global variables
 using namespace std;
@@ -37,9 +38,6 @@ extern int WINDOW_HEIGHT;
 // window.cpp
 GLFWwindow		*CreateWindow(OBJ &obj);
 void			DestroyWindow(GLFWwindow *window);
-
-// shader.cpp
-GLuint 			make_shader(const string &vertex_path, const string &fragment_path);
 
 // routine.cpp
 void			RenderObject(GLFWwindow *window, OBJ &obj);
