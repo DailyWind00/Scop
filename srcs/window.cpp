@@ -15,8 +15,10 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Mac-os compatibility
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SAMPLES, 4);
+	if (!RESIZABLE)
+		glfwWindowHint(GLFW_RESIZABLE, false);
+
 	printVerbose("GLFW initialized");
 
 	const string title = "Scop - " + obj.getObjectName();
@@ -35,6 +37,8 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 	printVerbose("GLAD initialized");
 
 	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (WIREFRAME)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	return window;
 }
