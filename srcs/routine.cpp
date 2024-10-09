@@ -69,8 +69,6 @@ static void program_loop(GLFWwindow *window, OBJ &obj, GLuint shader) {
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glUniform1f(glGetUniformLocation(shader, "Time"), glfwGetTime());
-
 		glUseProgram(shader);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
