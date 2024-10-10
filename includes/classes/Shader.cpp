@@ -7,7 +7,7 @@ Shader::Shader() {
 Shader::~Shader() {
 	glUseProgram(0);
 
-	ShaderPair	it;
+	ShaderIterator	it;
 	for (it = shaders.begin(); it != shaders.end(); it++) {
 		remove_shader(it->first);
 	}
@@ -118,7 +118,7 @@ void Shader::use(GLuint shaderID) {
 
 // Recompile the shader given with the shaderID
 GLuint	Shader::recompile(GLuint shaderID) {
-	ShaderPair	shader = shaders.find(shaderID);
+	ShaderIterator	shader = shaders.find(shaderID);
 
 	printVerbose("Recompiling shader \"" + shader->second.shaderName + "\" ...");
 
@@ -128,7 +128,7 @@ GLuint	Shader::recompile(GLuint shaderID) {
 	try {
 		newID = make_shader(shader->second.vertexPath, shader->second.fragmentpath);
 		shader->second.shaderID = newID;
-		shaders.insert(pair<GLuint, shaderData>(newID, shader->second));
+		shaders.insert(ShaderPair(newID, shader->second));
 	}
 	catch(const std::exception& e) {
 		cerr << "Shader recompilation error :" << e.what() << endl;
@@ -149,7 +149,7 @@ GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, 
 		fragmentPath,
 		shaderName
 	};
-	shaders.insert(pair<GLuint, shaderData>(data.shaderID, data));
+	shaders.insert(ShaderPair(data.shaderID, data));
 	shaderIDs.push_back(data.shaderID);
 
 	printVerbose("Added shader \"" + shaderName + "\" with ID " + to_string(data.shaderID));

@@ -10,10 +10,11 @@ typedef struct shaderData {
     GLuint  shaderID;
     string  vertexPath;
     string  fragmentpath;
-    string  shaderName;   // optional
+    string  shaderName;
 }   shaderData;
 
-typedef  map<GLuint, shaderData>::iterator ShaderPair;
+typedef     map<GLuint, shaderData>::iterator ShaderIterator;
+typedef     pair<GLuint, shaderData> ShaderPair;
 
 class Shader {
     private:
