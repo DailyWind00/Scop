@@ -132,7 +132,6 @@ GLuint	Shader::recompile(GLuint shaderID) {
 	GLuint newID = 0;
 	try {
 		newID = make_shader(shader->second.vertexPath, shader->second.fragmentpath);
-		shader->second.shaderID = newID;
 		shaders.insert(ShaderPair(newID, shader->second));
 		remove_shader(shaderID);
 		currentShaderID = newID;
