@@ -16,6 +16,14 @@ void	displayHelp(char *executable_name) {
 	cout << "\t-h, --help\t\t\tDisplay this information\n";
 }
 
+void	displayCommands() {
+	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
+	cout << "ESC\t\t\t: Close the window\n";
+	cout << "F1\t\t\t: Enable/Disable wireframe mode\n";
+	cout << "Left/Right\t\t: Change shader\n";
+	printVerbose((string)BLightBlue + "================" + ResetColor);
+}
+
 // Print the message on the standard output if VERBOSE is set to true
 void	printVerbose(const string &message, bool newline) {
 	if (VERBOSE) {

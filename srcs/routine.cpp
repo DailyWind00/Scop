@@ -149,6 +149,8 @@ void	RenderObject(GLFWwindow *window, OBJ &obj) {
 		"Black&White"
 	);
 
+	displayCommands();
+
 	printVerbose("Entering program's loop");
 	program_loop(window, obj, shaders);
 	printVerbose("Exiting program's loop");
