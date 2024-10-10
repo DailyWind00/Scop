@@ -146,6 +146,21 @@ void	RenderObject(GLFWwindow *window, OBJ &obj) {
 		"./srcs/shaders/Black&White/fragment.frag",
 		"Black&White"
 	);
+	shaders.add_shader(
+		"./srcs/shaders/Protanopia/vertex.vert",
+		"./srcs/shaders/Protanopia/fragment.frag",
+		"Protanopia"
+	);
+	shaders.add_shader(
+		"./srcs/shaders/Deuteranopia/vertex.vert",
+		"./srcs/shaders/Deuteranopia/fragment.frag",
+		"Deuteranopia"
+	);
+	shaders.add_shader(
+		"./srcs/shaders/Tritanopia/vertex.vert",
+		"./srcs/shaders/Tritanopia/fragment.frag",
+		"Tritanopia"
+	);
 
 	displayCommands();
 
