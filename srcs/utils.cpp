@@ -21,7 +21,7 @@ void	displayCommands() {
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
 	cout << "ESC\t\t\t: Close the window\n";
 	cout << "F1\t\t\t: Enable/Disable wireframe mode\n";
-	cout << "Left/Right\t\t: Change shader\n";
+	cout << "Left/Right arrows\t: Change shader\n";
 	printVerbose((string)BLightBlue + "================" + ResetColor);
 }
 
