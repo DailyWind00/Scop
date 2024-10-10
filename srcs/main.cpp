@@ -13,7 +13,6 @@ static int	checkFlags(int argc, char **argv) {
 	for (i = 1; i < argc; i++) {
 		string arg(argv[i]);
 		if (arg[0] != '-' && arg.substr(0, 2) != "--" && i != argc - 1) {
-			cout << "> Run the program with the -h flag to display the help message\n";
 			throw runtime_error("Not a flag \"" + arg + "\"");
 		}
 
