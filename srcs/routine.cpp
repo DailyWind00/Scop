@@ -35,10 +35,15 @@ static void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	else
 		wireframeKeyPressed = false;
 
-	// if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) {
-	// 	GLuint newID = shaders.recompile(0);
-	// 	shaders.use(newID);
-	// }
+	static bool recompileKeyPressed = false;
+	if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) {
+		if (!recompileKeyPressed) {
+			recompileKeyPressed = true;
+			shaders.recompile(shaders.getCurrentShaderID());
+		}
+	}
+	else
+		recompileKeyPressed = false;
 
 	static bool changeShaderKeyPressed = false;
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
@@ -56,7 +61,6 @@ static void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	else
 		changeShaderKeyPressed = false;
 
-	(void)shaders;
 	(void)obj; // to remove after obj parsing
 }
 

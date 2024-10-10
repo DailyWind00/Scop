@@ -33,7 +33,7 @@ class Shader {
         // public functions
 
         void    use(GLuint shaderID);
-        GLuint  recompile(GLuint shaderID); // not correctly implemented
+        GLuint  recompile(GLuint shaderID);
         GLuint  add_shader(const string &vertexPath, const string &fragmentPath, const string &shaderName);
         GLuint	SetNextShader();
         GLuint	SetPreviousShader();

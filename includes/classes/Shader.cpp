@@ -8,7 +8,8 @@ Shader::~Shader() {
 	glUseProgram(0);
 
 	ShaderIterator	it;
-	for (it = shaders.begin(); it != shaders.end(); it++) {
+	while (!shaders.empty()) {
+		it = shaders.begin();
 		remove_shader(it->first);
 	}
 	shaders.clear();
@@ -89,7 +90,7 @@ GLuint Shader::make_shader(const string &vertex_path, const string &fragment_pat
 void	Shader::remove_shader(GLuint shaderID) {
 	glDeleteProgram(shaderID);
 	shaderIDs.erase(remove(shaderIDs.begin(), shaderIDs.end(), shaderID), shaderIDs.end());
-	// shaders.erase(shaderID); // segfault
+	shaders.erase(shaderID);
 }
 /// ---
 
@@ -119,22 +120,29 @@ void Shader::use(GLuint shaderID) {
 // Recompile the shader given with the shaderID
 GLuint	Shader::recompile(GLuint shaderID) {
 	ShaderIterator	shader = shaders.find(shaderID);
+	if (shader == shaders.end()) {
+		cerr << BRed << "Shader recompilation error : Shader ID " << shaderID << " not found." << ResetColor << endl;
+		return 0;
+	}
 
 	printVerbose("Recompiling shader \"" + shader->second.shaderName + "\" ...");
 
 	glUseProgram(0);
 
-	GLuint newID;
+	GLuint newID = 0;
 	try {
 		newID = make_shader(shader->second.vertexPath, shader->second.fragmentpath);
 		shader->second.shaderID = newID;
 		shaders.insert(ShaderPair(newID, shader->second));
+		remove_shader(shaderID);
+		currentShaderID = newID;
+		glUseProgram(currentShaderID);
 	}
 	catch(const std::exception& e) {
-		cerr << "Shader recompilation error :" << e.what() << endl;
+		cerr << BRed << "Shader recompilation error : " << e.what() << ResetColor <<  endl;
+		glUseProgram(currentShaderID);
+		return 0;
 	}
-
-	remove_shader(shaderID);
 
 	printVerbose("Recompilation done");
 	return newID;
