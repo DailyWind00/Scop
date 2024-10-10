@@ -68,8 +68,8 @@ static void program_loop(GLFWwindow *window, OBJ &obj) {
 
 	Shader	shaders = Shader();
 	GLuint shaderID = shaders.add_shader(
-		"./srcs/shaders/vertex.vert",
-		"./srcs/shaders/fragment.frag",
+		"./srcs/shaders/Black&White/vertex.vert",
+		"./srcs/shaders/Black&White/fragment.frag",
 		"Standard shader"
 	);
 	shaders.use(shaderID);
