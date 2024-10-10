@@ -30,6 +30,7 @@ class Shader {
         Shader();
         ~Shader();
 
+
         // public functions
 
         void    use(GLuint shaderID);
@@ -37,6 +38,16 @@ class Shader {
         GLuint  add_shader(const string &vertexPath, const string &fragmentPath, const string &shaderName);
         GLuint	SetNextShader();
         GLuint	SetPreviousShader();
+
+
+        // Uniforms setters
+
+        void    setBool  (GLuint &shaderID, const string &name, bool value);
+        void    setInt   (GLuint &shaderID, const string &name, int value);
+        void    setFloat (GLuint &shaderID, const string &name, float value);
+        void    setVec2  (GLuint &shaderID, const string &name, float x, float y);
+        void    setVec3  (GLuint &shaderID, const string &name, float x, float y, float z);
+        void    setVec4  (GLuint &shaderID, const string &name, float x, float y, float z, float w);
 
 
         // Getters
