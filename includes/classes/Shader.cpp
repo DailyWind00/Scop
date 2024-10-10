@@ -154,6 +154,9 @@ GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, 
 
 	printVerbose("Added shader \"" + shaderName + "\" with ID " + to_string(data.shaderID));
 
+	if (shaders.size() == 1)
+		currentShaderID = data.shaderID;
+
 	return data.shaderID;
 }
 
@@ -208,9 +211,6 @@ GLuint	Shader::SetPreviousShader() {
 
 
 /// Getters
-const vector<GLuint> &Shader::getShaderIDs() const {
-	return shaderIDs;
-}
 
 const GLuint &Shader::getCurrentShaderID() const {
 	return currentShaderID;

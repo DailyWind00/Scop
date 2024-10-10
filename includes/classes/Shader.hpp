@@ -41,6 +41,5 @@ class Shader {
 
         // Getters
 
-        const vector<GLuint> &getShaderIDs() const;
         const GLuint &getCurrentShaderID() const;
 };

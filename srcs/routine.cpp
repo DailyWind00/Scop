@@ -108,7 +108,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	glBindVertexArray(0);
 	/// ---
 
-	shaders.use(shaders.getShaderIDs()[0]);
+	shaders.use(shaders.getCurrentShaderID());
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
