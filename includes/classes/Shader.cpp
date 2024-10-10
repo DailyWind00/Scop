@@ -212,6 +212,8 @@ GLuint	Shader::SetPreviousShader() {
 
 /// Getters
 
+// Return the id of the current shader
+// By default, the first shader added is the current shader
 const GLuint &Shader::getCurrentShaderID() const {
 	return currentShaderID;
 }
