@@ -43,4 +43,5 @@ void			DestroyWindow(GLFWwindow *window);
 void			RenderObject(GLFWwindow *window, OBJ &obj);
 
 // utils.cpp
+void			displayHelp(char *executable_name);
 void			printVerbose(const string &message, bool newline = true);
