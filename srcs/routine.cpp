@@ -137,7 +137,7 @@ void	RenderObject(GLFWwindow *window, OBJ &obj) {
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-	Shader	shaders = Shader();
+	Shader shaders;
 	shaders.add_shader(
 		"./srcs/shaders/Standard/vertex.vert",
 		"./srcs/shaders/Standard/fragment.frag",
