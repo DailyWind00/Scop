@@ -16,6 +16,7 @@ void	displayHelp(char *executable_name) {
 	cout << "\t-h, --help\t\t\tDisplay this information\n";
 }
 
+// Display the commands available in the program
 void	displayCommands() {
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
 	cout << "ESC\t\t\t: Close the window\n";
