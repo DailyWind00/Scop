@@ -11,11 +11,12 @@ static void	displayHelp(char *executable_name) {
 	cout << "Options:\n";
 	cout << "\t-v, --verbose\t\t\tVerbose mode\n";
 	cout << "\t-A, --autorotate [option]\tAutorotate the object (desactivate camera control)\n";
+	cout << LightGray << "\t\t│ Options availables	 :\n" << ResetColor;
 	cout << LightGray << "\t\t│ x, pitch\t: autorotate around x axis\n" << ResetColor;
 	cout << LightGray << "\t\t│ y, yaw\t: autorotate around y axis\n" << ResetColor;
 	cout << LightGray << "\t\t│ z, roll\t: autorotate around z axis\n" << ResetColor;
 	cout << "\t-r, --resizable\t\t\tResizable window\n";
-	cout << "\t-w, --wireframe\t\t\tWireframe mode\n";
+	cout << "\t-w, --wireframe\t\t\tWireframe mode (can be changed during execution)\n";
 	cout << "\t-h, --help\t\t\tDisplay this information\n";
 }
 
@@ -27,7 +28,7 @@ static int	checkFlags(int argc, char **argv) {
 	for (i = 1; i < argc; i++) {
 		string arg(argv[i]);
 		if (arg[0] != '-' && arg.substr(0, 2) != "--" && i != argc - 1) {
-			displayHelp(argv[0]);
+			cout << "> Run the program with the -h flag to display the help message\n";
 			throw runtime_error("Not a flag \"" + arg + "\"");
 		}
 
@@ -73,19 +74,19 @@ static int	checkFlags(int argc, char **argv) {
 
 int main(int argc, char **argv) {
 	if (argc < 2) {
-		displayHelp(argv[0]);
+		cout << "> Run the program with the -h flag to display the help message\n";
 		exit(EXIT_FAILURE);
 	}
 
 	try {
 		if (checkFlags(argc, argv) == argc - 1) {
 			cerr << BRed << "No file specified\n" << ResetColor;
-			displayHelp(argv[0]);
+			cout << "> Run the program with the -h flag to display the help message\n";
 			exit(EXIT_FAILURE);
 		}
 	} catch(const std::exception& e) {
 		cerr << BRed << "Flag error : " << e.what() << ResetColor << endl;
-		displayHelp(argv[0]);
+		cout << "> Run the program with the -h flag to display the help message\n";
 		exit(EXIT_FAILURE);
 	}
 
