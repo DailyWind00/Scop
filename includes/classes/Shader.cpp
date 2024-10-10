@@ -88,6 +88,7 @@ GLuint Shader::make_shader(const string &vertex_path, const string &fragment_pat
 
 void	Shader::remove_shader(GLuint shaderID) {
 	glDeleteProgram(shaderID);
+	shaderIDs.erase(remove(shaderIDs.begin(), shaderIDs.end(), shaderID), shaderIDs.end());
 	// shaders.erase(shaderID); // segfault
 }
 /// ---
@@ -109,8 +110,10 @@ void Shader::use(GLuint shaderID) {
         return;
     }
 
-    printVerbose("Now using shader \"" + it->second.shaderName + "\"");
     glUseProgram(it->first);
+	currentShaderID = it->first;
+
+    printVerbose("Now using shader " + to_string(it->first) + " \"" + it->second.shaderName + "\"");
 }
 
 // Recompile the shader given with the shaderID
@@ -147,9 +150,69 @@ GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, 
 		shaderName
 	};
 	shaders.insert(pair<GLuint, shaderData>(data.shaderID, data));
+	shaderIDs.push_back(data.shaderID);
 
-	printVerbose("Added shader \"" + shaderName + "\"");
+	printVerbose("Added shader \"" + shaderName + "\" with ID " + to_string(data.shaderID));
 
 	return data.shaderID;
+}
+
+// Use the next shader in the vector as the current shader
+// Return the id of the next shader in the vector
+GLuint	Shader::SetNextShader() {
+	if (shaders.empty()) {
+		cerr << BRed << "Error: No shaders available to use." << ResetColor << endl;
+		return 0;
+	}
+
+	auto	it = shaders.find(currentShaderID);
+	if (it == shaders.end()) {
+		cerr << BRed << "Error: Shader ID " << currentShaderID << " not found." << ResetColor << endl;
+		return 0;
+	}
+	if (++it == shaders.end())
+		it = shaders.begin();
+
+	printVerbose("Now using shader " + to_string(it->first) + " \"" + it->second.shaderName + "\"");
+	currentShaderID = it->first;
+	glUseProgram(currentShaderID);
+
+	return currentShaderID;
+}
+
+// Use the previous shader in the vector as the current shader
+// Return the id of the next shader in the vector
+GLuint	Shader::SetPreviousShader() {
+	if (shaders.empty()) {
+		cerr << BRed << "Error: No shaders available to use." << ResetColor << endl;
+		return 0;
+	}
+
+	auto	it = shaders.find(currentShaderID);
+	if (it == shaders.end()) {
+		cerr << BRed << "Error: Shader ID " << currentShaderID << " not found." << ResetColor << endl;
+		return 0;
+	}
+	if (it == shaders.begin())
+		it = shaders.end();
+	--it;
+
+	printVerbose("Now using shader " + to_string(it->first) + " \"" + it->second.shaderName + "\"");
+	currentShaderID = it->first;
+	glUseProgram(currentShaderID);
+
+	return currentShaderID;
+}
+/// ---
+
+
+
+/// Getters
+const vector<GLuint> &Shader::getShaderIDs() const {
+	return shaderIDs;
+}
+
+const GLuint &Shader::getCurrentShaderID() const {
+	return currentShaderID;
 }
 /// ---

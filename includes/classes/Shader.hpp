@@ -17,7 +17,9 @@ typedef  map<GLuint, shaderData>::iterator ShaderPair;
 
 class Shader {
     private:
-        map<GLuint, shaderData>  shaders;
+        map<GLuint, shaderData>     shaders;
+        vector<GLuint>              shaderIDs;
+        GLuint                      currentShaderID;
 
         GLuint  make_module(const string &filepath, GLuint module_type);
         GLuint  make_shader(const string &vertex_path, const string &fragment_path);
@@ -32,5 +34,12 @@ class Shader {
         void    use(GLuint shaderID);
         GLuint  recompile(GLuint shaderID);
         GLuint  add_shader(const string &vertexPath, const string &fragmentPath, const string &shaderName = NULL);
+        GLuint	SetNextShader();
+        GLuint	SetPreviousShader();
 
+
+        // Getters
+
+        const vector<GLuint> &getShaderIDs() const;
+        const GLuint &getCurrentShaderID() const;
 };

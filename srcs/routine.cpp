@@ -8,7 +8,7 @@ static void resize_viewport(GLFWwindow *window, int width, int height) {
 }
 
 // Handle all keyboard & other events
-static void	handleEvents(GLFWwindow *window) {
+static void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	glfwPollEvents();
 
 	if (RESIZABLE)
@@ -16,6 +16,48 @@ static void	handleEvents(GLFWwindow *window) {
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	static bool wireframeKeyPressed = false;
+	if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS) {
+		if (!wireframeKeyPressed) {
+			if (WIREFRAME) {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				printVerbose("Wireframe mode disabled");
+			}
+			else {
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				printVerbose("Wireframe mode enabled");
+			}
+			WIREFRAME = !WIREFRAME;
+			wireframeKeyPressed = true;
+		}
+	}
+	else
+		wireframeKeyPressed = false;
+
+	// if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) {
+	// 	GLuint newID = shaders.recompile(0);
+	// 	shaders.use(newID);
+	// }
+
+	static bool changeShaderKeyPressed = false;
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		if (!changeShaderKeyPressed) {
+			changeShaderKeyPressed = true;
+			shaders.SetNextShader();
+		}
+	}
+	else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		if (!changeShaderKeyPressed) {
+			changeShaderKeyPressed = true;
+			shaders.SetPreviousShader();
+		}
+	}
+	else
+		changeShaderKeyPressed = false;
+
+	(void)shaders;
+	(void)obj; // to remove after obj parsing
 }
 
 // Keep the window alive, exiting this function mean the process is over
@@ -67,12 +109,17 @@ static void program_loop(GLFWwindow *window, OBJ &obj) {
 	/// ---
 
 	Shader	shaders = Shader();
-	GLuint shaderID = shaders.add_shader(
+	shaders.add_shader(
+		"./srcs/shaders/Standard/vertex.vert",
+		"./srcs/shaders/Standard/fragment.frag",
+		"Standard"
+	);
+	shaders.add_shader(
 		"./srcs/shaders/Black&White/vertex.vert",
 		"./srcs/shaders/Black&White/fragment.frag",
-		"Standard shader"
+		"Black&White"
 	);
-	shaders.use(shaderID);
+	shaders.use(shaders.getShaderIDs()[0]);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -83,7 +130,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj) {
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
-		handleEvents(window);
+		handleEvents(window, obj, shaders);
 		glfwSwapBuffers(window);
 	}
 
