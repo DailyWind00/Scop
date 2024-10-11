@@ -2,6 +2,7 @@
 
 # include <iostream>
 # include <array>
+# include <cmath>
 # include "config.hpp"
 
 using namespace std;
@@ -16,24 +17,29 @@ class AMatrice {
 	public :
 		AMatrice();
 		virtual	~AMatrice() = 0;
+
+
+		// Getter
+
+		const mat4 &getMatrice() const;
 };
 
 // Translation matrice class used for moving object, take 3 arguments at creation :
-//     float x = new x position          (default = 1)
-//     float y = new y position          (default = 1)
-//     float z = new z position          (default = 1)
+//     float x = new x position          (default = 0)
+//     float y = new y position          (default = 0)
+//     float z = new z position          (default = 0)
 class TranslationMatrice : public AMatrice {
 	public :
-		TranslationMatrice(float x = 1, float y = 1, float z = 1);
+		TranslationMatrice(float x = 0, float y = 0, float z = 0);
 		~TranslationMatrice();
 };
 
 // Scaling matrice class, take 3 arguments at creation :
-//     ROTATION axis = rotation axis     (default = None)
+//     ROTATION axis = rotation axis     (default = None) # see ROTATION enum in config.hpp
 //     float angle   = angle in degrees  (default = 0)
 class RotationMatrice : public AMatrice {
 	public :
-		RotationMatrice(ROTATION axis = NONE, float angle = 0);
+		RotationMatrice(ROTATION axis = ROTATION::NONE, float angle = 0);
 		~RotationMatrice();
 };
 
