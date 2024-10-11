@@ -3,7 +3,7 @@
 bool VERBOSE = false;
 bool RESIZABLE = false;
 bool WIREFRAME = false;
-char AUTOROTATE = NONE;
+ROTATION AUTOROTATE = ROTATION::NONE;
 
 // return the number of flags
 static int	checkFlags(int argc, char **argv) {
@@ -25,11 +25,11 @@ static int	checkFlags(int argc, char **argv) {
 				throw runtime_error("No autorotate argument");
 			arg = argv[++i];
 			if (arg == "pitch" || arg == "x")
-				AUTOROTATE = PITCH;
+				AUTOROTATE = ROTATION::PITCH;
 			else if (arg == "yaw" || arg == "y")
-				AUTOROTATE = YAW;
+				AUTOROTATE = ROTATION::YAW;
 			else if (arg == "roll" || arg == "z")
-				AUTOROTATE = ROLL;
+				AUTOROTATE = ROTATION::ROLL;
 			else
 				throw runtime_error("Invalid autorotate argument");
 			flags += 2;

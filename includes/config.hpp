@@ -15,7 +15,7 @@
 using namespace std;
 
 /// enums
-enum ROTATION {
+enum class ROTATION {
 	NONE = 0,
 	PITCH,      // x
 	YAW,        // y
@@ -26,7 +26,7 @@ enum ROTATION {
 extern bool VERBOSE;
 extern bool RESIZABLE;
 extern bool WIREFRAME;
-extern char AUTOROTATE; // use ROTATION enum
+extern ROTATION AUTOROTATE; // use ROTATION enum
 
 /// Global variables
 extern int WINDOW_WIDTH;
