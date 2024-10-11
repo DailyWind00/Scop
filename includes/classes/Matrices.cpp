@@ -5,6 +5,7 @@
 AMatrice::AMatrice() {
 	// Matrices are declared like this where V is a vector 3 :
 	//     Vx Vy Vz Vw(=1)
+	//
 	//      a  b  c  d
 	//      e  f  g  h
 	//      i  j  k  l
@@ -114,7 +115,7 @@ RotationMatrice::RotationMatrice(ROTATION axis, float angle) {
 			break;
 	}
 
-	// mat is an identity matrice if no rotation is set
+	// mat is an identity matrice if no rotation or angle is set
 }
 
 RotationMatrice::~RotationMatrice() {

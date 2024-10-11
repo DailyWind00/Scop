@@ -7,6 +7,13 @@
 
 using namespace std;
 
+enum class ROTATION {
+	NONE,
+	PITCH,      // x
+	YAW,        // y
+	ROLL        // z
+};
+
 typedef array<float, 16> mat4; // using column format
 
 // Default matrice class, generate an identity matrice at creation
