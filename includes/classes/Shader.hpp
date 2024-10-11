@@ -6,6 +6,7 @@
 # include "config.hpp"
 
 using namespace std;
+typedef array<float, 16> mat4;
 
 typedef struct shaderData {
     GLuint  shaderID;
@@ -49,6 +50,7 @@ class Shader {
         void    setVec2  (GLuint &shaderID, const string &name, float x, float y);
         void    setVec3  (GLuint &shaderID, const string &name, float x, float y, float z);
         void    setVec4  (GLuint &shaderID, const string &name, float x, float y, float z, float w);
+        void    setMat4  (GLuint &shaderID, const string &name, mat4 matrix);
 
 
         // Getters
