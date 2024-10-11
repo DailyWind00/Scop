@@ -44,13 +44,13 @@ class Shader {
 
         // Uniforms setters
 
-        void    setBool  (GLuint &shaderID, const string &name, bool value);
-        void    setInt   (GLuint &shaderID, const string &name, int value);
-        void    setFloat (GLuint &shaderID, const string &name, float value);
-        void    setVec2  (GLuint &shaderID, const string &name, float x, float y);
-        void    setVec3  (GLuint &shaderID, const string &name, float x, float y, float z);
-        void    setVec4  (GLuint &shaderID, const string &name, float x, float y, float z, float w);
-        void    setMat4  (GLuint &shaderID, const string &name, mat4 matrix);
+        void    setBool  (const GLuint &shaderID, const string &name, bool value);
+        void    setInt   (const GLuint &shaderID, const string &name, int value);
+        void    setFloat (const GLuint &shaderID, const string &name, float value);
+        void    setVec2  (const GLuint &shaderID, const string &name, float x, float y);
+        void    setVec3  (const GLuint &shaderID, const string &name, float x, float y, float z);
+        void    setVec4  (const GLuint &shaderID, const string &name, float x, float y, float z, float w);
+        void    setMat4  (const GLuint &shaderID, const string &name, mat4 matrix);
 
 
         // Getters
