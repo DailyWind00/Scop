@@ -8,6 +8,7 @@ add_executable(Scop
 	srcs/main.cpp
 	srcs/window.cpp
 	srcs/routine.cpp
+	srcs/events.cpp
 	srcs/utils.cpp
 	includes/classes/OBJ.cpp
 	includes/classes/Shader.cpp

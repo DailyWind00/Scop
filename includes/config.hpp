@@ -15,6 +15,7 @@
 /// Global variables
 using namespace std;
 enum class ROTATION;
+class Shader;
 
 extern int WINDOW_WIDTH;
 extern int WINDOW_HEIGHT;
@@ -32,6 +33,9 @@ void			DestroyWindow(GLFWwindow *window);
 
 // routine.cpp
 void			RenderObject(GLFWwindow *window, OBJ &obj);
+
+// events.cpp
+void			handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders);
 
 // utils.cpp
 void			displayHelp(char *executable_name);
