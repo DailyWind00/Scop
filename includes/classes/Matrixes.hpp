@@ -17,45 +17,45 @@ enum class ROTATION {
 typedef array<float, 16> mat4; // using column format
 
 // Default matrix class, generate an identity matrix at creation
-class Amatrix {
+class AMatrix {
 	protected:
 		mat4	mat;
 
 	public :
-		Amatrix();
-		virtual	~Amatrix() = 0;
+		AMatrix();
+		virtual	~AMatrix() = 0;
 
 
 		// Getter
 
-		const mat4 &getmatrix() const;
+		const mat4 &getMatrix() const;
 };
 
 // Translation matrix class used for moving object, take 3 arguments at creation :
 //     float x = new x position          (default = 0)
 //     float y = new y position          (default = 0)
 //     float z = new z position          (default = 0)
-class Translationmatrix : public Amatrix {
+class TranslationMatrix : public AMatrix {
 	public :
-		Translationmatrix(float x = 0, float y = 0, float z = 0);
-		~Translationmatrix();
+		TranslationMatrix(float x = 0, float y = 0, float z = 0);
+		~TranslationMatrix();
 };
 
 // Scaling matrix class, take 3 arguments at creation :
 //     ROTATION axis = rotation axis     (default = None) # see ROTATION enum in config.hpp
 //     float angle   = angle in degrees  (default = 0)
-class Rotationmatrix : public Amatrix {
+class RotationMatrix : public AMatrix {
 	public :
-		Rotationmatrix(ROTATION axis = ROTATION::NONE, float angle = 0);
-		~Rotationmatrix();
+		RotationMatrix(ROTATION axis = ROTATION::NONE, float angle = 0);
+		~RotationMatrix();
 };
 
 // Scaling matrix class used for scaling object, take 3 arguments at creation :
 //     float x = new scale on x axis     (default = 1)
 //     float y = new scale on y axis     (default = 1)
 //     float z = new scale on z axis     (default = 1)
-class Scalingmatrix : public Amatrix {
+class ScalingMatrix : public AMatrix {
 	public :
-		Scalingmatrix(float x = 1, float y = 1, float z = 1);
-		~Scalingmatrix();
+		ScalingMatrix(float x = 1, float y = 1, float z = 1);
+		~ScalingMatrix();
 };

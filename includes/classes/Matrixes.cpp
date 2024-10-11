@@ -2,7 +2,7 @@
 
 //// Amatrix
 /// Constructors & Destructors
-Amatrix::Amatrix() {
+AMatrix::AMatrix() {
 	// matrixes are declared like this where V is a vector 3 :
 	//     Vx Vy Vz Vw(=1)
 	//
@@ -19,14 +19,14 @@ Amatrix::Amatrix() {
 	};
 }
 
-Amatrix::~Amatrix() {
+AMatrix::~AMatrix() {
 }
 /// ---
 
 
 
 /// Getters
-const mat4 &Amatrix::getmatrix() const {
+const mat4 &AMatrix::getMatrix() const {
 	return mat;
 }
 /// ---
@@ -39,7 +39,7 @@ const mat4 &Amatrix::getmatrix() const {
 
 //// Translation matrix
 /// Constructors & Destructors
-Translationmatrix::Translationmatrix(float x, float y, float z) {
+TranslationMatrix::TranslationMatrix(float x, float y, float z) {
 	// Translation matrixes look like this :
 	//     1  0  0  0
 	//     0  1  0  0
@@ -53,7 +53,7 @@ Translationmatrix::Translationmatrix(float x, float y, float z) {
 	// mat is an identity matrix if no translation is set
 }
 
-Translationmatrix::~Translationmatrix() {
+TranslationMatrix::~TranslationMatrix() {
 }
 /// ---
 //// ---
@@ -65,7 +65,7 @@ Translationmatrix::~Translationmatrix() {
 
 //// Rotation matrix
 /// Constructors & Destructors
-Rotationmatrix::Rotationmatrix(ROTATION axis, float angle) {
+RotationMatrix::RotationMatrix(ROTATION axis, float angle) {
 	/// With c = cos(angle) and s = sin(angle)
 	// Rotation matrixes on pitch axis look like this :
 	//     1  0   0  0
@@ -118,7 +118,7 @@ Rotationmatrix::Rotationmatrix(ROTATION axis, float angle) {
 	// mat is an identity matrix if no rotation or angle is set
 }
 
-Rotationmatrix::~Rotationmatrix() {
+RotationMatrix::~RotationMatrix() {
 }
 /// ---
 //// ---
@@ -130,7 +130,7 @@ Rotationmatrix::~Rotationmatrix() {
 
 //// Scaling matrix
 /// Constructors & Destructors
-Scalingmatrix::Scalingmatrix(float x, float y, float z) {
+ScalingMatrix::ScalingMatrix(float x, float y, float z) {
 	// Scaling matrixes look like this :
 	//     1*x  0   0   0
 	//      0  1*y  0   0
@@ -144,7 +144,7 @@ Scalingmatrix::Scalingmatrix(float x, float y, float z) {
 	// mat is an identity matrix if no scaling is set
 }
 
-Scalingmatrix::~Scalingmatrix() {
+ScalingMatrix::~ScalingMatrix() {
 }
 /// ---
 //// ---
