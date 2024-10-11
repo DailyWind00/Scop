@@ -6,8 +6,6 @@
 # include <GLFW/glfw3.h>
 # include <fstream>
 
-# include <glm/glm.hpp> //!\ MUST NOT APPEAR DURING CORRECTION
-
 /// custom includes
 # include "color.h"
 # include "OBJ.hpp"
