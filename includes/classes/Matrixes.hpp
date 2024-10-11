@@ -17,14 +17,15 @@ enum class ROTATION {
 typedef array<float, 16> mat4; // using column format
 
 // Default matrix class, generate an identity matrix at creation
-class AMatrix {
+class Matrix {
 	protected:
 		mat4	mat;
 
 	public :
-		AMatrix();
-		virtual	~AMatrix() = 0;
+		Matrix();
+		virtual	~Matrix();
 
+		Matrix operator*(const Matrix &rhs) const;
 
 		// Getter
 
@@ -35,7 +36,7 @@ class AMatrix {
 //     float x = new x position          (default = 0)
 //     float y = new y position          (default = 0)
 //     float z = new z position          (default = 0)
-class TranslationMatrix : public AMatrix {
+class TranslationMatrix : public Matrix {
 	public :
 		TranslationMatrix(float x = 0, float y = 0, float z = 0);
 		~TranslationMatrix();
@@ -44,7 +45,7 @@ class TranslationMatrix : public AMatrix {
 // Scaling matrix class, take 3 arguments at creation :
 //     ROTATION axis = rotation axis     (default = None) # see ROTATION enum in config.hpp
 //     float angle   = angle in degrees  (default = 0)
-class RotationMatrix : public AMatrix {
+class RotationMatrix : public Matrix {
 	public :
 		RotationMatrix(ROTATION axis = ROTATION::NONE, float angle = 0);
 		~RotationMatrix();
@@ -54,7 +55,7 @@ class RotationMatrix : public AMatrix {
 //     float x = new scale on x axis     (default = 1)
 //     float y = new scale on y axis     (default = 1)
 //     float z = new scale on z axis     (default = 1)
-class ScalingMatrix : public AMatrix {
+class ScalingMatrix : public Matrix {
 	public :
 		ScalingMatrix(float x = 1, float y = 1, float z = 1);
 		~ScalingMatrix();

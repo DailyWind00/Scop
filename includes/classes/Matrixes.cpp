@@ -2,7 +2,7 @@
 
 //// Amatrix
 /// Constructors & Destructors
-AMatrix::AMatrix() {
+Matrix::Matrix() {
 	// matrixes are declared like this where V is a vector 3 :
 	//     Vx Vy Vz Vw(=1)
 	//
@@ -19,14 +19,28 @@ AMatrix::AMatrix() {
 	};
 }
 
-AMatrix::~AMatrix() {
+Matrix::~Matrix() {
 }
 /// ---
 
+/// Operators
+Matrix Matrix::operator*(const Matrix &rhs) const {
+	Matrix result;
+
+	for (int i = 0; i < 16; i += 4) {
+		for (int j = 0; j < 4; j++) {
+			result.mat[i + j] = 0;
+			for (int k = 0; k < 4; k++)
+				result.mat[i + j] += mat[i + k] * rhs.mat[k * 4 + j];
+		}
+	}
+
+	return result;
+}
 
 
 /// Getters
-const mat4 &AMatrix::getMatrix() const {
+const mat4 &Matrix::getMatrix() const {
 	return mat;
 }
 /// ---
