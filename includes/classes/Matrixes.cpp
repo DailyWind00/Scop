@@ -1,9 +1,9 @@
-#include "Matrices.hpp"
+#include "Matrixes.hpp"
 
-//// AMatrice
+//// Amatrix
 /// Constructors & Destructors
-AMatrice::AMatrice() {
-	// Matrices are declared like this where V is a vector 3 :
+Amatrix::Amatrix() {
+	// matrixes are declared like this where V is a vector 3 :
 	//     Vx Vy Vz Vw(=1)
 	//
 	//      a  b  c  d
@@ -11,7 +11,7 @@ AMatrice::AMatrice() {
 	//      i  j  k  l
 	//      m  n  o  p
 
-	mat = mat4 { // Identity matrice in column format
+	mat = mat4 { // Identity matrix in column format
 		1, 0, 0, 0,
 		0, 1, 0, 0,
 		0, 0, 1, 0,
@@ -19,14 +19,14 @@ AMatrice::AMatrice() {
 	};
 }
 
-AMatrice::~AMatrice() {
+Amatrix::~Amatrix() {
 }
 /// ---
 
 
 
 /// Getters
-const mat4 &AMatrice::getMatrice() const {
+const mat4 &Amatrix::getmatrix() const {
 	return mat;
 }
 /// ---
@@ -37,10 +37,10 @@ const mat4 &AMatrice::getMatrice() const {
 
 
 
-//// Translation Matrice
+//// Translation matrix
 /// Constructors & Destructors
-TranslationMatrice::TranslationMatrice(float x, float y, float z) {
-	// Translation matrices look like this :
+Translationmatrix::Translationmatrix(float x, float y, float z) {
+	// Translation matrixes look like this :
 	//     1  0  0  0
 	//     0  1  0  0
 	//     0  0  1  0
@@ -50,10 +50,10 @@ TranslationMatrice::TranslationMatrice(float x, float y, float z) {
 	mat[13] = y; // = n
 	mat[14] = z; // = o
 
-	// mat is an identity matrice if no translation is set
+	// mat is an identity matrix if no translation is set
 }
 
-TranslationMatrice::~TranslationMatrice() {
+Translationmatrix::~Translationmatrix() {
 }
 /// ---
 //// ---
@@ -63,23 +63,23 @@ TranslationMatrice::~TranslationMatrice() {
 
 
 
-//// Rotation Matrice
+//// Rotation matrix
 /// Constructors & Destructors
-RotationMatrice::RotationMatrice(ROTATION axis, float angle) {
+Rotationmatrix::Rotationmatrix(ROTATION axis, float angle) {
 	/// With c = cos(angle) and s = sin(angle)
-	// Rotation matrices on pitch axis look like this :
+	// Rotation matrixes on pitch axis look like this :
 	//     1  0   0  0
 	//     0  c  -s  0
 	//     0  s   c  0
 	//     0  0   0  1
 
-	// Rotation matrices on yaw axis look like this :
+	// Rotation matrixes on yaw axis look like this :
 	//     c  0  s  0
 	//     0  1  0  0
 	//    -s  0  c  0
 	//     0  0  0  1
 
-	// Rotation matrices on roll axis look like this :
+	// Rotation matrixes on roll axis look like this :
 	//     c -s  0  0
 	//     s  c  0  0
 	//     0  0  1  0
@@ -115,10 +115,10 @@ RotationMatrice::RotationMatrice(ROTATION axis, float angle) {
 			break;
 	}
 
-	// mat is an identity matrice if no rotation or angle is set
+	// mat is an identity matrix if no rotation or angle is set
 }
 
-RotationMatrice::~RotationMatrice() {
+Rotationmatrix::~Rotationmatrix() {
 }
 /// ---
 //// ---
@@ -128,10 +128,10 @@ RotationMatrice::~RotationMatrice() {
 
 
 
-//// Scaling Matrice
+//// Scaling matrix
 /// Constructors & Destructors
-ScalingMatrice::ScalingMatrice(float x, float y, float z) {
-	// Scaling matrices look like this :
+Scalingmatrix::Scalingmatrix(float x, float y, float z) {
+	// Scaling matrixes look like this :
 	//     1*x  0   0   0
 	//      0  1*y  0   0
 	//      0   0  1*z  0
@@ -141,10 +141,10 @@ ScalingMatrice::ScalingMatrice(float x, float y, float z) {
 	mat[5] = y;  // = f
 	mat[10] = z; // = k
 
-	// mat is an identity matrice if no scaling is set
+	// mat is an identity matrix if no scaling is set
 }
 
-ScalingMatrice::~ScalingMatrice() {
+Scalingmatrix::~Scalingmatrix() {
 }
 /// ---
 //// ---
