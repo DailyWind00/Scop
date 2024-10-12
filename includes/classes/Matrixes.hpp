@@ -43,7 +43,7 @@ class TranslationMatrix : public Matrix {
 };
 
 // Scaling matrix class, take 3 arguments at creation :
-//     ROTATION axis = rotation axis     (default = None) # see ROTATION enum in config.hpp
+//     ROTATION axis = rotation axis     (default = NONE) # see ROTATION enum in config.hpp
 //     float angle   = angle in degrees  (default = 0)
 class RotationMatrix : public Matrix {
 	public :
