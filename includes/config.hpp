@@ -29,6 +29,7 @@ extern bool VERBOSE;
 extern bool RESIZABLE;
 extern bool WIREFRAME;
 extern ROTATION AUTOROTATE; // use ROTATION enum, NONE = manual rotation
+extern bool INVERSE_AUTOROTATE;
 
 /// Functions
 // window.cpp
@@ -40,6 +41,9 @@ void			RenderObject(GLFWwindow *window, OBJ &obj);
 
 // events.cpp
 void			handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders);
+
+// flags.cpp
+int				checkFlags(int argc, char **argv);
 
 // utils.cpp
 void			displayHelp(char *executable_name);

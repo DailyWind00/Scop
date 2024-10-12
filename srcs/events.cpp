@@ -101,6 +101,11 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	}
 
 	// Apply the rotations
+	if (INVERSE_AUTOROTATE) {
+		pitch_angle = -pitch_angle;
+		yaw_angle = -yaw_angle;
+		roll_angle = -roll_angle;
+	}
 	RotationMatrix pitch(ROTATION::PITCH, pitch_angle);
 	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
 	RotationMatrix roll(ROTATION::ROLL, roll_angle);

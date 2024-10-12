@@ -11,6 +11,7 @@ void	displayHelp(char *executable_name) {
 	cout << LightGray << "\t\t│ x, pitch\t: autorotate around x axis\n" << ResetColor;
 	cout << LightGray << "\t\t│ y, yaw\t: autorotate around y axis\n" << ResetColor;
 	cout << LightGray << "\t\t│ z, roll\t: autorotate around z axis\n" << ResetColor;
+	cout << "\t-N, --inverse-autorotate\tInverse the autorotation\n";
 	cout << "\t-r, --resizable\t\t\tResizable window\n";
 	cout << "\t-w, --wireframe\t\t\tWireframe mode (can be changed during execution)\n";
 	cout << "\t-h, --help\t\t\tDisplay this information\n";
