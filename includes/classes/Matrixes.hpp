@@ -33,9 +33,9 @@ class Matrix {
 };
 
 // Translation matrix class used for moving object, take 3 arguments at creation :
-//     float x = new x position          (default = 0)
-//     float y = new y position          (default = 0)
-//     float z = new z position          (default = 0)
+//     float x = x position multiplier      (default = 0)
+//     float y = y position multiplier      (default = 0)
+//     float z = z position multiplier      (default = 0)
 class TranslationMatrix : public Matrix {
 	public :
 		TranslationMatrix(float x = 0, float y = 0, float z = 0);
@@ -43,8 +43,8 @@ class TranslationMatrix : public Matrix {
 };
 
 // Scaling matrix class, take 3 arguments at creation :
-//     ROTATION axis = rotation axis     (default = NONE) # see ROTATION enum in config.hpp
-//     float angle   = angle in degrees  (default = 0)
+//     ROTATION axis = rotation axis        (default = NONE) # see ROTATION enum in config.hpp
+//     float angle   = angle in degrees     (default = 0)
 class RotationMatrix : public Matrix {
 	public :
 		RotationMatrix(ROTATION axis = ROTATION::NONE, float angle = 0);
@@ -52,9 +52,9 @@ class RotationMatrix : public Matrix {
 };
 
 // Scaling matrix class used for scaling object, take 3 arguments at creation :
-//     float x = new scale on x axis     (default = 1)
-//     float y = new scale on y axis     (default = 1)
-//     float z = new scale on z axis     (default = 1)
+//     float x = x axis size multiplier     (default = 1)
+//     float y = y axis size multiplier     (default = 1)
+//     float z = z axis size multiplier     (default = 1)
 class ScalingMatrix : public Matrix {
 	public :
 		ScalingMatrix(float x = 1, float y = 1, float z = 1);
