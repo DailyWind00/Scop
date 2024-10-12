@@ -24,115 +24,115 @@
 #define LightGray          "\033[0;38;5;250m"    // Light Gray
 
 // Bold
-#define BBlack             "\033[1;30m"          // Black
-#define BRed               "\033[1;31m"          // Red
-#define BGreen             "\033[1;32m"          // Green
-#define BYellow            "\033[1;33m"          // Yellow
-#define BBlue              "\033[1;34m"          // Blue
-#define BPurple            "\033[1;35m"          // Purple
-#define BCyan              "\033[1;36m"          // Cyan
-#define BWhite             "\033[1;37m"          // White
-#define BGray              "\033[1;90m"          // Gray
-#define BOrange            "\033[1;38;5;208m"    // Orange
-#define BPink              "\033[1;38;5;206m"    // Pink
-#define BLightBlue         "\033[1;38;5;117m"    // Light Blue
-#define BLightGreen        "\033[1;38;5;120m"    // Light Green
-#define BLightYellow       "\033[1;38;5;228m"    // Light Yellow
-#define BLightPurple       "\033[1;38;5;141m"    // Light Purple
-#define BLightCyan         "\033[1;38;5;123m"    // Light Cyan
-#define BLightGray         "\033[1;38;5;250m"    // Light Gray
+#define BBlack             "\033[1;30m"          // Bold Black
+#define BRed               "\033[1;31m"          // Bold Red
+#define BGreen             "\033[1;32m"          // Bold Green
+#define BYellow            "\033[1;33m"          // Bold Yellow
+#define BBlue              "\033[1;34m"          // Bold Blue
+#define BPurple            "\033[1;35m"          // Bold Purple
+#define BCyan              "\033[1;36m"          // Bold Cyan
+#define BWhite             "\033[1;37m"          // Bold White
+#define BGray              "\033[1;90m"          // Bold Gray
+#define BOrange            "\033[1;38;5;208m"    // Bold Orange
+#define BPink              "\033[1;38;5;206m"    // Bold Pink
+#define BLightBlue         "\033[1;38;5;117m"    // Bold Light Blue
+#define BLightGreen        "\033[1;38;5;120m"    // Bold Light Green
+#define BLightYellow       "\033[1;38;5;228m"    // Bold Light Yellow
+#define BLightPurple       "\033[1;38;5;141m"    // Bold Light Purple
+#define BLightCyan         "\033[1;38;5;123m"    // Bold Light Cyan
+#define BLightGray         "\033[1;38;5;250m"    // Bold Light Gray
 
 // Underline
-#define UBlack             "\033[4;30m"          // Black
-#define URed               "\033[4;31m"          // Red
-#define UGreen             "\033[4;32m"          // Green
-#define UYellow            "\033[4;33m"          // Yellow
-#define UBlue              "\033[4;34m"          // Blue
-#define UPurple            "\033[4;35m"          // Purple
-#define UCyan              "\033[4;36m"          // Cyan
-#define UWhite             "\033[4;37m"          // White
-#define UGray              "\033[4;90m"          // Gray
-#define UOrange            "\033[4;38;5;208m"    // Orange
-#define UPink              "\033[4;38;5;206m"    // Pink
-#define ULightBlue         "\033[4;38;5;117m"    // Light Blue
-#define ULightGreen        "\033[4;38;5;120m"    // Light Green
-#define ULightYellow       "\033[4;38;5;228m"    // Light Yellow
-#define ULightPurple       "\033[4;38;5;141m"    // Light Purple
-#define ULightCyan         "\033[4;38;5;123m"    // Light Cyan
-#define ULightGray         "\033[4;38;5;250m"    // Light Gray
+#define UBlack             "\033[4;30m"          // Underline Black
+#define URed               "\033[4;31m"          // Underline Red
+#define UGreen             "\033[4;32m"          // Underline Green
+#define UYellow            "\033[4;33m"          // Underline Yellow
+#define UBlue              "\033[4;34m"          // Underline Blue
+#define UPurple            "\033[4;35m"          // Underline Purple
+#define UCyan              "\033[4;36m"          // Underline Cyan
+#define UWhite             "\033[4;37m"          // Underline White
+#define UGray              "\033[4;90m"          // Underline Gray
+#define UOrange            "\033[4;38;5;208m"    // Underline Orange
+#define UPink              "\033[4;38;5;206m"    // Underline Pink
+#define ULightBlue         "\033[4;38;5;117m"    // Underline Light Blue
+#define ULightGreen        "\033[4;38;5;120m"    // Underline Light Green
+#define ULightYellow       "\033[4;38;5;228m"    // Underline Light Yellow
+#define ULightPurple       "\033[4;38;5;141m"    // Underline Light Purple
+#define ULightCyan         "\033[4;38;5;123m"    // Underline Light Cyan
+#define ULightGray         "\033[4;38;5;250m"    // Underline Light Gray
 
 // Background
-#define On_Black           "\033[40m"            // Black
-#define On_Red             "\033[41m"            // Red
-#define On_Green           "\033[42m"            // Green
-#define On_Yellow          "\033[43m"            // Yellow
-#define On_Blue            "\033[44m"            // Blue
-#define On_Purple          "\033[45m"            // Purple
-#define On_Cyan            "\033[46m"            // Cyan
-#define On_White           "\033[47m"            // White
-#define On_Gray            "\033[100m"           // Gray
-#define On_Orange          "\033[48;5;208m"      // Orange
-#define On_Pink            "\033[48;5;206m"      // Pink
-#define On_LightBlue       "\033[48;5;117m"      // Light Blue
-#define On_LightGreen      "\033[48;5;120m"      // Light Green
-#define On_LightYellow     "\033[48;5;228m"      // Light Yellow
-#define On_LightPurple     "\033[48;5;141m"      // Light Purple
-#define On_LightCyan       "\033[48;5;123m"      // Light Cyan
-#define On_LightGray       "\033[48;5;250m"      // Light Gray
+#define On_Black           "\033[40m"            // Background Black
+#define On_Red             "\033[41m"            // Background Red
+#define On_Green           "\033[42m"            // Background Green
+#define On_Yellow          "\033[43m"            // Background Yellow
+#define On_Blue            "\033[44m"            // Background Blue
+#define On_Purple          "\033[45m"            // Background Purple
+#define On_Cyan            "\033[46m"            // Background Cyan
+#define On_White           "\033[47m"            // Background White
+#define On_Gray            "\033[100m"           // Background Gray
+#define On_Orange          "\033[48;5;208m"      // Background Orange
+#define On_Pink            "\033[48;5;206m"      // Background Pink
+#define On_LightBlue       "\033[48;5;117m"      // Background Light Blue
+#define On_LightGreen      "\033[48;5;120m"      // Background Light Green
+#define On_LightYellow     "\033[48;5;228m"      // Background Light Yellow
+#define On_LightPurple     "\033[48;5;141m"      // Background Light Purple
+#define On_LightCyan       "\033[48;5;123m"      // Background Light Cyan
+#define On_LightGray       "\033[48;5;250m"      // Background Light Gray
 
 // High Intensity
-#define IBlack             "\033[0;90m"          // Black
-#define IRed               "\033[0;91m"          // Red
-#define IGreen             "\033[0;92m"          // Green
-#define IYellow            "\033[0;93m"          // Yellow
-#define IBlue              "\033[0;94m"          // Blue
-#define IPurple            "\033[0;95m"          // Purple
-#define ICyan              "\033[0;96m"          // Cyan
-#define IWhite             "\033[0;97m"          // White
-#define IGray              "\033[0;90m"          // Gray
-#define IOrange            "\033[0;38;5;208m"    // Orange
-#define IPink              "\033[0;38;5;206m"    // Pink
-#define ILightBlue         "\033[0;38;5;117m"    // Light Blue
-#define ILightGreen        "\033[0;38;5;120m"    // Light Green
-#define ILightYellow       "\033[0;38;5;228m"    // Light Yellow
-#define ILightPurple       "\033[0;38;5;141m"    // Light Purple
-#define ILightCyan         "\033[0;38;5;123m"    // Light Cyan
-#define ILightGray         "\033[0;38;5;250m"    // Light Gray
+#define IBlack             "\033[0;90m"          // High Intensity Black
+#define IRed               "\033[0;91m"          // High Intensity Red
+#define IGreen             "\033[0;92m"          // High Intensity Green
+#define IYellow            "\033[0;93m"          // High Intensity Yellow
+#define IBlue              "\033[0;94m"          // High Intensity Blue
+#define IPurple            "\033[0;95m"          // High Intensity Purple
+#define ICyan              "\033[0;96m"          // High Intensity Cyan
+#define IWhite             "\033[0;97m"          // High Intensity White
+#define IGray              "\033[0;90m"          // High Intensity Gray
+#define IOrange            "\033[0;38;5;208m"    // High Intensity Orange
+#define IPink              "\033[0;38;5;206m"    // High Intensity Pink
+#define ILightBlue         "\033[0;38;5;117m"    // High Intensity Light Blue
+#define ILightGreen        "\033[0;38;5;120m"    // High Intensity Light Green
+#define ILightYellow       "\033[0;38;5;228m"    // High Intensity Light Yellow
+#define ILightPurple       "\033[0;38;5;141m"    // High Intensity Light Purple
+#define ILightCyan         "\033[0;38;5;123m"    // High Intensity Light Cyan
+#define ILightGray         "\033[0;38;5;250m"    // High Intensity Light Gray
 
 // Bold High Intensity
-#define BIBlack            "\033[1;90m"          // Black
-#define BIRed              "\033[1;91m"          // Red
-#define BIGreen            "\033[1;92m"          // Green
-#define BIYellow           "\033[1;93m"          // Yellow
-#define BIBlue             "\033[1;94m"          // Blue
-#define BIPurple           "\033[1;95m"          // Purple
-#define BICyan             "\033[1;96m"          // Cyan
-#define BIWhite            "\033[1;97m"          // White
-#define BIGray             "\033[1;90m"          // Gray
-#define BIOrange           "\033[1;38;5;208m"    // Orange
-#define BIPink             "\033[1;38;5;206m"    // Pink
-#define BILightBlue        "\033[1;38;5;117m"    // Light Blue
-#define BILightGreen       "\033[1;38;5;120m"    // Light Green
-#define BILightYellow      "\033[1;38;5;228m"    // Light Yellow
-#define BILightPurple      "\033[1;38;5;141m"    // Light Purple
-#define BILightCyan        "\033[1;38;5;123m"    // Light Cyan
-#define BILightGray        "\033[1;38;5;250m"    // Light Gray
+#define BIBlack            "\033[1;90m"          // Bold High Intensity Black
+#define BIRed              "\033[1;91m"          // Bold High Intensity Red
+#define BIGreen            "\033[1;92m"          // Bold High Intensity Green
+#define BIYellow           "\033[1;93m"          // Bold High Intensity Yellow
+#define BIBlue             "\033[1;94m"          // Bold High Intensity Blue
+#define BIPurple           "\033[1;95m"          // Bold High Intensity Purple
+#define BICyan             "\033[1;96m"          // Bold High Intensity Cyan
+#define BIWhite            "\033[1;97m"          // Bold High Intensity White
+#define BIGray             "\033[1;90m"          // Bold High Intensity Gray
+#define BIOrange           "\033[1;38;5;208m"    // Bold High Intensity Orange
+#define BIPink             "\033[1;38;5;206m"    // Bold High Intensity Pink
+#define BILightBlue        "\033[1;38;5;117m"    // Bold High Intensity Light Blue
+#define BILightGreen       "\033[1;38;5;120m"    // Bold High Intensity Light Green
+#define BILightYellow      "\033[1;38;5;228m"    // Bold High Intensity Light Yellow
+#define BILightPurple      "\033[1;38;5;141m"    // Bold High Intensity Light Purple
+#define BILightCyan        "\033[1;38;5;123m"    // Bold High Intensity Light Cyan
+#define BILightGray        "\033[1;38;5;250m"    // Bold High Intensity Light Gray
 
-// backgrounds
-#define On_IBlack          "\033[0;100m"         // Black
-#define On_IRed            "\033[0;101m"         // Red
-#define On_IGreen          "\033[0;102m"         // Green
-#define On_IYellow         "\033[0;103m"         // Yellow
-#define On_IBlue           "\033[0;104m"         // Blue
-#define On_IPurple         "\033[0;105m"         // Purple
-#define On_ICyan           "\033[0;106m"         // Cyan
-#define On_IWhite          "\033[0;107m"         // White
-#define On_IGray           "\033[0;100m"         // Gray
-#define On_IOrange         "\033[0;48;5;208m"    // Orange
-#define On_IPink           "\033[0;48;5;206m"    // Pink
-#define On_ILightBlue      "\033[0;48;5;117m"    // Light Blue
-#define On_ILightGreen     "\033[0;48;5;120m"    // Light Green
-#define On_ILightYellow    "\033[0;48;5;228m"    // Light Yellow
-#define On_ILightPurple    "\033[0;48;5;141m"    // Light Purple
-#define On_ILightCyan      "\033[0;48;5;123m"    // Light Cyan
-#define On_ILightGray      "\033[0;48;5;250m"    // Light Gray
+// Backgrounds
+#define On_IBlack          "\033[0;100m"         // Backgrounds Black
+#define On_IRed            "\033[0;101m"         // Backgrounds Red
+#define On_IGreen          "\033[0;102m"         // Backgrounds Green
+#define On_IYellow         "\033[0;103m"         // Backgrounds Yellow
+#define On_IBlue           "\033[0;104m"         // Backgrounds Blue
+#define On_IPurple         "\033[0;105m"         // Backgrounds Purple
+#define On_ICyan           "\033[0;106m"         // Backgrounds Cyan
+#define On_IWhite          "\033[0;107m"         // Backgrounds White
+#define On_IGray           "\033[0;100m"         // Backgrounds Gray
+#define On_IOrange         "\033[0;48;5;208m"    // Backgrounds Orange
+#define On_IPink           "\033[0;48;5;206m"    // Backgrounds Pink
+#define On_ILightBlue      "\033[0;48;5;117m"    // Backgrounds Light Blue
+#define On_ILightGreen     "\033[0;48;5;120m"    // Backgrounds Light Green
+#define On_ILightYellow    "\033[0;48;5;228m"    // Backgrounds Light Yellow
+#define On_ILightPurple    "\033[0;48;5;141m"    // Backgrounds Light Purple
+#define On_ILightCyan      "\033[0;48;5;123m"    // Backgrounds Light Cyan
+#define On_ILightGray      "\033[0;48;5;250m"    // Backgrounds Light Gray
