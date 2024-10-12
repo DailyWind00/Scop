@@ -12,6 +12,10 @@
 # include "Shader.hpp"
 # include "Matrixes.hpp"
 
+/// Defines
+# define ROTATION_SPEED 0.05f
+# define AUTOROTATION_SPEED 0.015f
+
 /// Global variables
 using namespace std;
 enum class ROTATION;

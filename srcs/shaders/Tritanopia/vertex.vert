@@ -5,7 +5,9 @@ layout (location=1) in vec3 vertexColor;
 
 out vec3 fragmentColor;
 
+uniform mat4 Transform;
+
 void main() {
-	gl_Position = vec4(vertexPos, 1.0);
+	gl_Position = Transform * vec4(vertexPos, 1.0);
 	fragmentColor = vertexColor;
 }

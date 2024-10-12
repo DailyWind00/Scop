@@ -54,6 +54,64 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 		changeShaderKeyPressed = false;
 }
 
+static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
+	static float pitch_angle = 0;
+	static float yaw_angle = 0;
+	static float roll_angle = 0;
+
+	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
+		// Pitch
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			pitch_angle += ROTATION_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			pitch_angle -= ROTATION_SPEED;
+
+		// Yaw
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			yaw_angle += ROTATION_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			yaw_angle -= ROTATION_SPEED;
+		
+		// Roll
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			roll_angle += ROTATION_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			roll_angle -= ROTATION_SPEED;
+
+	} else { // Auto-rotate the object, block manual rotation
+
+		// Update the angles based on time
+		static float time = 0;
+
+		switch (AUTOROTATE) {
+			case ROTATION::PITCH:
+				pitch_angle = time;
+				break;
+			case ROTATION::YAW:
+				yaw_angle = time;
+				break;
+			case ROTATION::ROLL:
+				roll_angle = time;
+				break;
+			default:
+				break;
+		}
+
+		time += AUTOROTATION_SPEED;
+	}
+
+	// Apply the rotations
+	RotationMatrix pitch(ROTATION::PITCH, pitch_angle);
+	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
+	RotationMatrix roll(ROTATION::ROLL, roll_angle);
+
+	// Combine the rotations
+	Matrix combined = pitch * yaw * roll;
+
+	// Set the combined transformation matrix
+	shaders.setMat4(shaders.getCurrentShaderID(), "Transform", combined.getMatrix());
+}
+
 // Handle all keyboard & other events
 void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	glfwPollEvents();
@@ -67,6 +125,7 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	wireframeHandler(window);
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
+	transformObjectHandler(window, shaders);
 
 	(void)obj; // to remove after obj parsing
 }
