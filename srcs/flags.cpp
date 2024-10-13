@@ -5,6 +5,7 @@ bool RESIZABLE = false;
 bool WIREFRAME = false;
 ROTATION AUTOROTATE = ROTATION::NONE;
 bool INVERSE_AUTOROTATE = false;
+KEYBOARD_LANGUAGE KEYBOARD = KEYBOARD_LANGUAGE::QWERTY;
 
 static int setflagVerbose() {
 	VERBOSE = true;
@@ -14,6 +15,7 @@ static int setflagVerbose() {
 static int setflagAutorotate(string &arg, int &i, int argc, char **argv) {
 	if (i == argc - 1)
 		throw runtime_error("No autorotate argument");
+
 	arg = argv[++i];
 	if (arg == "pitch" || arg == "x")
 		AUTOROTATE = ROTATION::PITCH;
@@ -23,6 +25,7 @@ static int setflagAutorotate(string &arg, int &i, int argc, char **argv) {
 		AUTOROTATE = ROTATION::ROLL;
 	else
 		throw runtime_error("Invalid autorotate argument");
+
 	return 2;
 }
 
@@ -42,6 +45,21 @@ static int setflagResizable() {
 static int setflagWireframe() {
 	WIREFRAME = true;
 	return 1;
+}
+
+static int setflagKeyboardLanguage(string &arg, int &i, int argc, char **argv) {
+	if (i == argc - 1)
+		throw runtime_error("No keyboard language argument");
+
+	arg = argv[++i];
+	if (arg == "azerty")
+		KEYBOARD = KEYBOARD_LANGUAGE::AZERTY;
+	else if (arg == "qwerty")
+		KEYBOARD = KEYBOARD_LANGUAGE::QWERTY;
+	else
+		throw runtime_error("Invalid keyboard language argument");
+
+	return 2;
 }
 
 // return the number of flags
@@ -69,6 +87,9 @@ int	checkFlags(int argc, char **argv) {
 
 		else if (arg == "-w" || arg == "--wireframe")
 			flags += setflagWireframe();
+
+		else if (arg == "-k" || arg == "--keyboard")
+			flags += setflagKeyboardLanguage(arg, i, argc, argv);
 
 		else if (arg == "-h" || arg == "--help") {
 			displayHelp(argv[0]);

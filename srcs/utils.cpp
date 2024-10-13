@@ -14,6 +14,10 @@ void	displayHelp(char *executable_name) {
 	cout << "\t-N, --inverse-autorotate\tInverse the autorotation\n";
 	cout << "\t-r, --resizable\t\t\tResizable window\n";
 	cout << "\t-w, --wireframe\t\t\tWireframe mode (can be changed during execution)\n";
+	cout << "\t-k, --keyboard [option]\t\tChange the keyboard language\n";
+	cout << LightGray << "\t\t│ Options availables	 :\n" << ResetColor;
+	cout << LightGray << "\t\t│ azerty\t: set the keyboard to azerty\n" << ResetColor;
+	cout << LightGray << "\t\t│ qwerty\t: set the keyboard to qwerty\n" << ResetColor;
 	cout << "\t-h, --help\t\t\tDisplay this information\n";
 }
 
@@ -21,9 +25,15 @@ void	displayHelp(char *executable_name) {
 void	displayCommands() {
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
 	cout << "> Object rotation :\n"; // Don't forget to update when adding keyboard language support
-	cout << "A/D\t\t\t: Rotate the object on the Pitch axis\n";
-	cout << "W/S\t\t\t: Rotate the object on the Yaw axis\n";
-	cout << "Q/E\t\t\t: Rotate the object on the Roll axis\n";
+	if (KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) {
+		cout << "Q/D\t\t\t: Rotate the object on the Pitch axis\n";
+		cout << "Z/S\t\t\t: Rotate the object on the Yaw axis\n";
+		cout << "A/E\t\t\t: Rotate the object on the Roll axis\n";
+	} else {
+		cout << "A/D\t\t\t: Rotate the object on the Pitch axis\n";
+		cout << "W/S\t\t\t: Rotate the object on the Yaw axis\n";
+		cout << "Q/E\t\t\t: Rotate the object on the Roll axis\n";
+	}
 	cout << endl;
 	cout << "> Others :\n";
 	cout << "ESC\t\t\t: Close the window\n";

@@ -59,7 +59,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	static float yaw_angle = 0;
 	static float roll_angle = 0;
 
-	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
+	if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) { // Manual rotation with QWERTY keyboard
 		// Pitch
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			pitch_angle += ROTATION_SPEED;
@@ -76,6 +76,25 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 			roll_angle += ROTATION_SPEED;
 		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			roll_angle -= ROTATION_SPEED;
+
+	} else if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) { // Manual rotation with AZERTY keyboard
+		// Pitch
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			pitch_angle += ROTATION_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			pitch_angle -= ROTATION_SPEED;
+
+		// Yaw
+		if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+			yaw_angle += ROTATION_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			yaw_angle -= ROTATION_SPEED;
+		
+		// Roll
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			roll_angle += ROTATION_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 			roll_angle -= ROTATION_SPEED;
 
 	} else { // Auto-rotate the object, block manual rotation

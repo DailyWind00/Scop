@@ -21,6 +21,11 @@ using namespace std;
 enum class ROTATION;
 class Shader;
 
+enum class KEYBOARD_LANGUAGE {
+	AZERTY,
+	QWERTY
+};
+
 extern int WINDOW_WIDTH;
 extern int WINDOW_HEIGHT;
 
@@ -30,6 +35,7 @@ extern bool RESIZABLE;
 extern bool WIREFRAME;
 extern ROTATION AUTOROTATE; // use ROTATION enum, NONE = manual rotation
 extern bool INVERSE_AUTOROTATE;
+extern KEYBOARD_LANGUAGE KEYBOARD; // use KEYBOARD_LANGUAGE enum
 
 /// Functions
 // window.cpp
