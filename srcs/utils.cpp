@@ -20,6 +20,12 @@ void	displayHelp(char *executable_name) {
 // Display the commands available in the program
 void	displayCommands() {
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
+	cout << "> Object rotation :\n"; // Don't forget to update when adding keyboard language support
+	cout << "A/D\t\t\t: Rotate the object on the Pitch axis\n";
+	cout << "W/S\t\t\t: Rotate the object on the Yaw axis\n";
+	cout << "Q/E\t\t\t: Rotate the object on the Roll axis\n";
+	cout << endl;
+	cout << "> Others :\n";
 	cout << "ESC\t\t\t: Close the window\n";
 	cout << "F1\t\t\t: Enable/Disable wireframe mode\n";
 	cout << "F5\t\t\t: Recompile the current shader\n";
