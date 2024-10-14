@@ -31,6 +31,7 @@ Matrix::Matrix(mat4 matrix) {
 
 Matrix & Matrix::operator=(const Matrix &matrix) {
 	this->mat = matrix.mat;
+	return *this;
 }
 
 Matrix::~Matrix() {
@@ -144,6 +145,15 @@ RotationMatrix::RotationMatrix(ROTATION axis, float angle) {
 	}
 
 	// mat is an identity matrix if no rotation or angle is set
+}
+
+RotationMatrix::RotationMatrix(float pitch, float yaw, float roll) {
+
+	RotationMatrix pitch_rotate(ROTATION::PITCH, pitch);
+	RotationMatrix yaw_rotate(ROTATION::YAW, yaw);
+	RotationMatrix roll_rotate(ROTATION::ROLL, roll);
+
+	mat = (pitch_rotate * yaw_rotate * roll_rotate).getMatrix();
 }
 
 RotationMatrix::~RotationMatrix() {

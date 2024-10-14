@@ -45,12 +45,18 @@ class TranslationMatrix : public Matrix {
 		~TranslationMatrix();
 };
 
-// Scaling matrix class, take 2 arguments at creation :
+// Scaling matrix class, the first constructor take 2 arguments at creation :
 //     ROTATION axis = rotation axis        (default = NONE) # see ROTATION enum in config.hpp
 //     float angle   = angle in degrees     (default = 0)
+//
+// The second constructor take 3 arguments at creation :
+//     float pitch   = pitch rotation       (default = 0)
+//     float yaw     = yaw   rotation       (default = 0)
+//     float roll    = roll  rotation       (default = 0)
 class RotationMatrix : public Matrix {
 	public :
 		RotationMatrix(ROTATION axis = ROTATION::NONE, float angle = 0);
+		RotationMatrix(float pitch = 0, float yaw = 0, float roll = 0);
 		~RotationMatrix();
 };
 
