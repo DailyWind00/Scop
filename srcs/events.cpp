@@ -120,7 +120,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 		time += AUTOROTATION_SPEED * FRAMETIME;
 	}
 
-	// Apply the rotations
+	// Rotations of the object
 	if (INVERSE_AUTOROTATE) {
 		pitch_angle = -pitch_angle;
 		yaw_angle = -yaw_angle;
@@ -130,11 +130,19 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
 	RotationMatrix roll(ROTATION::ROLL, roll_angle);
 
-	// Combine the rotations
-	Matrix combined = pitch * yaw * roll;
+	Matrix combinedRotation = pitch * yaw * roll;
+
+	// Camera & projection
+	TranslationMatrix cameraPos(0.0f, 0.0f, 0.0f); // Need to change the z value based on object size
+	RotationMatrix    cameraAngle(45.0f, 45.0f, 45.0f);
+
+	// todo : projection
+
+	Matrix camera = cameraPos * cameraAngle; // Add projection
 
 	// Set the combined transformation matrix
-	shaders.setMat4(shaders.getCurrentShaderID(), "Transform", combined.getMatrix());
+	Matrix transform = combinedRotation * camera; // Add camera
+	shaders.setMat4(shaders.getCurrentShaderID(), "Transform", transform.getMatrix());
 }
 
 // Handle all keyboard & other events
