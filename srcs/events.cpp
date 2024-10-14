@@ -54,6 +54,7 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 		changeShaderKeyPressed = false;
 }
 
+// Handle the transformation of the object, here only rotation is usefull (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	static float pitch_angle = 0;
 	static float yaw_angle = 0;
