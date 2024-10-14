@@ -1,5 +1,21 @@
 #include "config.hpp"
 
+double FRAMETIME = 0;
+
+// Calculate the frametime of the program
+static void getFrametime() {
+	static double last_time = glfwGetTime();
+	static int frame_count = 0;
+
+	double current_time = glfwGetTime();
+	frame_count++;
+	if (current_time - last_time >= 1.0) {
+		FRAMETIME = 1000.0/double(frame_count);
+		frame_count = 0;
+		last_time += 1.0;
+	}
+}
+
 // Keep the window alive, exiting this function mean the process is over
 static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 
@@ -7,7 +23,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
     GLfloat positions[] = {
         0.5f,  0.5f, 0.0f,  // Top Right
         0.5f, -0.5f, 0.0f,  // Bottom Right
-       -0.5f, -0.5f, 0.0f,  // Bottom Left
+       -0.5f, -0.5f, 0.0f,  // Bottom 	Left
        -0.5f,  0.5f, 0.0f   // Top Left 
     };
     GLfloat colors[] = {
@@ -52,6 +68,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		getFrametime();
 		handleEvents(window, obj, shaders);
 
 		glBindVertexArray(VAO);

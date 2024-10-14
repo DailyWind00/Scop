@@ -28,6 +28,7 @@ enum class KEYBOARD_LANGUAGE {
 
 extern int WINDOW_WIDTH;
 extern int WINDOW_HEIGHT;
+extern double FRAMETIME;
 
 // Flags
 extern bool VERBOSE;

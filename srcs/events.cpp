@@ -62,40 +62,40 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) { // Manual rotation with QWERTY keyboard
 		// Pitch
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			pitch_angle += ROTATION_SPEED;
+			pitch_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			pitch_angle -= ROTATION_SPEED;
+			pitch_angle -= ROTATION_SPEED * FRAMETIME;
 
 		// Yaw
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-			yaw_angle += ROTATION_SPEED;
+			yaw_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			yaw_angle -= ROTATION_SPEED;
+			yaw_angle -= ROTATION_SPEED * FRAMETIME;
 		
 		// Roll
 		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-			roll_angle += ROTATION_SPEED;
+			roll_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-			roll_angle -= ROTATION_SPEED;
+			roll_angle -= ROTATION_SPEED * FRAMETIME;
 
 	} else if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) { // Manual rotation with AZERTY keyboard
 		// Pitch
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			pitch_angle += ROTATION_SPEED;
+			pitch_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-			pitch_angle -= ROTATION_SPEED;
+			pitch_angle -= ROTATION_SPEED * FRAMETIME;
 
 		// Yaw
 		if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-			yaw_angle += ROTATION_SPEED;
+			yaw_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			yaw_angle -= ROTATION_SPEED;
+			yaw_angle -= ROTATION_SPEED * FRAMETIME;
 		
 		// Roll
 		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-			roll_angle += ROTATION_SPEED;
+			roll_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			roll_angle -= ROTATION_SPEED;
+			roll_angle -= ROTATION_SPEED * FRAMETIME;
 
 	} else { // Auto-rotate the object, block manual rotation
 
@@ -116,7 +116,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 				break;
 		}
 
-		time += AUTOROTATION_SPEED;
+		time += AUTOROTATION_SPEED * FRAMETIME;
 	}
 
 	// Apply the rotations
