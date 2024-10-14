@@ -23,6 +23,9 @@ class Matrix {
 
 	public :
 		Matrix();
+		Matrix(const Matrix &matrix);
+		Matrix(mat4 mat);
+		Matrix & operator=(const Matrix &matrix);
 		virtual	~Matrix();
 
 		Matrix operator*(const Matrix &rhs) const;

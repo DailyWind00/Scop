@@ -19,6 +19,20 @@ Matrix::Matrix() {
 	};
 }
 
+Matrix::Matrix(const Matrix &matrix) {
+	(*this) = matrix;
+}
+
+// Create a Matrix class with the matrix passed in argument
+// Can be used to get the features of the Matrix class on a matrix
+Matrix::Matrix(mat4 matrix) {
+	mat = matrix;
+}
+
+Matrix & Matrix::operator=(const Matrix &matrix) {
+	this->mat = matrix.mat;
+}
+
 Matrix::~Matrix() {
 }
 /// ---
