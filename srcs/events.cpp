@@ -2,6 +2,13 @@
 
 float FOV = 45.0f;
 
+#define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
+#define NEGATIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
+#define POSITIVE_YAW_KEY_PRESSED   ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
+#define NEGATIVE_YAW_KEY_PRESSED   ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
+#define POSITIVE_ROLL_KEY_PRESSED  ((glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
+#define NEGATIVE_ROLL_KEY_PRESSED  ((glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
+
 // Resize the viewport when the window is resized
 static void resize_viewport(GLFWwindow *window, int width, int height) {
 	WINDOW_WIDTH = width;
@@ -62,45 +69,23 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	static float yaw_angle = 0;
 	static float roll_angle = 0;
 
-	if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) { // Manual rotation with QWERTY keyboard
-		// Pitch
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
+	if (AUTOROTATE == ROTATION::NONE) {
+		if (POSITIVE_PITCH_KEY_PRESSED)
 			pitch_angle += ROTATION_SPEED * FRAMETIME;
-		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		else if (NEGATIVE_PITCH_KEY_PRESSED)
 			pitch_angle -= ROTATION_SPEED * FRAMETIME;
 
-		// Yaw
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (POSITIVE_YAW_KEY_PRESSED)
 			yaw_angle += ROTATION_SPEED * FRAMETIME;
-		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		else if (NEGATIVE_YAW_KEY_PRESSED)
 			yaw_angle -= ROTATION_SPEED * FRAMETIME;
-		
-		// Roll
-		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+
+		if (POSITIVE_ROLL_KEY_PRESSED)
 			roll_angle += ROTATION_SPEED * FRAMETIME;
-		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		else if (NEGATIVE_ROLL_KEY_PRESSED)
 			roll_angle -= ROTATION_SPEED * FRAMETIME;
-
-	} else if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) { // Manual rotation with AZERTY keyboard
-		// Pitch
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-			pitch_angle += ROTATION_SPEED * FRAMETIME;
-		else if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-			pitch_angle -= ROTATION_SPEED * FRAMETIME;
-
-		// Yaw
-		if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
-			yaw_angle += ROTATION_SPEED * FRAMETIME;
-		else if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-			yaw_angle -= ROTATION_SPEED * FRAMETIME;
-		
-		// Roll
-		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-			roll_angle += ROTATION_SPEED * FRAMETIME;
-		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-			roll_angle -= ROTATION_SPEED * FRAMETIME;
-
-	} else { // Auto-rotate the object, block manual rotation
+	}
+	else { // Auto-rotate the object, block manual rotation
 
 		// Update the angles based on time
 		static float time = 0;
