@@ -63,13 +63,13 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 		changeShaderKeyPressed = false;
 }
 
-// Handle the transformation of the object, here only rotation is usefull (keybind change with keyboard language)
+// Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	static float pitch_angle = 0;
 	static float yaw_angle = 0;
 	static float roll_angle = 0;
 
-	if (AUTOROTATE == ROTATION::NONE) {
+	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
 		if (POSITIVE_PITCH_KEY_PRESSED)
 			pitch_angle += ROTATION_SPEED * FRAMETIME;
 		else if (NEGATIVE_PITCH_KEY_PRESSED)
