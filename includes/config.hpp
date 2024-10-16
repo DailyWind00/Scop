@@ -26,17 +26,18 @@ enum class KEYBOARD_LANGUAGE {
 	QWERTY
 };
 
-extern int WINDOW_WIDTH;
-extern int WINDOW_HEIGHT;
-extern double FRAMETIME;
+extern int		WINDOW_WIDTH;
+extern int		WINDOW_HEIGHT;
+extern double	FRAMETIME;
+extern float	FOV;
 
-// Flags
-extern bool VERBOSE;
-extern bool RESIZABLE;
-extern bool WIREFRAME;
-extern ROTATION AUTOROTATE; // use ROTATION enum, NONE = manual rotation
-extern bool INVERSE_AUTOROTATE;
-extern KEYBOARD_LANGUAGE KEYBOARD; // use KEYBOARD_LANGUAGE enum
+// Flags (default values are set in flags.cpp)
+extern bool					VERBOSE;
+extern bool					RESIZABLE;
+extern bool					WIREFRAME;
+extern ROTATION				AUTOROTATE;          // use ROTATION enum, NONE = manual rotation
+extern bool					INVERSE_AUTOROTATE;
+extern KEYBOARD_LANGUAGE	KEYBOARD;            // use KEYBOARD_LANGUAGE enum
 
 /// Functions
 // window.cpp

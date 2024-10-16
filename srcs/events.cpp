@@ -1,5 +1,7 @@
 #include "config.hpp"
 
+float FOV = 45.0f;
+
 // Resize the viewport when the window is resized
 static void resize_viewport(GLFWwindow *window, int width, int height) {
 	WINDOW_WIDTH = width;
@@ -62,7 +64,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 
 	if (AUTOROTATE == ROTATION::NONE && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) { // Manual rotation with QWERTY keyboard
 		// Pitch
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS )
 			pitch_angle += ROTATION_SPEED * FRAMETIME;
 		else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 			pitch_angle -= ROTATION_SPEED * FRAMETIME;
@@ -130,19 +132,22 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
 	RotationMatrix roll(ROTATION::ROLL, roll_angle);
 
-	Matrix combinedRotation = pitch * yaw * roll;
+	Matrix transform = pitch * yaw * roll; // TODO: put in the obj class
 
-	// Camera & projection
-	TranslationMatrix cameraPos(0.0f, 0.0f, 0.0f); // Need to change the z value based on object size
-	RotationMatrix    cameraAngle(45.0f, 45.0f, 45.0f);
+	// Camera transformations
+	TranslationMatrix cameraPos(0.0f, 0.0f, -5.0f); // TODO: Change z value to object size radius * 2 + 10%
+	RotationMatrix    cameraAngle(0.0f, 0.0f, 0.0f);
 
-	// todo : projection
+	Matrix view = cameraAngle * cameraPos;
 
-	Matrix camera = cameraPos * cameraAngle; // Add projection
+	// Projection matrix
+	float aspectRatio = (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+	ProjectionMatrix projection(FOV, aspectRatio, 0.1f, 100.0f);
 
-	// Set the combined transformation matrix
-	Matrix transform = combinedRotation * camera; // Add camera
+	// Send the combined transformation matrixes to the shader
 	shaders.setMat4(shaders.getCurrentShaderID(), "Transform", transform.getMatrix());
+	shaders.setMat4(shaders.getCurrentShaderID(), "View", view.getMatrix());
+	shaders.setMat4(shaders.getCurrentShaderID(), "Projection", projection.getMatrix());
 }
 
 // Handle all keyboard & other events

@@ -25,7 +25,7 @@ void	displayHelp(char *executable_name) {
 void	displayCommands() {
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
 	if (AUTOROTATE == ROTATION::NONE) {
-		cout << "> Object rotation :\n"; // Don't forget to update when adding keyboard language support
+		cout << "> Object rotation :\n";
 		if (KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) {
 			cout << "Q/D\t\t\t: Rotate the object on the Pitch axis\n";
 			cout << "Z/S\t\t\t: Rotate the object on the Yaw axis\n";
