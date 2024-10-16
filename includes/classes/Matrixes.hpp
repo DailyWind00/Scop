@@ -69,3 +69,14 @@ class ScalingMatrix : public Matrix {
 		ScalingMatrix(float x = 1, float y = 1, float z = 1);
 		~ScalingMatrix();
 };
+
+// Projection matrix class used for camera, take 4 arguments at creation :
+//     float fov = field of view in degrees (default = 45)
+//     float aspectRatio = aspect ratio     (default = 1)
+//     float near = near clipping plane     (default = 0.1)
+//     float far = far clipping plane       (default = 100)
+class ProjectionMatrix : public Matrix {
+	public :
+		ProjectionMatrix(float fov = 45, float aspectRatio = 1, float near = 0.1, float far = 100);
+		~ProjectionMatrix();
+};

@@ -40,6 +40,13 @@ Matrix::~Matrix() {
 
 /// Operators
 Matrix Matrix::operator*(const Matrix &rhs) const {
+	// Multiplication of two matrixes is done by multiplying each row of the first matrix by each column of the second matrix
+	// It looks like this :
+	//     a  b  c  d     A  B  C  D     aA+bE+cI+dM  aB+bF+cJ+dN  aC+bG+cK+dO  aD+bH+cL+dP
+	//     e  f  g  h  *  E  F  G  H  =  eA+fE+gI+hM  eB+fF+gJ+hN  eC+fG+gK+hO  eD+fH+gL+hP
+	//     i  j  k  l     I  J  K  L     iA+jE+kI+lM  iB+jF+kJ+lN  iC+jG+kK+lO  iD+jH+kL+lP
+	//     m  n  o  p     M  N  O  P     mA+nE+oI+pM  mB+nF+oJ+pN  mC+nG+oK+pO  mD+nH+oL+pP
+
 	Matrix result;
 
 	for (int i = 0; i < 16; i += 4) {
@@ -170,10 +177,10 @@ RotationMatrix::~RotationMatrix() {
 /// Constructors & Destructors
 ScalingMatrix::ScalingMatrix(float x, float y, float z) {
 	// Scaling matrixes look like this :
-	//     1*x  0   0   0
-	//      0  1*y  0   0
-	//      0   0  1*z  0
-	//      0   0   0   1
+	//     x 0 0 0
+	//     0 y 0 0
+	//     0 0 z 0
+	//     0 0 0 1
 
 	mat[0] = x;  // = a
 	mat[5] = y;  // = f
@@ -183,6 +190,36 @@ ScalingMatrix::ScalingMatrix(float x, float y, float z) {
 }
 
 ScalingMatrix::~ScalingMatrix() {
+}
+/// ---
+//// ---
+
+
+
+
+
+
+//// Projection matrix
+/// Constructors & Destructors
+ProjectionMatrix::ProjectionMatrix(float fov, float aspectRatio, float near, float far) {
+	// Projection matrixes look like this :
+	//     f/a  0       0            0
+	//      0   f       0            0
+	//      0   0  (n+f)/(n-f)  2*n*f/(n-f)
+	//      0   0      -1            0
+
+	float f = 1.0f / tan(fov * M_PI / 360.0f);
+
+	mat[0]  = f / aspectRatio;               // = a
+	mat[5]  = f;                             // = f
+	mat[10] = (far + near) / (near - far);   // = k
+	mat[11] = -1;                            // = l
+	mat[14] = 2 * far * near / (near - far); // = o
+
+	// mat is an identity matrix if no projection is set
+}
+
+ProjectionMatrix::~ProjectionMatrix() {
 }
 /// ---
 //// ---
