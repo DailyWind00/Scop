@@ -20,21 +20,89 @@ static void getFrametime() {
 static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 
 	/// tests to remove / put in a class
-    GLfloat positions[] = {
-        0.5f,  0.5f, 0.0f,  // Top Right
-        0.5f, -0.5f, 0.0f,  // Bottom Right
-       -0.5f, -0.5f, 0.0f,  // Bottom 	Left
-       -0.5f,  0.5f, 0.0f   // Top Left 
-    };
-    GLfloat colors[] = {
-        1.0f, 0.0f, 0.0f,   // Red
-        0.0f, 1.0f, 0.0f,   // Green
-        0.0f, 0.0f, 1.0f,   // Blue
-        1.0f, 1.0f, 0.0f    // Yellow
-    };
+	GLfloat positions[] = {
+		// Front face positions
+		-0.5f, -0.5f,  0.5f,
+		 0.5f, -0.5f,  0.5f,
+		 0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		// Back face positions
+		-0.5f, -0.5f, -0.5f,
+		 0.5f, -0.5f, -0.5f,
+		 0.5f,  0.5f, -0.5f,
+		-0.5f,  0.5f, -0.5f,
+		// Left face positions
+		-0.5f, -0.5f, -0.5f,
+		-0.5f, -0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f, -0.5f,
+		// Right face positions
+		 0.5f, -0.5f, -0.5f,
+		 0.5f, -0.5f,  0.5f,
+		 0.5f,  0.5f,  0.5f,
+		 0.5f,  0.5f, -0.5f,
+		// Top face positions
+		-0.5f,  0.5f, -0.5f,
+		 0.5f,  0.5f, -0.5f,
+		 0.5f,  0.5f,  0.5f,
+		-0.5f,  0.5f,  0.5f,
+		// Bottom face positions
+		-0.5f, -0.5f, -0.5f,
+		 0.5f, -0.5f, -0.5f,
+		 0.5f, -0.5f,  0.5f,
+		-0.5f, -0.5f,  0.5f
+	};
+	GLfloat colors[] = {
+		// Front face colors
+		1.0f, 0.0f, 0.0f,   // Red
+		0.0f, 1.0f, 0.0f,   // Green
+		0.0f, 0.0f, 1.0f,   // Blue
+		1.0f, 1.0f, 0.0f,   // Yellow
+		// Back face colors
+		1.0f, 0.0f, 1.0f,   // Magenta
+		0.0f, 1.0f, 1.0f,   // Cyan
+		1.0f, 0.5f, 0.0f,   // Orange
+		0.5f, 0.0f, 0.5f,   // Purple
+		// Left face colors
+		0.0f, 0.5f, 0.5f,   // Teal
+		0.5f, 0.5f, 0.0f,   // Olive
+		0.5f, 0.0f, 0.0f,   // Maroon
+		0.0f, 0.0f, 0.5f,   // Navy
+		// Right face colors
+		0.5f, 0.5f, 0.5f,   // Gray
+		0.5f, 0.5f, 1.0f,   // Light Blue
+		0.5f, 1.0f, 0.5f,   // Light Green
+		1.0f, 0.5f, 0.5f,   // Light Red
+		// Top face colors
+		0.5f, 0.0f, 0.0f,   // Dark Red
+		0.0f, 0.5f, 0.0f,   // Dark Green
+		0.0f, 0.0f, 0.5f,   // Dark Blue
+		0.5f, 0.5f, 0.0f,   // Dark Yellow
+		// Bottom face colors
+		0.5f, 0.0f, 0.5f,   // Dark Magenta
+		0.0f, 0.5f, 0.5f,   // Dark Cyan
+		0.5f, 0.5f, 0.5f,   // Dark Gray
+		0.5f, 0.5f, 0.0f    // Dark Olive
+	};
 	GLuint indices[] = {
-		0, 1, 3,
-		1, 2, 3
+		// Front face
+		0, 1, 2,
+		2, 3, 0,
+		// Back face
+		4, 5, 6,
+		6, 7, 4,
+		// Left face
+		8, 9, 10,
+		10, 11, 8,
+		// Right face
+		12, 13, 14,
+		14, 15, 12,
+		// Top face
+		16, 17, 18,
+		18, 19, 16,
+		// Bottom face
+		20, 21, 22,
+		22, 23, 20
 	};
 
 	GLuint VAO; // Vertex Array Object
@@ -72,7 +140,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 		handleEvents(window, obj, shaders);
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0); // TODO: change 36 to OBJ->indices.size()
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
@@ -91,6 +159,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 void	RenderObject(GLFWwindow *window, OBJ &obj) {
 
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 
 	Shader shaders;
 	shaders.add_shader(
