@@ -163,6 +163,8 @@ GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, 
 
 	if (shaders.size() == 1)
 		currentShaderID = data.shaderID;
+	if (shaders.size() == 1 || currentShaderID == 0)
+		glUseProgram(data.shaderID);
 
 	return data.shaderID;
 }
