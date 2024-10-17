@@ -14,6 +14,7 @@ add_executable(Scop
 	includes/classes/OBJ.cpp
 	includes/classes/Shader.cpp
 	includes/classes/Matrixes.cpp
+	dependencies/stb/stb_config.cpp
 	dependencies/glad/glad.c
 )
 
