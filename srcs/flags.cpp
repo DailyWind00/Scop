@@ -6,9 +6,10 @@ bool WIREFRAME = false;
 ROTATION AUTOROTATE = ROTATION::NONE;
 bool INVERSE_AUTOROTATE = false;
 KEYBOARD_LANGUAGE KEYBOARD = KEYBOARD_LANGUAGE::QWERTY;
+bool SHOW_TOOLTIP = true;
 
-static int setflagVerbose() {
-	VERBOSE = true;
+static int setflagVerbose(bool value) {
+	VERBOSE = value;
 	return 1;
 }
 
@@ -29,21 +30,26 @@ static int setflagAutorotate(string &arg, int &i, int argc, char **argv) {
 	return 2;
 }
 
-static int setflagInverseAutorotate() {
+static int setflagInverseAutorotate(bool value) {
 	if (AUTOROTATE == ROTATION::NONE)
 		cout << BRed << "Flag error : Autorotate not set : flag ignored" << ResetColor << endl;
 	else
-		INVERSE_AUTOROTATE = true;
+		INVERSE_AUTOROTATE = value;
 	return 1;
 }
 
-static int setflagResizable() {
-	RESIZABLE = true;
+static int setflagResizable(bool value) {
+	RESIZABLE = value;
 	return 1;
 }
 
-static int setflagWireframe() {
-	WIREFRAME = true;
+static int setflagWireframe(bool value) {
+	WIREFRAME = value;
+	return 1;
+}
+
+static int setflagShowTooltip(bool value) {
+	SHOW_TOOLTIP = value;
 	return 1;
 }
 
@@ -74,22 +80,25 @@ int	checkFlags(int argc, char **argv) {
 		}
 
 		if (arg == "-v" || arg == "--verbose")
-			flags += setflagVerbose();
+			flags += setflagVerbose(true);
 
 		else if (arg == "-A" || arg == "--autorotate")
 			flags += setflagAutorotate(arg, i, argc, argv);
 
 		else if (arg == "-N" || arg == "--inverse-autorotate")
-			flags += setflagInverseAutorotate();
+			flags += setflagInverseAutorotate(true);
 
 		else if (arg == "-r" || arg == "--resizable")
-			flags += setflagResizable();
+			flags += setflagResizable(true);
 
 		else if (arg == "-w" || arg == "--wireframe")
-			flags += setflagWireframe();
+			flags += setflagWireframe(true);
 
 		else if (arg == "-k" || arg == "--keyboard")
 			flags += setflagKeyboardLanguage(arg, i, argc, argv);
+
+		else if (arg == "--no-tooltip")
+			flags += setflagShowTooltip(false);
 
 		else if (arg == "-h" || arg == "--help") {
 			displayHelp(argv[0]);

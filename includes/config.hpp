@@ -39,6 +39,7 @@ extern bool					WIREFRAME;
 extern ROTATION				AUTOROTATE;          // use ROTATION enum, NONE = manual rotation
 extern bool					INVERSE_AUTOROTATE;
 extern KEYBOARD_LANGUAGE	KEYBOARD;            // use KEYBOARD_LANGUAGE enum
+extern bool					SHOW_TOOLTIP;
 
 /// Functions
 // window.cpp
