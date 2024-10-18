@@ -1,6 +1,7 @@
 #include "config.hpp"
 
-double FRAMETIME = 0;
+double	FRAMETIME = 0;
+float	RENDER_TEXTURE = 1;
 
 // Calculate the frametime of the program
 static void getFrametime() {
@@ -84,6 +85,38 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 		0.5f, 0.5f, 0.5f,   // Dark Gray
 		0.5f, 0.5f, 0.0f    // Dark Olive
 	};
+	GLfloat textures[] = {
+		// Front face textures
+		0.0f, 0.0f,   // Bottom-left
+		1.0f, 0.0f,   // Bottom-right
+		1.0f, 1.0f,   // Top-right
+		0.0f, 1.0f,   // Top-left
+		// Back face textures
+		0.0f, 0.0f,   // Bottom-left
+		1.0f, 0.0f,   // Bottom-right
+		1.0f, 1.0f,   // Top-right
+		0.0f, 1.0f,   // Top-left
+		// Left face textures
+		0.0f, 0.0f,   // Bottom-left
+		1.0f, 0.0f,   // Bottom-right
+		1.0f, 1.0f,   // Top-right
+		0.0f, 1.0f,   // Top-left
+		// Right face textures
+		0.0f, 0.0f,   // Bottom-left
+		1.0f, 0.0f,   // Bottom-right
+		1.0f, 1.0f,   // Top-right
+		0.0f, 1.0f,   // Top-left
+		// Top face textures
+		0.0f, 0.0f,   // Bottom-left
+		1.0f, 0.0f,   // Bottom-right
+		1.0f, 1.0f,   // Top-right
+		0.0f, 1.0f,   // Top-left
+		// Bottom face textures
+		0.0f, 0.0f,   // Bottom-left
+		1.0f, 0.0f,   // Bottom-right
+		1.0f, 1.0f,   // Top-right
+		0.0f, 1.0f    // Top-left
+	};
 	GLuint indices[] = {
 		// Front face
 		0, 1, 2,
@@ -109,8 +142,8 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-    GLuint VBOs[2]; // Vertex Buffer Objects
-    glGenBuffers(2, VBOs);
+    GLuint VBOs[3]; // Vertex Buffer Objects
+    glGenBuffers(3, VBOs);
 
     // Position VBO
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
@@ -124,20 +157,52 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(1);
 
+	// Texture VBO
+	glBindBuffer(GL_ARRAY_BUFFER, VBOs[2]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(textures), textures, GL_STATIC_DRAW);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(2);
+
 	GLuint EBO; // Element Buffer Object
 	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+	// Textures
+	GLuint TBO;
+	glGenTextures(1, &TBO);
+	glBindTexture(GL_TEXTURE_2D, TBO);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width, height, nrChannels;
+	const char *path = "./red_square.png";
+	unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+	if (data) {
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	} else {
+		cerr << BRed << "Failed to load texture : " << path << ResetColor << '\n';
+	}
+	stbi_image_free(data);
+
+
+	shaders.setInt(shaders.getCurrentShaderID(), "Texture", 0);
+	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
+
 	glBindVertexArray(0);
 	/// ---
-
-	shaders.use(shaders.getCurrentShaderID());
 
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		getFrametime();
 		handleEvents(window, obj, shaders);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, TBO);
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0); // TODO: change 36 to OBJ->indices.size()
@@ -149,7 +214,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
     // Cleanup
     glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
-    glDeleteBuffers(2, VBOs);
+    glDeleteBuffers(3, VBOs);
     glDeleteBuffers(1, &EBO);
     glDeleteVertexArrays(1, &VAO);
 	(void)obj; // to remove after obj parsing

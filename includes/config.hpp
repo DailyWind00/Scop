@@ -31,6 +31,7 @@ extern int		WINDOW_WIDTH;
 extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
+extern float	RENDER_TEXTURE; // 0 = no texture, 1 = texture (smooth transition required)
 
 // Flags (default values are set in flags.cpp)
 extern bool					VERBOSE;
