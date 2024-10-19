@@ -3,7 +3,6 @@
 # include <iostream>
 # include <array>
 # include <cmath>
-# include "config.hpp"
 
 using namespace std;
 

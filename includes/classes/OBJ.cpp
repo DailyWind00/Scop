@@ -4,18 +4,17 @@
 OBJ::OBJ(const string &file_name) {
 	if (file_name.size() < 4 || file_name.substr(file_name.size() - 4) != ".obj")
 		throw runtime_error("Error while opening object file : invalid extension");
-
-	ifstream	object_file(file_name.c_str());
-	if (!object_file.is_open() || object_file.bad())
-		throw runtime_error("Error while opening object file : " + (string)strerror(errno));
 	
 	try {
-		// this->obj = parseOBJ(object_file);
+		printVerbose("Parsing object file : " + file_name);
+		parseOBJ(file_name);
+		printVerbose("Object file parsed");
 	}
 	catch(const std::exception& e) {
 		throw runtime_error("Error in " + file_name + " : " + e.what());
 	}
-	object_file.close();
+
+	// debugPrintObjectData(); // to remove
 }
 
 OBJ::~OBJ() {
@@ -24,38 +23,299 @@ OBJ::~OBJ() {
 
 
 
+/// Privates functions
+void	OBJ::parseOBJ(const string &file_name) {
+	string	line;
+	int		i = 0;
+
+	ifstream	object_file(file_name.c_str());
+	if (!object_file.is_open() || object_file.bad())
+		throw runtime_error("Error while opening object file : " + (string)strerror(errno));
+
+	while (getline(object_file, line)) {
+		istringstream iss(line);
+		string type;
+		iss >> type;
+		i++;
+
+		if (type == "o") {
+			iss >> obj.name;
+			if (!iss)
+				throw runtime_error("Error while parsing object name at line " + to_string(i));
+		}
+		else if (type == "v") {
+			float x, y, z;
+			iss >> x >> y >> z;
+			obj.positions.push_back(x);
+			obj.positions.push_back(y);
+			obj.positions.push_back(z);
+			if (!iss)
+				throw runtime_error("Error while parsing vertices at line " + to_string(i));
+		}
+		else if (type == "vt") {
+			float x, y;
+			iss >> x >> y;
+			obj.textures.push_back(x);
+			obj.textures.push_back(y);
+			if (!iss)
+				throw runtime_error("Error while parsing textures at line " + to_string(i));
+		}
+		else if (type == "vn") {
+			float x, y, z;
+			iss >> x >> y >> z;
+			obj.normals.push_back(x);
+			obj.normals.push_back(y);
+			obj.normals.push_back(z);
+			if (!iss)
+				throw runtime_error("Error while parsing normals at line " + to_string(i));
+		}
+		else if (type == "f") {
+            string vertex;
+            while (iss >> vertex) {
+                istringstream vss(vertex);
+                string index;
+                Indices values = {NO_INDEX, NO_INDEX, NO_INDEX};
+                int idx = 0;
+                while (getline(vss, index, '/')) {
+                    if (!index.empty())
+                        values[idx] = stoi(index) - 1;
+                    idx++;
+                }
+				obj.indices.push_back(values);
+            }
+		}
+		else if (type == "mtllib") {
+			string mtl_file_name;
+			iss >> mtl_file_name;
+			if (!iss)
+				throw runtime_error("Error while parsing material file at line " + to_string(i));
+			if (mtl_file_name.size() < 4 || mtl_file_name.substr(mtl_file_name.size() - 4) != ".mtl")
+				throw runtime_error("Error while opening material file : invalid extension");
+
+			mtl_file_name = file_name.substr(0, file_name.find_last_of("/\\") + 1) + mtl_file_name; // get the path of the mtl file
+
+			ifstream	mtl_file(mtl_file_name.c_str());
+			if (!mtl_file.is_open() || mtl_file.bad())
+				throw runtime_error("Error while opening " + mtl_file_name + " : " + (string)strerror(errno));
+
+			try {
+				printVerbose("Parsing material file : " + mtl_file_name);
+				parseMTL(mtl_file);
+				printVerbose("Material file parsed");
+			}
+			catch(const std::exception& e) {
+				throw runtime_error("Error in " + mtl_file_name + " : " + e.what());
+			}
+			mtl_file.close();
+		}
+		else if (type == "usemtl") {
+			string material_name;
+			iss >> material_name;
+			if (!iss)
+				throw runtime_error("Error while parsing material name at line " + to_string(i));
+			obj.material_names.push_back(material_name);
+		}
+	}
+	if (obj.name.empty())
+		obj.name = "Object Viewer";
+	setObjectSize();
+	object_file.close();
+}
+
+void	OBJ::parseMTL(ifstream &object_file) {
+	string	line;
+	int		i = 0;
+
+	while (getline(object_file, line)) {
+		istringstream iss(line);
+		string type;
+		iss >> type;
+		i++;
+
+		if (type == "newmtl") {
+			string material_name;
+			iss >> material_name;
+			if (!iss)
+				throw runtime_error("Error while parsing material name at line " + to_string(i));
+			obj.material_names.push_back(material_name);
+		}
+		else if (type == "Ka") {
+			float r, g, b;
+			iss >> r >> g >> b;
+			obj.ambient_colors.push_back(r);
+			obj.ambient_colors.push_back(g);
+			obj.ambient_colors.push_back(b);
+			if (!iss)
+				throw runtime_error("Error while parsing ambient color at line " + to_string(i));
+		}
+		else if (type == "Kd") {
+			float r, g, b;
+			iss >> r >> g >> b;
+			obj.diffuse_colors.push_back(r);
+			obj.diffuse_colors.push_back(g);
+			obj.diffuse_colors.push_back(b);
+			if (!iss)
+				throw runtime_error("Error while parsing diffuse color at line " + to_string(i));
+		}
+		else if (type == "Ks") {
+			float r, g, b;
+			iss >> r >> g >> b;
+			obj.specular_colors.push_back(r);
+			obj.specular_colors.push_back(g);
+			obj.specular_colors.push_back(b);
+			if (!iss)
+				throw runtime_error("Error while parsing specular color at line " + to_string(i));
+		}
+		else if (type == "Ns") {
+			float shininess;
+			iss >> shininess;
+			obj.shininess.push_back(shininess);
+			if (!iss)
+				throw runtime_error("Error while parsing shininess at line " + to_string(i));
+		}
+	}
+}
+
+void	OBJ::addTexture(const string &texture_path) {
+	int width, height, nrChannels;
+	unsigned char *data = stbi_load(texture_path.c_str(), &width, &height, &nrChannels, 0);
+	if (!data)
+		throw runtime_error("Failed to load texture : " + texture_path);
+
+	glGenTextures(1, &TBO);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, TBO);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(data);
+}
+
+void	OBJ::setObjectSize() {
+	float max_x = *max_element(obj.positions.begin(), obj.positions.end());
+	float min_x = *min_element(obj.positions.begin(), obj.positions.end());
+	float max_y = *max_element(obj.positions.begin() + 1, obj.positions.end());
+	float min_y = *min_element(obj.positions.begin() + 1, obj.positions.end());
+	float max_z = *max_element(obj.positions.begin() + 2, obj.positions.end());
+	float min_z = *min_element(obj.positions.begin() + 2, obj.positions.end());
+
+	obj.size = max(max(max_x - min_x, max_y - min_y), max_z - min_z);
+}
+
+void	OBJ::debugPrintObjectData() const {
+	cout << "Object name : " << obj.name << endl;
+	cout << "Object size : " << obj.size << endl;
+	for (const auto &position : obj.positions) {
+		cout << "Position : " << position << endl;
+	}
+	for (const auto &color : obj.colors) {
+		cout << "Color : " << color << endl;
+	}
+	for (const auto &texture : obj.textures) {
+		cout << "Texture : " << texture << endl;
+	}
+	for (const auto &normal : obj.normals) {
+		cout << "Normal : " << normal << endl;
+	}
+	for (const auto &index : obj.indices) {
+		cout << "Index : " << index[0] << " " << index[1] << " " << index[2] << endl;
+	}
+}
+/// ---
+
+
+
+/// Public functions
+void	OBJ::setBuffers() {
+	printVerbose("Setting GL buffers");
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+
+    // Interleave vertex attributes
+    std::vector<Vertex> vertices;
+    for (const Indices& idx : obj.indices) {
+        Vertex vertex;
+        vertex.position = {obj.positions[3 * idx[0]], obj.positions[3 * idx[0] + 1], obj.positions[3 * idx[0] + 2]};
+
+        if (idx[1] != NO_INDEX)
+            vertex.texCoords = {obj.textures[2 * idx[1]], obj.textures[2 * idx[1] + 1]};
+        else
+            vertex.texCoords = {0.0f, 0.0f};
+
+        if (idx[2] != NO_INDEX)
+            vertex.normal = {obj.normals[3 * idx[2]], obj.normals[3 * idx[2] + 1], obj.normals[3 * idx[2] + 2]};
+        else
+            vertex.normal = {0.0f, 0.0f, 0.0f};
+
+        vertices.push_back(vertex);
+    }
+
+    // Bind and set VBO
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+    // Bind and set EBO
+    std::vector<GLuint> elementIndices;
+    for (size_t i = 0; i < obj.indices.size(); ++i) {
+        elementIndices.push_back(static_cast<GLuint>(i));
+    }
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementIndices.size() * sizeof(GLuint), &elementIndices[0], GL_STATIC_DRAW);
+
+    // Set vertex attribute pointers
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glEnableVertexAttribArray(2);
+
+    glBindVertexArray(0);
+
+	printVerbose("GL buffers set");
+}
+
+void	OBJ::destroyBuffers() {
+	printVerbose("Destroying GL buffers");
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &TBO);
+
+	printVerbose("GL buffers destroyed");
+}
+
+void	OBJ::drawObject() {
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, obj.indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+/// ---
+
+
+
 /// Getters
-
-// return the name of the object in the OBJ file (o <name>)
-const string &OBJ::getObjectName() const {
-	return this->obj.name;
+const Object_Data	&OBJ::getObjectData() const {
+	return obj;
 }
 
-// return the vertex at the given index (v <x> <y> <z>)
-const Vertex_t &OBJ::getVertice(size_t index) const {
-	if (index >= this->obj.vertices.size())
-		throw out_of_range("Index out of range");
-	return this->obj.vertices[index];
+const GLuint		&OBJ::getVAO() const {
+	return VAO;
 }
 
-// return the normal at the given index (vn <x> <y> <z>)
-const Vertex_t &OBJ::getNormal(size_t index) const {
-	if (index >= this->obj.vertices.size())
-		throw out_of_range("Index out of range");
-	return this->obj.normals[index];
+const GLuint		&OBJ::getVBO() const {
+	return VBO;
 }
 
-// return the texture at the given index (vt <x> <y> <z>)
-const Vertex_t &OBJ::getTexture(size_t index) const {
-	if (index >= this->obj.vertices.size())
-		throw out_of_range("Index out of range");
-	return this->obj.textures[index];
+const GLuint		&OBJ::getEBO() const {
+	return EBO;
 }
 
-// return the face at the given index (f <v1>/[vn1]/[vt1] <v2>/[vn2]/[vt2] <v3>/[vn3]/[vt3])
-const vector<int> &OBJ::getFace(size_t index) const {
-	if (index >= this->obj.vertices.size())
-		throw out_of_range("Index out of range");
-	return this->obj.faces[index];
+const GLuint		&OBJ::getTBO() const {
+	return TBO;
 }
 /// ---

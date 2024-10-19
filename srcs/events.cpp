@@ -64,7 +64,7 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 }
 
 // Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
-static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
+static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float pitch_angle = 0;
 	static float yaw_angle = 0;
 	static float roll_angle = 0;
@@ -117,10 +117,10 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders) {
 	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
 	RotationMatrix roll(ROTATION::ROLL, roll_angle);
 
-	Matrix transform = pitch * yaw * roll; // TODO: put in the obj class
+	Matrix transform = pitch * yaw * roll;
 
 	// Camera transformations
-	TranslationMatrix cameraPos(0.0f, 0.0f, -5.0f); // TODO: Change z value to object size radius * 2 + 10%
+	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * 2.1f); // Camera z value is equal to object size diameter * 2, and is negative to be in front of the object
 	RotationMatrix    cameraAngle(0.0f, 0.0f, 0.0f);
 
 	Matrix view = cameraAngle * cameraPos;
@@ -148,7 +148,5 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	wireframeHandler(window);
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
-	transformObjectHandler(window, shaders);
-
-	(void)obj; // to remove after obj parsing
+	transformObjectHandler(window, shaders, obj);
 }

@@ -21,6 +21,7 @@
 using namespace std;
 enum class ROTATION;
 class Shader;
+class OBJ;
 
 enum class KEYBOARD_LANGUAGE {
 	AZERTY,
