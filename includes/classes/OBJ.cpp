@@ -119,6 +119,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 	if (obj.name.empty())
 		obj.name = "Object Viewer";
 	setObjectSize();
+	setObjectCentroid();
 	object_file.close();
 }
 
@@ -191,19 +192,52 @@ void	OBJ::addTexture(const string &texture_path) {
 }
 
 void	OBJ::setObjectSize() {
-	float max_x = *max_element(obj.positions.begin(), obj.positions.end());
-	float min_x = *min_element(obj.positions.begin(), obj.positions.end());
-	float max_y = *max_element(obj.positions.begin() + 1, obj.positions.end());
-	float min_y = *min_element(obj.positions.begin() + 1, obj.positions.end());
-	float max_z = *max_element(obj.positions.begin() + 2, obj.positions.end());
-	float min_z = *min_element(obj.positions.begin() + 2, obj.positions.end());
+    if (obj.positions.empty()) {
+        obj.centroid = {0.0f, 0.0f, 0.0f};
+        return;	
+    }
 
-	obj.size = max(max(max_x - min_x, max_y - min_y), max_z - min_z);
+	vec3 max_ = {0.0f, 0.0f, 0.0f};
+	vec3 min_ = {0.0f, 0.0f, 0.0f};
+    size_t numVertices = obj.positions.size() / 3;
+
+    for (size_t i = 0; i < numVertices; ++i) {
+        max_[0] = max(max_[0], obj.positions[3 * i]);
+		max_[1] = max(max_[1], obj.positions[3 * i + 1]);
+		max_[2] = max(max_[2], obj.positions[3 * i + 2]);
+
+		min_[0] = min(min_[0], obj.positions[3 * i]);
+		min_[1] = min(min_[1], obj.positions[3 * i + 1]);
+		min_[2] = min(min_[2], obj.positions[3 * i + 2]);
+    }
+
+	obj.size = max(max_[0] - min_[0], max(max_[1] - min_[1], max_[2] - min_[2]));
+}
+
+void	OBJ::setObjectCentroid() {
+    if (obj.positions.empty()) {
+        obj.centroid = {0.0f, 0.0f, 0.0f};
+        return;	
+    }
+
+    vec3 sum = {0.0f, 0.0f, 0.0f};
+    size_t numVertices = obj.positions.size() / 3;
+
+    for (size_t i = 0; i < numVertices; ++i) {
+        sum[0] += obj.positions[3 * i];
+        sum[1] += obj.positions[3 * i + 1];
+        sum[2] += obj.positions[3 * i + 2];
+    }
+
+    obj.centroid[0] = sum[0] / numVertices;
+    obj.centroid[1] = sum[1] / numVertices;
+    obj.centroid[2] = sum[2] / numVertices;
 }
 
 void	OBJ::debugPrintObjectData() const {
 	cout << "Object name : " << obj.name << endl;
 	cout << "Object size : " << obj.size << endl;
+	cout << "Object center : " << obj.centroid[0] << " " << obj.centroid[1] << " " << obj.centroid[2] << endl;
 	for (const auto &position : obj.positions) {
 		cout << "Position : " << position << endl;
 	}
@@ -274,6 +308,8 @@ void	OBJ::setBuffers() {
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
+
+	addTexture("red_square.png");
 
 	printVerbose("GL buffers set");
 }

@@ -1,6 +1,7 @@
 #include "config.hpp"
 
 float FOV = 45.0f;
+float ZOOM = 2.5f;
 
 #define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
 #define NEGATIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
@@ -63,6 +64,18 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 		changeShaderKeyPressed = false;
 }
 
+static void	zoomHandler(GLFWwindow *window) {
+	if (ZOOM <= MIN_ZOOM)
+		ZOOM = MIN_ZOOM;
+	else if (ZOOM >= MAX_ZOOM)
+		ZOOM = MAX_ZOOM;
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		ZOOM += ZOOM_SPEED;
+	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		ZOOM -= ZOOM_SPEED;
+}
+
 // Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float pitch_angle = 0;
@@ -107,6 +120,13 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		time += AUTOROTATION_SPEED * FRAMETIME;
 	}
 
+	// Translation of the object
+	TranslationMatrix objectTranslation(
+		-obj.getObjectData().centroid[0],
+		-obj.getObjectData().centroid[1],
+		-obj.getObjectData().centroid[2]
+	);
+
 	// Rotations of the object
 	if (INVERSE_AUTOROTATE) {
 		pitch_angle = -pitch_angle;
@@ -116,11 +136,16 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	RotationMatrix pitch(ROTATION::PITCH, pitch_angle);
 	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
 	RotationMatrix roll(ROTATION::ROLL, roll_angle);
+	Matrix objectRotation = pitch * yaw * roll;
 
-	Matrix transform = pitch * yaw * roll;
+	// Scale of the object
+	ScalingMatrix objectScale;
+
+	// Combine the transformations
+	Matrix transform = objectTranslation * objectRotation * objectScale; // Took this order to rotate around the centroid while considering the scale
 
 	// Camera transformations
-	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * 2.1f); // Camera z value is equal to object size diameter * 2, and is negative to be in front of the object
+	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * ZOOM); // Negative to be in front of the object
 	RotationMatrix    cameraAngle(0.0f, 0.0f, 0.0f);
 
 	Matrix view = cameraAngle * cameraPos;
@@ -148,5 +173,6 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	wireframeHandler(window);
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
+	zoomHandler(window);
 	transformObjectHandler(window, shaders, obj);
 }

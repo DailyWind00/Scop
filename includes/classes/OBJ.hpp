@@ -14,14 +14,15 @@ typedef array<GLuint, 3> Indices; // Position, Texture, Normal
 
 typedef struct Object_Data {
 	string				name;
-	float				size; // Virtual size of the edge of a cube containing the whole object, used for camera placement
+	float				size;     // Virtual size of the edge of a cube containing the whole object, used for camera placement
+	vec3				centroid; // Center of the object
 
 	// OBJ data
 	vector<GLfloat>		positions;
 	vector<GLfloat>		colors;
 	vector<GLfloat>		textures;
 	vector<GLfloat>		normals;
-	vector<Indices>		indices; // See Indices typedef above
+	vector<Indices>		indices;  // See Indices typedef above
 
 	// MTL data
 	vector<string>		material_names;
@@ -49,6 +50,7 @@ class OBJ {
 		void	parseMTL(ifstream &object_file);
 		void	addTexture(const string &texture_path);
 		void	setObjectSize();
+		void	setObjectCentroid();
 		
 		void	debugPrintObjectData() const;
 

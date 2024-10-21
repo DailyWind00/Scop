@@ -16,6 +16,9 @@
 /// Defines
 # define ROTATION_SPEED 0.05f
 # define AUTOROTATION_SPEED 0.015f
+# define ZOOM_SPEED 0.01f
+# define MAX_ZOOM 10
+# define MIN_ZOOM 1
 
 /// Global variables
 using namespace std;
@@ -33,6 +36,7 @@ extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
 extern float	RENDER_TEXTURE; // 0 = no texture, 1 = texture (smooth transition required)
+extern float	ZOOM;
 
 // Flags (default values are set in flags.cpp)
 extern bool					VERBOSE;
