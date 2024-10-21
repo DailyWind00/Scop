@@ -16,9 +16,9 @@
 /// Defines
 # define ROTATION_SPEED 0.05f
 # define AUTOROTATION_SPEED 0.015f
-# define ZOOM_SPEED 0.01f
-# define MAX_ZOOM 10
-# define MIN_ZOOM 1
+# define ZOOM_SPEED 0.1f
+# define MAX_ZOOM 10.0
+# define MIN_ZOOM 1.0
 
 /// Global variables
 using namespace std;

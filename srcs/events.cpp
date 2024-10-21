@@ -64,16 +64,11 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 		changeShaderKeyPressed = false;
 }
 
-static void	zoomHandler(GLFWwindow *window) {
-	if (ZOOM <= MIN_ZOOM)
-		ZOOM = MIN_ZOOM;
-	else if (ZOOM >= MAX_ZOOM)
-		ZOOM = MAX_ZOOM;
+static void	zoomHandler(GLFWwindow* window, double xoffset = 0, double yoffset = 0) {
+	(void)window;
+	(void)xoffset;
 
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		ZOOM += ZOOM_SPEED;
-	else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		ZOOM -= ZOOM_SPEED;
+	ZOOM = clamp(ZOOM - yoffset * ZOOM_SPEED, MIN_ZOOM, MAX_ZOOM);
 }
 
 // Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
@@ -121,7 +116,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	}
 
 	// Translation of the object
-	TranslationMatrix objectTranslation(
+	TranslationMatrix objectTranslation( // Translate the object to the origin
 		-obj.getObjectData().centroid[0],
 		-obj.getObjectData().centroid[1],
 		-obj.getObjectData().centroid[2]
@@ -173,6 +168,7 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	wireframeHandler(window);
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
-	zoomHandler(window);
+	glfwSetScrollCallback(window, zoomHandler);
+
 	transformObjectHandler(window, shaders, obj);
 }
