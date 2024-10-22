@@ -23,16 +23,9 @@ typedef struct Object_Data {
 	vector<GLfloat>		textures;
 	vector<GLfloat>		normals;
 	vector<Indices>		indices;  // See Indices typedef above
-
-	// MTL data
-	vector<string>		material_names;
-	vector<GLfloat>		ambient_colors;
-	vector<GLfloat>		diffuse_colors;
-	vector<GLfloat>		specular_colors;
-	vector<GLfloat>		shininess;
 } Object_Data;
 
-typedef struct Vertex {
+typedef struct Vertex { // Used to interleave vertex attributes in OBJ::setBuffers()
 	vec3 position;
 	vec2 texCoords;
 	vec3 normal;
@@ -48,11 +41,9 @@ class OBJ {
 
 		void	parseOBJ(const string &file_name);
 		void	parseMTL(const string &object_file);
-		void	addTexture(const string &texture_path);
+		void	useTexture(const string &texture_path);
 		void	setObjectSize();
 		void	setObjectCentroid();
-		
-		void	debugPrintObjectData() const;
 
 	public:
 		OBJ(const string &file_name);

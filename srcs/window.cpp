@@ -4,7 +4,7 @@ int WINDOW_WIDTH = 800;
 int WINDOW_HEIGHT = 600;
 
 // Initialize GLFW and create a window
-GLFWwindow	*CreateWindow(OBJ &obj) {
+GLFWwindow	*CreateWindow() {
 	GLFWwindow	*window;
 
 	if (!glfwInit()) {
@@ -21,7 +21,7 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 
 	printVerbose("GLFW initialized");
 
-	const string title = "Scop - " + obj.getObjectData().name;
+	const string title = "Scop";
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title.c_str(), NULL, NULL);
 	if (!window) {
 		glfwTerminate();

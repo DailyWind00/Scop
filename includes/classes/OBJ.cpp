@@ -4,7 +4,7 @@
 OBJ::OBJ(const string &file_name) {
 	if (file_name.size() < 4 || file_name.substr(file_name.size() - 4) != ".obj")
 		throw runtime_error("Error while opening object file : invalid extension");
-	
+
 	try {
 		printVerbose("Parsing object file : " + file_name);
 		parseOBJ(file_name);
@@ -13,8 +13,6 @@ OBJ::OBJ(const string &file_name) {
 	catch(const std::exception& e) {
 		throw runtime_error("Error in " + file_name + " : " + e.what());
 	}
-
-	// debugPrintObjectData(); // to remove
 }
 
 OBJ::~OBJ() {
@@ -113,13 +111,6 @@ void	OBJ::parseOBJ(const string &file_name) {
 				throw runtime_error("Error in " + mtl_file_name + " : " + e.what());
 			}
 		}
-		else if (type == "usemtl") {
-			string material_name;
-			iss >> material_name;
-			if (!iss)
-				throw runtime_error("Error while parsing material name at line " + to_string(i));
-			obj.material_names.push_back(material_name);
-		}
 	}
 	if (obj.name.empty())
 		obj.name = "Object Viewer";
@@ -139,59 +130,31 @@ void	OBJ::parseMTL(const string &object_file_path) {
 		iss >> type;
 		i++;
 
-		if (type == "newmtl") {
-			string material_name;
-			iss >> material_name;
+		if (type == "map_Kd") {
+			string texture_path;
+			iss >> texture_path;
 			if (!iss)
-				throw runtime_error("Error while parsing material name at line " + to_string(i));
-			obj.material_names.push_back(material_name);
-		}
-		else if (type == "Ka") {
-			float r, g, b;
-			iss >> r >> g >> b;
-			obj.ambient_colors.push_back(r);
-			obj.ambient_colors.push_back(g);
-			obj.ambient_colors.push_back(b);
-			if (!iss)
-				throw runtime_error("Error while parsing ambient color at line " + to_string(i));
-		}
-		else if (type == "Kd") {
-			float r, g, b;
-			iss >> r >> g >> b;
-			obj.diffuse_colors.push_back(r);
-			obj.diffuse_colors.push_back(g);
-			obj.diffuse_colors.push_back(b);
-			if (!iss)
-				throw runtime_error("Error while parsing diffuse color at line " + to_string(i));
-		}
-		else if (type == "Ks") {
-			float r, g, b;
-			iss >> r >> g >> b;
-			obj.specular_colors.push_back(r);
-			obj.specular_colors.push_back(g);
-			obj.specular_colors.push_back(b);
-			if (!iss)
-				throw runtime_error("Error while parsing specular color at line " + to_string(i));
-		}
-		else if (type == "Ns") {
-			float shininess;
-			iss >> shininess;
-			obj.shininess.push_back(shininess);
-			if (!iss)
-				throw runtime_error("Error while parsing shininess at line " + to_string(i));
+				throw runtime_error("Error while parsing texture path at line " + to_string(i));
+			texture_path = object_file_path.substr(0, object_file_path.find_last_of("/\\") + 1) + texture_path; // get the path of the texture file
+			useTexture(texture_path);
 		}
 	}
 	object_file.close();
 }
 
-void	OBJ::addTexture(const string &texture_path) {
+void	OBJ::useTexture(const string &texture_path) {
 	int width, height, nrChannels;
-	unsigned char *data = stbi_load(texture_path.c_str(), &width, &height, &nrChannels, 0);
-	if (!data)
-		throw runtime_error("Failed to load texture : " + texture_path + " : " + (string)strerror(errno));
+	unsigned char *data = stbi_loader(texture_path, width, height, nrChannels);
 
+	GLuint TBO;
 	glGenTextures(1, &TBO);
-	glBindTexture(GL_TEXTURE_2D_ARRAY, TBO);
+	glBindTexture(GL_TEXTURE_2D, TBO);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -239,27 +202,6 @@ void	OBJ::setObjectCentroid() {
     obj.centroid[0] = sum[0] / numVertices;
     obj.centroid[1] = sum[1] / numVertices;
     obj.centroid[2] = sum[2] / numVertices;
-}
-
-void	OBJ::debugPrintObjectData() const {
-	cout << "Object name : " << obj.name << endl;
-	cout << "Object size : " << obj.size << endl;
-	cout << "Object center : " << obj.centroid[0] << " " << obj.centroid[1] << " " << obj.centroid[2] << endl;
-	for (const auto &position : obj.positions) {
-		cout << "Position : " << position << endl;
-	}
-	for (const auto &color : obj.colors) {
-		cout << "Color : " << color << endl;
-	}
-	for (const auto &texture : obj.textures) {
-		cout << "Texture : " << texture << endl;
-	}
-	for (const auto &normal : obj.normals) {
-		cout << "Normal : " << normal << endl;
-	}
-	for (const auto &index : obj.indices) {
-		cout << "Index : " << index[0] << " " << index[1] << " " << index[2] << endl;
-	}
 }
 /// ---
 

@@ -49,7 +49,7 @@ extern bool					SHOW_TOOLTIP;
 
 /// Functions
 // window.cpp
-GLFWwindow		*CreateWindow(OBJ &obj);
+GLFWwindow		*CreateWindow();
 void			DestroyWindow(GLFWwindow *window);
 
 // routine.cpp

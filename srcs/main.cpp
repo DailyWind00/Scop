@@ -21,10 +21,11 @@ int main(int argc, char **argv) {
 	const string file_name(argv[argc - 1]);
 
 	try {
+		GLFWwindow *window = CreateWindow();
+
 		OBJ obj(file_name);
 		printVerbose("File " + file_name + " loaded successfully");
 
-		GLFWwindow *window = CreateWindow(obj);
 		RenderObject(window, obj);
 		DestroyWindow(window);
 	}

@@ -12,5 +12,5 @@ newmtl 12140_Skull_v3
 	Kd 1.0000 1.0000 1.0000
 	Ks 0.1170 0.1170 0.1170
 	Ke 0.0000 0.0000 0.0000
-	map_Ka Skull.jpg
-	map_Kd Skull.jpg
+	map_Ka skull.jpg
+	map_Kd skull.jpg

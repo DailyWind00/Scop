@@ -43,6 +43,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 // Will call the program loop
 void	RenderObject(GLFWwindow *window, OBJ &obj) {
 
+	glfwSetWindowTitle(window, ("Scop - " + obj.getObjectData().name).c_str());
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
