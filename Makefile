@@ -4,7 +4,7 @@ RESET = \033[0m
 
 all:
 	@cmake -B build
-	@cmake --build build
+	@make -C build -j
 	@mv build/Scop .
 	@echo "$(GREEN)Scop is ready to use : ./Scop [options] <.obj file>$(RESET)"
 
