@@ -270,6 +270,8 @@ void	OBJ::debugPrintObjectData() const {
 
 
 /// Public functions
+
+// Must be called after the OpenGL context has been created or SEGFAULT
 void	OBJ::setBuffers() {
 	printVerbose("Setting GL buffers");
 
