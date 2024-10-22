@@ -81,9 +81,9 @@ void	OBJ::parseOBJ(const string &file_name) {
 				}
 				faceIndices.push_back(values);
 			}
-			if (faceIndices.size() == 3) {
+			if (faceIndices.size() == 3)
 				obj.indices.insert(obj.indices.end(), faceIndices.begin(), faceIndices.end());
-			} else if (faceIndices.size() == 4) {
+			else if (faceIndices.size() == 4) {
 				obj.indices.push_back(faceIndices[0]);
 				obj.indices.push_back(faceIndices[1]);
 				obj.indices.push_back(faceIndices[2]);
@@ -91,6 +91,8 @@ void	OBJ::parseOBJ(const string &file_name) {
 				obj.indices.push_back(faceIndices[2]);
 				obj.indices.push_back(faceIndices[3]);
 			}
+			else
+				throw runtime_error("Error while parsing face at line " + to_string(i) + " : invalid number of vertices");
 		}
 		else if (type == "mtllib") {
 			string mtl_file_name;
