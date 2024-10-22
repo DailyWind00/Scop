@@ -64,4 +64,5 @@ int				checkFlags(int argc, char **argv);
 // utils.cpp
 void			displayHelp(char *executable_name);
 void			displayCommands();
+ifstream		openReadFile(const string &filename);
 void			printVerbose(const string &message, bool newline = true);

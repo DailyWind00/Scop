@@ -52,6 +52,13 @@ void	displayCommands() {
 	printVerbose((string)BLightBlue + "================" + ResetColor);
 }
 
+ifstream	openReadFile(const string &filename) {
+	ifstream file(filename);
+	if (!file.is_open())
+		throw runtime_error("Failed to open file " + filename + (string)strerror(errno));
+	return file;
+}
+
 // Print the message on the standard output if VERBOSE is set to true
 void	printVerbose(const string &message, bool newline) {
 	if (VERBOSE) {
