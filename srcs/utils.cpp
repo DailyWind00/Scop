@@ -60,6 +60,17 @@ ifstream	openReadFile(const string &filename) {
 	return file;
 }
 
+// Load the texture using stb_image and return the data, throw an error if the texture can't be loaded
+unsigned char *stbi_loader(const string &filename, int &width, int &height, int &nrChannels) {
+	printVerbose("Loading texture " + filename);
+	stbi_set_flip_vertically_on_load(true); // Using OpenGL coordinate system
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+	if (!data)
+		throw runtime_error("Failed to load texture " + filename);
+	printVerbose("Texture loaded");
+	return data;
+}
+
 // Print the message on the standard output if VERBOSE is set to true
 void	printVerbose(const string &message, bool newline) {
 	if (VERBOSE) {

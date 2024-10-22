@@ -65,4 +65,5 @@ int				checkFlags(int argc, char **argv);
 void			displayHelp(char *executable_name);
 void			displayCommands();
 ifstream		openReadFile(const string &filename);
+unsigned char	*stbi_loader(const string &filename, int &width, int &height, int &nrChannels);
 void			printVerbose(const string &message, bool newline = true);
