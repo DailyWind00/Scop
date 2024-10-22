@@ -70,19 +70,30 @@ void	OBJ::parseOBJ(const string &file_name) {
 				throw runtime_error("Error while parsing normals at line " + to_string(i));
 		}
 		else if (type == "f") {
-            string vertex;
-            while (iss >> vertex) {
-                istringstream vss(vertex);
-                string index;
-                Indices values = {NO_INDEX, NO_INDEX, NO_INDEX};
-                int idx = 0;
-                while (getline(vss, index, '/')) {
-                    if (!index.empty())
-                        values[idx] = stoi(index) - 1;
-                    idx++;
-                }
-				obj.indices.push_back(values);
-            }
+			string vertex;
+			std::vector<Indices> faceIndices;
+			while (iss >> vertex) {
+				istringstream vss(vertex);
+				string index;
+				Indices values = {NO_INDEX, NO_INDEX, NO_INDEX};
+				int idx = 0;
+				while (getline(vss, index, '/')) {
+					if (!index.empty())
+						values[idx] = stoi(index) - 1;
+					idx++;
+				}
+				faceIndices.push_back(values);
+			}
+			if (faceIndices.size() == 3) {
+				obj.indices.insert(obj.indices.end(), faceIndices.begin(), faceIndices.end());
+			} else if (faceIndices.size() == 4) {
+				obj.indices.push_back(faceIndices[0]);
+				obj.indices.push_back(faceIndices[1]);
+				obj.indices.push_back(faceIndices[2]);
+				obj.indices.push_back(faceIndices[0]);
+				obj.indices.push_back(faceIndices[2]);
+				obj.indices.push_back(faceIndices[3]);
+			}
 		}
 		else if (type == "mtllib") {
 			string mtl_file_name;

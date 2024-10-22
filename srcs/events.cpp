@@ -116,7 +116,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	}
 
 	// Translation of the object
-	TranslationMatrix objectTranslation( // Translate the object to the origin
+	TranslationMatrix objectTranslation( // Translate the object to the origin to rotate around the centroid
 		-obj.getObjectData().centroid[0],
 		-obj.getObjectData().centroid[1],
 		-obj.getObjectData().centroid[2]

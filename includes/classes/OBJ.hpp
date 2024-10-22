@@ -7,7 +7,7 @@
 # include <sstream>
 # include <string.h>
 
-# define NO_INDEX (GLuint)-1
+# define NO_INDEX (GLuint)0
 using namespace std;
 
 typedef array<GLuint, 3> Indices; // Position, Texture, Normal
