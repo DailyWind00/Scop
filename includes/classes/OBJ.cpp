@@ -25,12 +25,9 @@ OBJ::~OBJ() {
 
 /// Privates functions
 void	OBJ::parseOBJ(const string &file_name) {
-	string	line;
-	int		i = 0;
-
-	ifstream	object_file(file_name.c_str());
-	if (!object_file.is_open() || object_file.bad())
-		throw runtime_error("Error while opening object file : " + (string)strerror(errno));
+	ifstream	object_file = openReadFile(file_name);
+	string		line;
+	int			i = 0;
 
 	while (getline(object_file, line)) {
 		istringstream iss(line);
@@ -105,19 +102,14 @@ void	OBJ::parseOBJ(const string &file_name) {
 
 			mtl_file_name = file_name.substr(0, file_name.find_last_of("/\\") + 1) + mtl_file_name; // get the path of the mtl file
 
-			ifstream	mtl_file(mtl_file_name.c_str());
-			if (!mtl_file.is_open() || mtl_file.bad())
-				throw runtime_error("Error while opening " + mtl_file_name + " : " + (string)strerror(errno));
-
 			try {
 				printVerbose("Parsing material file : " + mtl_file_name);
-				parseMTL(mtl_file);
+				parseMTL(mtl_file_name);
 				printVerbose("Material file parsed");
 			}
 			catch(const std::exception& e) {
 				throw runtime_error("Error in " + mtl_file_name + " : " + e.what());
 			}
-			mtl_file.close();
 		}
 		else if (type == "usemtl") {
 			string material_name;
@@ -134,7 +126,8 @@ void	OBJ::parseOBJ(const string &file_name) {
 	object_file.close();
 }
 
-void	OBJ::parseMTL(ifstream &object_file) {
+void	OBJ::parseMTL(const string &object_file_path) {
+	ifstream	object_file = openReadFile(object_file_path);
 	string	line;
 	int		i = 0;
 
@@ -186,13 +179,14 @@ void	OBJ::parseMTL(ifstream &object_file) {
 				throw runtime_error("Error while parsing shininess at line " + to_string(i));
 		}
 	}
+	object_file.close();
 }
 
 void	OBJ::addTexture(const string &texture_path) {
 	int width, height, nrChannels;
 	unsigned char *data = stbi_load(texture_path.c_str(), &width, &height, &nrChannels, 0);
 	if (!data)
-		throw runtime_error("Failed to load texture : " + texture_path);
+		throw runtime_error("Failed to load texture : " + texture_path + " : " + (string)strerror(errno));
 
 	glGenTextures(1, &TBO);
 	glBindTexture(GL_TEXTURE_2D_ARRAY, TBO);
@@ -321,8 +315,6 @@ void	OBJ::setBuffers() {
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
-
-	addTexture("red_square.png");
 
 	printVerbose("GL buffers set");
 }
