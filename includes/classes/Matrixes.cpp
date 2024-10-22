@@ -34,11 +34,34 @@ Matrix & Matrix::operator=(const Matrix &matrix) {
 	return *this;
 }
 
+Matrix & Matrix::operator=(mat4 matrix) {
+	this->mat = matrix;
+	return *this;
+}
+
 Matrix::~Matrix() {
 }
 /// ---
 
 /// Operators
+Matrix Matrix::operator+(const Matrix &rhs) const {
+	Matrix result;
+
+	for (int i = 0; i < 16; i++)
+		result.mat[i] = mat[i] + rhs.mat[i];
+
+	return result;
+}
+
+Matrix Matrix::operator-(const Matrix &rhs) const {
+	Matrix result;
+
+	for (int i = 0; i < 16; i++)
+		result.mat[i] = mat[i] - rhs.mat[i];
+
+	return result;
+}
+
 Matrix Matrix::operator*(const Matrix &rhs) const {
 	// Multiplication of two matrixes is done by multiplying each row of the first matrix by each column of the second matrix
 	// It looks like this :
@@ -60,6 +83,43 @@ Matrix Matrix::operator*(const Matrix &rhs) const {
 	return result;
 }
 
+vec3 Matrix::operator*(const vec3 &rhs) const {
+	// Multiplication of a matrix by a vector 3 is done by multiplying each row of the matrix by the vector
+	// It looks like this :
+	//     a  b  c  d     x     ax+by+cz+d
+	//     e  f  g  h  *  y  =  ex+fy+gz+h
+	//     i  j  k  l     z     ix+jy+kz+l
+
+	vec3 result;
+
+	for (int i = 0; i < 3; i++) {
+		result[i] = 0;
+		for (int j = 0; j < 3; j++)
+			result[i] += mat[i * 4 + j] * rhs[j];
+		result[i] += mat[i * 4 + 3];
+	}
+
+	return result;
+}
+
+vec4 Matrix::operator*(const vec4 &rhs) const {
+	// Multiplication of a matrix by a vector 4 is done by multiplying each row of the matrix by the vector
+	// It looks like this :
+	//     a  b  c  d     x     ax+by+cz+dw
+	//     e  f  g  h  *  y  =  ex+fy+gz+hw
+	//     i  j  k  l     z     ix+jy+kz+lw
+	//     m  n  o  p     w     mx+ny+oz+pw
+
+	vec4 result;
+
+	for (int i = 0; i < 4; i++) {
+		result[i] = 0;
+		for (int j = 0; j < 4; j++)
+			result[i] += mat[i * 4 + j] * rhs[j];
+	}
+
+	return result;
+}
 
 /// Getters
 const mat4 &Matrix::getMatrix() const {

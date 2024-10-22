@@ -3,7 +3,6 @@
 # include <iostream>
 # include <array>
 # include <cmath>
-# include "config.hpp"
 
 using namespace std;
 
@@ -28,10 +27,20 @@ class Matrix {
 		Matrix();
 		Matrix(const Matrix &matrix);
 		Matrix(mat4 mat);
-		Matrix & operator=(const Matrix &matrix);
 		virtual	~Matrix();
 
+		// Operator overloads
+
+		Matrix & operator=(const Matrix &matrix);
+		Matrix & operator=(mat4 mat);
+
+		Matrix operator+(const Matrix &rhs) const;
+		Matrix operator-(const Matrix &rhs) const;
+
 		Matrix operator*(const Matrix &rhs) const;
+		vec3 operator*(const vec3 &rhs) const;
+		vec4 operator*(const vec4 &rhs) const;
+
 
 		// Getter
 
@@ -74,10 +83,10 @@ class ScalingMatrix : public Matrix {
 };
 
 // Projection matrix class used for camera, take 4 arguments at creation :
-//     float fov = field of view in degrees (default = 45)
-//     float aspectRatio = aspect ratio     (default = 1)
-//     float near = near clipping plane     (default = 0.1)
-//     float far = far clipping plane       (default = 100)
+//     float fov         = field of view in degrees (default =  45)
+//     float aspectRatio = aspect ratio             (default =  1 )
+//     float near        = near clipping plane      (default = 0.1)
+//     float far         = far clipping plane       (default = 100)
 class ProjectionMatrix : public Matrix {
 	public :
 		ProjectionMatrix(float fov = 45, float aspectRatio = 1, float near = 0.1, float far = 100);

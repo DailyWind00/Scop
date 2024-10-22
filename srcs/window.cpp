@@ -21,7 +21,7 @@ GLFWwindow	*CreateWindow(OBJ &obj) {
 
 	printVerbose("GLFW initialized");
 
-	const string title = "Scop - " + obj.getObjectName();
+	const string title = "Scop - " + obj.getObjectData().name;
 	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title.c_str(), NULL, NULL);
 	if (!window) {
 		glfwTerminate();

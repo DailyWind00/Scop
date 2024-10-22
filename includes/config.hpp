@@ -16,11 +16,15 @@
 /// Defines
 # define ROTATION_SPEED 0.05f
 # define AUTOROTATION_SPEED 0.015f
+# define ZOOM_SPEED 0.1f
+# define MAX_ZOOM 10.0
+# define MIN_ZOOM 1.0
 
 /// Global variables
 using namespace std;
 enum class ROTATION;
 class Shader;
+class OBJ;
 
 enum class KEYBOARD_LANGUAGE {
 	AZERTY,
@@ -31,6 +35,8 @@ extern int		WINDOW_WIDTH;
 extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
+extern float	RENDER_TEXTURE; // 0 = no texture, 1 = texture (smooth transition required)
+extern float	ZOOM;
 
 // Flags (default values are set in flags.cpp)
 extern bool					VERBOSE;
