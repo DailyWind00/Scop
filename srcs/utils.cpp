@@ -52,6 +52,7 @@ void	displayCommands() {
 	printVerbose((string)BLightBlue + "================" + ResetColor);
 }
 
+// Open the file in read mode and return the ifstream object, throw an error if the file can't be opened
 ifstream	openReadFile(const string &filename) {
 	ifstream file(filename);
 	if (!file.is_open())
