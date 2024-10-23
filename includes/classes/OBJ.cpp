@@ -28,6 +28,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 	ifstream	object_file = openReadFile(file_name);
 	string		line;
 	int			i = 0;
+	int			current_color = 0;
 
 	while (getline(object_file, line)) {
 		istringstream iss(line);
@@ -81,8 +82,10 @@ void	OBJ::parseOBJ(const string &file_name) {
 				}
 				faceIndices.push_back(values);
 			}
-			if (faceIndices.size() == 3)
+			if (faceIndices.size() == 3) {
 				obj.indices.insert(obj.indices.end(), faceIndices.begin(), faceIndices.end());
+				obj.colors.push_back(DEFAULT_COLORS[current_color % 3]);
+			}
 			else if (faceIndices.size() == 4) {
 				obj.indices.push_back(faceIndices[0]);
 				obj.indices.push_back(faceIndices[1]);
@@ -90,9 +93,11 @@ void	OBJ::parseOBJ(const string &file_name) {
 				obj.indices.push_back(faceIndices[0]);
 				obj.indices.push_back(faceIndices[2]);
 				obj.indices.push_back(faceIndices[3]);
+				obj.colors.push_back(DEFAULT_COLORS[current_color % 3]);
 			}
 			else
 				throw runtime_error("Error while parsing face at line " + to_string(i) + " : invalid number of vertices");
+			current_color++;
 		}
 		else if (type == "mtllib") {
 			string mtl_file_name;
@@ -112,6 +117,17 @@ void	OBJ::parseOBJ(const string &file_name) {
 			catch(const std::exception& e) {
 				throw runtime_error("Error in " + mtl_file_name + " : " + e.what());
 			}
+		}
+		else if (type == "usemtl") {
+			string material_name;
+			iss >> material_name;
+			if (!iss)
+				throw runtime_error("Error while parsing material name at line " + to_string(i));
+			if (obj.materials.find(material_name) == obj.materials.end()) {
+				cout << BOrange << "Warning : material " << material_name << " not found at line " << i << ResetColor << endl;
+				continue;
+			}
+			// TODO : set the material
 		}
 	}
 	if (obj.name.empty())
@@ -233,10 +249,15 @@ void	OBJ::setBuffers() {
 
     // Interleave vertex attributes
     std::vector<Vertex> vertices;
+	int i = 0;
+
+	cout << obj.indices.size() << endl;
     for (const Indices& idx : obj.indices) {
         Vertex vertex;
-        vertex.position = {obj.positions[3 * idx[0]], obj.positions[3 * idx[0] + 1], obj.positions[3 * idx[0] + 2]};
 
+        vertex.position = {obj.positions[3 * idx[0]], obj.positions[3 * idx[0] + 1], obj.positions[3 * idx[0] + 2]};
+		vertex.color = {obj.colors[i/3], obj.colors[i/3], obj.colors[i/3]};
+		
         if (idx[1] != NO_INDEX)
             vertex.texCoords = {obj.textures[2 * idx[1]], obj.textures[2 * idx[1] + 1]};
         else
@@ -248,6 +269,7 @@ void	OBJ::setBuffers() {
             vertex.normal = {0.0f, 0.0f, 0.0f};
 
         vertices.push_back(vertex);
+		i++;
     }
 
     // Bind and set VBO
@@ -265,10 +287,12 @@ void	OBJ::setBuffers() {
     // Set vertex attribute pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
+	glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
     glEnableVertexAttribArray(2);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glEnableVertexAttribArray(3);
 
     glBindVertexArray(0);
 

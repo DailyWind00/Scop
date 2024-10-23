@@ -8,6 +8,7 @@
 # include <sstream>
 # include <string.h>
 
+# define DEFAULT_COLORS (float[3]){0.8f, 0.6f, 0.4f}
 # define NO_INDEX (GLuint)0
 using namespace std;
 
@@ -37,6 +38,7 @@ typedef struct Object_Data {
 // Used to interleave vertex attributes in OBJ::setBuffers()
 typedef struct Vertex {
 	vec3 position;
+	vec3 color;
 	vec2 texCoords;
 	vec3 normal;
 } Vertex;

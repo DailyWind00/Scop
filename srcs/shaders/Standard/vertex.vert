@@ -3,6 +3,7 @@
 layout (location=0) in vec3 vertexPos;
 layout (location=1) in vec3 vertexColor;
 layout (location=2) in vec2 vertexTexCoord;
+layout (location=3) in vec3 vertexNormal;
 
 out vec3 fragmentColor;
 
@@ -16,7 +17,5 @@ uniform sampler2D Texture;
 void main() {
 	gl_Position = Projection * View * Transform * vec4(vertexPos, 1.0);
 
-	float RenderTex = clamp(RenderTexture, 0.0, 1.0);
-
-	fragmentColor = mix(vertexColor, texture(Texture, vertexTexCoord).rgb, RenderTex);
+	fragmentColor = vertexColor;
 }
