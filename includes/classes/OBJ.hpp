@@ -12,6 +12,13 @@ using namespace std;
 
 typedef array<GLuint, 3> Indices; // Position, Texture, Normal
 
+// Data structures for .mtl files
+typedef struct mtl_Data {
+	string		material;
+	string		texture_path;
+} mtl_Data;
+
+// Data structures for .obj files
 typedef struct Object_Data {
 	string				name;
 	float				size;     // Virtual size of the edge of a cube containing the whole object, used for camera placement
@@ -22,10 +29,12 @@ typedef struct Object_Data {
 	vector<GLfloat>		colors;
 	vector<GLfloat>		textures;
 	vector<GLfloat>		normals;
-	vector<Indices>		indices;  // See Indices typedef above
+	vector<Indices>		indices;   // See Indices typedef above
+	vector<mtl_Data>	materials; // See mtl_Data struct typedef above
 } Object_Data;
 
-typedef struct Vertex { // Used to interleave vertex attributes in OBJ::setBuffers()
+// Used to interleave vertex attributes in OBJ::setBuffers()
+typedef struct Vertex {
 	vec3 position;
 	vec2 texCoords;
 	vec3 normal;

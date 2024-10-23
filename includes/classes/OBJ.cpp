@@ -125,6 +125,7 @@ void	OBJ::parseMTL(const string &object_file_path) {
 	ifstream	object_file = openReadFile(object_file_path);
 	string	line;
 	int		i = 0;
+	mtl_Data current_mtl;
 
 	while (getline(object_file, line)) {
 		istringstream iss(line);
@@ -132,16 +133,31 @@ void	OBJ::parseMTL(const string &object_file_path) {
 		iss >> type;
 		i++;
 
-		if (type == "map_Kd") {
+		if (type == "newmtl") {
+			if (!current_mtl.material.empty()) {
+				obj.materials.push_back(current_mtl);
+				current_mtl = {}; // reset the current material
+			}
+			string material_name;
+			iss >> material_name;
+			if (!iss)
+				throw runtime_error("Error while parsing material name at line " + to_string(i));
+			current_mtl.material = material_name;
+		}
+		else if (type == "map_Kd") {
 			string texture_path;
 			iss >> texture_path;
 			if (!iss)
 				throw runtime_error("Error while parsing texture path at line " + to_string(i));
-			texture_path = object_file_path.substr(0, object_file_path.find_last_of("/\\") + 1) + texture_path; // get the path of the texture file
-			useTexture(texture_path);
+			current_mtl.texture_path = object_file_path.substr(0, object_file_path.find_last_of("/\\") + 1) + texture_path; // get the path of the texture file
 		}
 	}
+	if (!current_mtl.material.empty())
+		obj.materials.push_back(current_mtl);
 	object_file.close();
+	printVerbose(to_string(obj.materials.size()) + " materials loaded");
+	for (const mtl_Data &mtl : obj.materials)
+		printVerbose("Material : " + mtl.material + " - Texture : " + mtl.texture_path);
 }
 
 void	OBJ::useTexture(const string &texture_path) {

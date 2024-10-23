@@ -1,8 +1,16 @@
 # cube.mtl
-newmtl Material
+newmtl Red
 Ka 1.000 1.000 1.000
 Kd 1.000 1.000 1.000
 Ks 0.000 0.000 0.000
 d 1.0
 illum 2
 map_Kd red_square.png
+
+newmtl Blue
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd blue_square.png
