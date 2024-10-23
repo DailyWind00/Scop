@@ -4,6 +4,7 @@
 # include "Matrixes.hpp"
 # include <vector>
 # include <array>
+# include <map>
 # include <sstream>
 # include <string.h>
 
@@ -25,12 +26,12 @@ typedef struct Object_Data {
 	vec3				centroid; // Center of the object
 
 	// OBJ data
-	vector<GLfloat>		positions;
-	vector<GLfloat>		colors;
-	vector<GLfloat>		textures;
-	vector<GLfloat>		normals;
-	vector<Indices>		indices;   // See Indices typedef above
-	vector<mtl_Data>	materials; // See mtl_Data struct typedef above
+	vector<GLfloat>			positions;
+	vector<GLfloat>			colors;
+	vector<GLfloat>			textures;
+	vector<GLfloat>			normals;
+	vector<Indices>			indices;   // See Indices typedef above
+	map<string, mtl_Data>	materials; // See mtl_Data struct typedef above
 } Object_Data;
 
 // Used to interleave vertex attributes in OBJ::setBuffers()

@@ -135,7 +135,7 @@ void	OBJ::parseMTL(const string &object_file_path) {
 
 		if (type == "newmtl") {
 			if (!current_mtl.material.empty()) {
-				obj.materials.push_back(current_mtl);
+				obj.materials.insert(pair<string, mtl_Data>(current_mtl.material, current_mtl));
 				current_mtl = {}; // reset the current material
 			}
 			string material_name;
@@ -153,11 +153,11 @@ void	OBJ::parseMTL(const string &object_file_path) {
 		}
 	}
 	if (!current_mtl.material.empty())
-		obj.materials.push_back(current_mtl);
+		obj.materials.insert(pair<string, mtl_Data>(current_mtl.material, current_mtl));
 	object_file.close();
 	printVerbose(to_string(obj.materials.size()) + " materials loaded");
-	for (const mtl_Data &mtl : obj.materials)
-		printVerbose("Material : " + mtl.material + " - Texture : " + mtl.texture_path);
+	for (const auto &mtl : obj.materials)
+		printVerbose("Material : " + mtl.first + " - Texture : " + mtl.second.texture_path);
 }
 
 void	OBJ::useTexture(const string &texture_path) {
