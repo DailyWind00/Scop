@@ -13,9 +13,11 @@ OBJ::OBJ(const string &file_name) {
 	catch(const std::exception& e) {
 		throw runtime_error("Error in " + file_name + " : " + e.what());
 	}
+	setBuffers();
 }
 
 OBJ::~OBJ() {
+	destroyBuffers();
 }
 /// ---
 
@@ -203,13 +205,7 @@ void	OBJ::setObjectCentroid() {
     obj.centroid[1] = sum[1] / numVertices;
     obj.centroid[2] = sum[2] / numVertices;
 }
-/// ---
 
-
-
-/// Public functions
-
-// Must be called after the OpenGL context has been created or SEGFAULT
 void	OBJ::setBuffers() {
 	printVerbose("Setting GL buffers");
 
@@ -273,7 +269,13 @@ void	OBJ::destroyBuffers() {
 
 	printVerbose("GL buffers destroyed");
 }
+/// ---
 
+
+
+/// Public functions
+
+// Draw the object
 void	OBJ::drawObject() {
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, obj.indices.size(), GL_UNSIGNED_INT, 0);

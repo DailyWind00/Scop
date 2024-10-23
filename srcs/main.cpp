@@ -22,11 +22,15 @@ int main(int argc, char **argv) {
 
 	try {
 		GLFWwindow *window = CreateWindow();
+		try {
+			OBJ obj(file_name);
+			printVerbose("File " + file_name + " loaded successfully");
 
-		OBJ obj(file_name);
-		printVerbose("File " + file_name + " loaded successfully");
-
-		RenderObject(window, obj);
+			RenderObject(window, obj);
+		}
+		catch(const std::exception& e) {
+			throw runtime_error(e.what());
+		}
 		DestroyWindow(window);
 	}
 	catch(const std::exception& e) {

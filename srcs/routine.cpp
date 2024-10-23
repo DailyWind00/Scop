@@ -23,16 +23,10 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	shaders.setInt(shaders.getCurrentShaderID(), "Texture", 0);
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 
-	glBindVertexArray(0);
-	/// ---
-
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		getFrametime();
 		handleEvents(window, obj, shaders);
-
-		// glActiveTexture(GL_TEXTURE0);
-		// glBindTexture(GL_TEXTURE_2D, TBO);
 
 		obj.drawObject();
 
@@ -46,8 +40,6 @@ void	RenderObject(GLFWwindow *window, OBJ &obj) {
 	glfwSetWindowTitle(window, ("Scop - " + obj.getObjectData().name).c_str());
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-
-	obj.setBuffers();
 
 	Shader shaders;
 	shaders.add_shader(
@@ -81,6 +73,4 @@ void	RenderObject(GLFWwindow *window, OBJ &obj) {
 	printVerbose("Entering program's loop");
 	program_loop(window, obj, shaders);
 	printVerbose("Exiting program's loop");
-
-	obj.destroyBuffers();
 }

@@ -31,6 +31,9 @@ typedef struct Vertex { // Used to interleave vertex attributes in OBJ::setBuffe
 	vec3 normal;
 } Vertex;
 
+// Class to load and draw .obj files
+// The class is responsible for parsing the .obj file and setting up the buffers
+// Must be created after the OpenGL context is initialized
 class OBJ {
 	private:
 		Object_Data obj;
@@ -44,6 +47,8 @@ class OBJ {
 		void	useTexture(const string &texture_path);
 		void	setObjectSize();
 		void	setObjectCentroid();
+		void	setBuffers();
+		void	destroyBuffers();
 
 	public:
 		OBJ(const string &file_name);
@@ -52,10 +57,7 @@ class OBJ {
 
 		// Public functions
 
-		void	setBuffers();
-		void	destroyBuffers();
 		void  	drawObject();
-
 
 		// Getters
 
