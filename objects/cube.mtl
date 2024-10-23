@@ -5,7 +5,7 @@ Kd 1.000 1.000 1.000
 Ks 0.000 0.000 0.000
 d 1.0
 illum 2
-map_Kd red_square.png
+map_Kd cube_texture/red_square.png
 
 newmtl Blue
 Ka 1.000 1.000 1.000
@@ -13,4 +13,36 @@ Kd 1.000 1.000 1.000
 Ks 0.000 0.000 0.000
 d 1.0
 illum 2
-map_Kd blue_square.png
+map_Kd cube_texture/blue_square.png
+
+newmtl Green
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd cube_texture/green_square.png
+
+newmtl Purple
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd cube_texture/purple_square.png
+
+newmtl Yellow
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd cube_texture/yellow_square.png
+
+newmtl Teal
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd cube_texture/teal_square.png
