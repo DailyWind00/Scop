@@ -33,7 +33,7 @@ static int setflagAutorotate(string &arg, int &i, int argc, char **argv) {
 
 static int setflagInverseAutorotate(bool value) {
 	if (AUTOROTATE == ROTATION::NONE)
-		cout << BRed << "Flag error : Autorotate not set : flag ignored" << ResetColor << endl;
+		cout << BYellow << "Flag error : Autorotate not set : flag ignored" << ResetColor << endl;
 	else
 		INVERSE_AUTOROTATE = value;
 	return 1;
@@ -45,7 +45,7 @@ static int setflagSpeed(int &i, int argc, char **argv) {
 
 	stringstream ss(argv[++i]);
 	ss >> SPEED;
-	
+
 	if (!ss)
 		throw runtime_error("Invalid speed argument");
 	if (SPEED <= 0)
