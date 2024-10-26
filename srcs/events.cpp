@@ -100,13 +100,13 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 
 		switch (AUTOROTATE) {
 			case ROTATION::PITCH:
-				pitch_angle = time;
+				pitch_angle = time * SPEED;
 				break;
 			case ROTATION::YAW:
-				yaw_angle = time;
+				yaw_angle = time * SPEED;
 				break;
 			case ROTATION::ROLL:
-				roll_angle = time;
+				roll_angle = time * SPEED;
 				break;
 			default:
 				break;
