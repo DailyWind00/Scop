@@ -34,22 +34,22 @@ void	displayCommands() {
 	if (AUTOROTATE == ROTATION::NONE) {
 		cout << "> Object rotation :\n";
 		if (KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) {
-			cout << "Z/S\t\t\t: Rotate the object on the Pitch axis\n";
-			cout << "Q/D\t\t\t: Rotate the object on the Yaw axis\n";
-			cout << "A/E\t\t\t: Rotate the object on the Roll axis\n";
+			cout << " Z/S\t\t\t: Rotate the object on the Pitch axis\n";
+			cout << " Q/D\t\t\t: Rotate the object on the Yaw axis\n";
+			cout << " A/E\t\t\t: Rotate the object on the Roll axis\n";
 		} else {
-			cout << "W/S\t\t\t: Rotate the object on the Pitch axis\n";
-			cout << "A/D\t\t\t: Rotate the object on the Yaw axis\n";
-			cout << "Q/E\t\t\t: Rotate the object on the Roll axis\n";
+			cout << " W/S\t\t\t: Rotate the object on the Pitch axis\n";
+			cout << " A/D\t\t\t: Rotate the object on the Yaw axis\n";
+			cout << " Q/E\t\t\t: Rotate the object on the Roll axis\n";
 		}
 		cout << endl;
 		cout << "> Others commands :\n";
 	}
-	cout << "F1\t\t\t: Enable/Disable wireframe mode\n";
-	cout << "F5\t\t\t: Recompile the current shader\n";
-	cout << "Left/Right arrows\t: Change shader\n";
-	cout << "Scroll\t\t\t: Zoom in/out\n";
-	cout << "ESC\t\t\t: Close the window\n";
+	cout << " F1\t\t\t: Enable/Disable wireframe mode\n";
+	cout << " F5\t\t\t: Recompile the current shader\n";
+	cout << " Left/Right arrows\t: Change shader\n";
+	cout << " Scroll\t\t\t: Zoom in/out\n";
+	cout << " ESC\t\t\t: Close the window\n";
 	printVerbose((string)BLightBlue + "================" + ResetColor);
 }
 
