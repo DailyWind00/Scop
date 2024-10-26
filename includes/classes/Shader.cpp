@@ -48,8 +48,8 @@ GLuint Shader::make_module(const string &filepath, GLuint module_type) {
 	glGetShaderiv(shaderModule, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		cout << BRed << "Error" << Color_Off << endl;
-		char infoLog[1024];
-		glGetShaderInfoLog(shaderModule, 1024, NULL, infoLog);
+		string infoLog;
+		glGetShaderInfoLog(shaderModule, 1024, NULL, infoLog.data());
 		throw runtime_error("Failed to compile shader " + filepath + ":\n\t" + infoLog);
 	}
 
@@ -74,12 +74,12 @@ GLuint Shader::make_shader(const string &vertex_path, const string &fragment_pat
 	glLinkProgram(shader);
 
 	int success;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+	glGetShaderiv(shader, GL_LINK_STATUS, &success);
 	if (!success) {
 		cout << " -> " << BRed << "Error" << Color_Off << endl;
-		char infoLog[1024];
-		glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-		throw runtime_error("Failed to link shader:\n\t" + *infoLog);
+		string infoLog;
+		glGetShaderInfoLog(shader, 1024, NULL, infoLog.data());
+		throw runtime_error("Failed to link shader:\n\t" + infoLog);
 	}
 
 	printVerbose((string)BGreen + "Shader linked" + Color_Off);

@@ -2,6 +2,7 @@
 
 # include <iostream>
 # include <algorithm>
+# include <vector>
 # include <map>
 # include "config.hpp"
 
