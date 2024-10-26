@@ -13,6 +13,7 @@ void	displayHelp(char *executable_name) {
 	cout << LightGray << "\t\t│ z, roll\t: autorotate around z axis │\n" << ResetColor;
 	cout << LightGray << "\t\t╰──────────────────────────────────────────╯\n" << ResetColor;
 	cout << "\t-N, --inverse-autorotate\tInverse the autorotation\n";
+	cout << "\t-s, --speed [value]\t\tSet the rotation speed\n";
 	cout << "\t-r, --resizable\t\t\tResizable window\n";
 	cout << "\t-w, --wireframe\t\t\tWireframe mode (can be changed during execution)\n";
 	cout << "\t-k, --keyboard [option]\t\tChange the keyboard language\n";

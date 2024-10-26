@@ -3,6 +3,7 @@
 bool VERBOSE = false;
 bool RESIZABLE = false;
 bool WIREFRAME = false;
+float SPEED = 1.0f;
 ROTATION AUTOROTATE = ROTATION::NONE;
 bool INVERSE_AUTOROTATE = false;
 KEYBOARD_LANGUAGE KEYBOARD = KEYBOARD_LANGUAGE::QWERTY;
@@ -36,6 +37,21 @@ static int setflagInverseAutorotate(bool value) {
 	else
 		INVERSE_AUTOROTATE = value;
 	return 1;
+}
+
+static int setflagSpeed(int &i, int argc, char **argv) {
+	if (i == argc - 1)
+		throw runtime_error("No speed argument");
+
+	stringstream ss(argv[++i]);
+	ss >> SPEED;
+	
+	if (!ss)
+		throw runtime_error("Invalid speed argument");
+	if (SPEED <= 0)
+		throw runtime_error("Speed must be greater than 0");
+	
+	return 2;
 }
 
 static int setflagResizable(bool value) {
@@ -87,6 +103,9 @@ int	checkFlags(int argc, char **argv) {
 
 		else if (arg == "-N" || arg == "--inverse-autorotate")
 			flags += setflagInverseAutorotate(true);
+
+		else if (arg == "-s" || arg == "--speed")
+			flags += setflagSpeed(i, argc, argv);
 
 		else if (arg == "-r" || arg == "--resizable")
 			flags += setflagResizable(true);

@@ -42,6 +42,7 @@ extern float	ZOOM;
 extern bool					VERBOSE;
 extern bool					RESIZABLE;
 extern bool					WIREFRAME;
+extern float				SPEED;
 extern ROTATION				AUTOROTATE;          // use ROTATION enum, NONE = manual rotation
 extern bool					INVERSE_AUTOROTATE;
 extern KEYBOARD_LANGUAGE	KEYBOARD;            // use KEYBOARD_LANGUAGE enum

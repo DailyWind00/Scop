@@ -79,19 +79,19 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 
 	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
 		if (POSITIVE_PITCH_KEY_PRESSED)
-			pitch_angle += ROTATION_SPEED * FRAMETIME;
+			pitch_angle += ROTATION_SPEED * FRAMETIME * SPEED;
 		else if (NEGATIVE_PITCH_KEY_PRESSED)
-			pitch_angle -= ROTATION_SPEED * FRAMETIME;
+			pitch_angle -= ROTATION_SPEED * FRAMETIME * SPEED;
 
 		if (POSITIVE_YAW_KEY_PRESSED)
-			yaw_angle += ROTATION_SPEED * FRAMETIME;
+			yaw_angle += ROTATION_SPEED * FRAMETIME * SPEED;
 		else if (NEGATIVE_YAW_KEY_PRESSED)
-			yaw_angle -= ROTATION_SPEED * FRAMETIME;
+			yaw_angle -= ROTATION_SPEED * FRAMETIME * SPEED;
 
 		if (POSITIVE_ROLL_KEY_PRESSED)
-			roll_angle += ROTATION_SPEED * FRAMETIME;
+			roll_angle += ROTATION_SPEED * FRAMETIME * SPEED;
 		else if (NEGATIVE_ROLL_KEY_PRESSED)
-			roll_angle -= ROTATION_SPEED * FRAMETIME;
+			roll_angle -= ROTATION_SPEED * FRAMETIME * SPEED;
 	}
 	else { // Auto-rotate the object, block manual rotation
 
