@@ -33,7 +33,7 @@ static int setflagAutorotate(string &arg, int &i, int argc, char **argv) {
 
 static int setflagInverseAutorotate(bool value) {
 	if (AUTOROTATE == ROTATION::NONE)
-		cout << BYellow << "Notice : Autorotate not set : flag ignored" << ResetColor << endl;
+		cout << BYellow << "Notice : Autorotate not set : flag ignored (-N)" << ResetColor << endl;
 	else
 		INVERSE_AUTOROTATE = value;
 	return 1;
