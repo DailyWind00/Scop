@@ -12,28 +12,42 @@
 # define NO_INDEX (GLuint)0
 using namespace std;
 
-typedef array<GLuint, 3> Indices; // Position, Texture, Normal
+typedef array<GLuint, 3> Indice; // Position, Texture, Normal
 
 // Data structures for .mtl files
-typedef struct mtl_Data {
-	string		material;
+typedef struct Material {
+	string		name;
 	string		texture_path;
+	GLuint		texture_id;
+	// ...
 } mtl_Data;
 
-// Data structures for .obj files
-typedef struct Object_Data {
-	string				name;
-	float				size;     // Virtual size of the edge of a cube containing the whole object, used for camera placement
-	vec3				centroid; // Center of the object
+// Shapes are the different parts of an object
+// A shape is created when a "g" line is found in the .obj file
+typedef struct Shape {
+	string			name;   
+	vector<Indice>	indices;
+	Material		material;
+} Shape;
 
-	// OBJ data
-	vector<GLfloat>			positions;
-	vector<GLfloat>			colors;
-	vector<GLfloat>			textures;
-	vector<GLfloat>			normals;
-	vector<Indices>			indices;   // See Indices typedef above
-	map<string, mtl_Data>	materials; // See mtl_Data struct typedef above
-} Object_Data;
+// Raw vertex attributes
+typedef struct Attributes {
+	vector<GLfloat>	positions;
+	vector<GLfloat>	colors;    // See DEFAULT_COLORS define
+	vector<GLfloat>	textures;
+	vector<GLfloat> normals;
+} Attributes;
+
+// Data structures for .obj files
+typedef struct Object {
+	string	name;     // Name of the object (first occurernce of "o" in the file)
+	float	size;     // Virtual size of the edge of a cube containing the whole object, used for camera placement
+	vec3	centroid; // Center of the object
+
+	Attributes			attributes; // Interleaved vertex attributes
+	vector<Shape>		shapes;
+	vector<Material>	materials;
+} Object;
 
 // Used to interleave vertex attributes in OBJ::setBuffers()
 typedef struct Vertex {
@@ -48,7 +62,7 @@ typedef struct Vertex {
 // Must be created after the OpenGL context is initialized
 class OBJ {
 	private:
-		Object_Data obj;
+		Object obj;
 		GLuint VAO;
 		GLuint VBO; // Position, Color, Texture, Normal
 		GLuint EBO;
@@ -71,11 +85,8 @@ class OBJ {
 
 		void  	drawObject();
 
+
 		// Getters
 
-		const Object_Data	&getObjectData() const;
-		const GLuint		&getVAO() const;
-		const GLuint		&getVBO() const;
-		const GLuint		&getEBO() const;
-		const GLuint		&getTBO() const;
+		const Object	&getObjectData() const;
 };
