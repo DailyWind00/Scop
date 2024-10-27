@@ -1,4 +1,7 @@
-# cube.mtl
+# This file contains the material properties for the cube.obj file.
+# Each material has a different color texture.
+# The textures are stored in the cube_texture folder.
+
 newmtl Red
 Ka 1.000 1.000 1.000
 Kd 1.000 1.000 1.000
