@@ -14,6 +14,14 @@ using namespace std;
 
 typedef array<GLuint, 3> Indice; // Position, Texture, Normal
 
+// Used to interleave vertex attributes in OBJ::setBuffers()
+typedef struct Vertex {
+	vec3 position;
+	vec3 color;
+	vec2 texCoords;
+	vec3 normal;
+} Vertex;
+
 // Data structures for .mtl files
 typedef struct Material {
 	string		name;
@@ -48,14 +56,6 @@ typedef struct Object {
 	vector<Shape>		shapes;
 	vector<Material>	materials;
 } Object;
-
-// Used to interleave vertex attributes in OBJ::setBuffers()
-typedef struct Vertex {
-	vec3 position;
-	vec3 color;
-	vec2 texCoords;
-	vec3 normal;
-} Vertex;
 
 // Class to load and draw .obj files
 // The class is responsible for parsing the .obj file and setting up the buffers
