@@ -118,6 +118,7 @@ void Shader::use(GLuint shaderID) {
 }
 
 // Recompile the shader given with the shaderID
+// Return the id of the new recompiled shader
 GLuint	Shader::recompile(GLuint shaderID) {
 	ShaderIterator	shader = shaders.find(shaderID);
 	if (shader == shaders.end()) {
@@ -148,6 +149,7 @@ GLuint	Shader::recompile(GLuint shaderID) {
 }
 
 // Add a new shader to the Shaders class, return the id of the new shader
+// By default, the first shader added is the current shader
 GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, const string &shaderName) {
 	printVerbose("Creating shader \"" + shaderName + "\"");
 	shaderData	data = {
@@ -170,7 +172,7 @@ GLuint	Shader::add_shader(const string &vertexPath, const string &fragmentPath, 
 }
 
 // Use the next shader in the vector as the current shader
-// Return the id of the next shader in the vector
+// Return the id of the new current shader in the vector
 GLuint	Shader::SetNextShader() {
 	if (shaders.empty()) {
 		cerr << BRed << "Error: No shaders available to use." << ResetColor << endl;
@@ -193,7 +195,7 @@ GLuint	Shader::SetNextShader() {
 }
 
 // Use the previous shader in the vector as the current shader
-// Return the id of the next shader in the vector
+// Return the id of the new current shader in the vector
 GLuint	Shader::SetPreviousShader() {
 	if (shaders.empty()) {
 		cerr << BRed << "Error: No shaders available to use." << ResetColor << endl;
