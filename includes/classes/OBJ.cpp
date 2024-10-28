@@ -25,23 +25,36 @@ OBJ::~OBJ() {
 
 
 /// Privates functions
-void	OBJ::useTexture(const string &texture_path) {
-	int width, height, nrChannels;
-	unsigned char *data = stbi_loader(texture_path, width, height, nrChannels);
-
-	GLuint TBO;
-	glGenTextures(1, &TBO);
-	glBindTexture(GL_TEXTURE_2D, TBO);
-
+void	OBJ::setObjectTextures() {
+	 TBO.resize(obj.materials.size());
+	glGenTextures(obj.materials.size(), TBO.data());
+	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	int current = 0;
+	for (Material &mat : obj.materials) {
+		if (mat.texture_path.empty()) {
+			mat.texture_index = NO_TEXTURE; // No texture for this material
+		}
 
-	stbi_image_free(data);
+		int width, height, nrChannels;
+		unsigned char *data = stbi_loader(mat.texture_path, width, height, nrChannels);
+		if (!data) {
+			printVerbose((string)BOrange + "Warning : Failed to load texture \"" + mat.texture_path +"\"");
+			mat.texture_index = NO_TEXTURE; // Failed to load texture
+		}
+
+		glBindTexture(GL_TEXTURE_2D, TBO[current]);
+		mat.texture_index = current++;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(data);
+	}
 }
 
 void	OBJ::setObjectSize() {
@@ -93,6 +106,7 @@ void	OBJ::setBuffers() {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
+	setObjectTextures();
 
     glBindVertexArray(VAO);
 
@@ -154,7 +168,7 @@ void	OBJ::destroyBuffers() {
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
-	glDeleteBuffers(1, &TBO);
+	glDeleteBuffers(TBO.size(), TBO.data());
 
 	printVerbose("GL buffers destroyed");
 }
@@ -168,8 +182,9 @@ void	OBJ::destroyBuffers() {
 void	OBJ::drawObject() {
 	glBindVertexArray(VAO);
 	for (const Shape &shape : obj.shapes) {
-		// if (!shape.material.texture_path.empty())
-			// Use the texture with shape.material.texture_id
+		if (shape.material.texture_index == NO_TEXTURE) // Segfault every 3/4 time
+			glBindTexture(GL_TEXTURE_2D, TBO[shape.material.texture_index]);
+
 		glDrawElements(GL_TRIANGLES, shape.indices.size() * 6, GL_UNSIGNED_INT, 0);
 	}
 	glBindVertexArray(0);

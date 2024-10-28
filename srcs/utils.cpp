@@ -69,7 +69,7 @@ unsigned char *stbi_loader(const string &filename, int &width, int &height, int 
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
 	if (!data) {
 		printVerbose((string)BRed + "Error" + (string)ResetColor);
-		throw runtime_error("Failed to load texture " + filename);
+		return NULL;
 	}
 
 	printVerbose((string)BGreen + "Texture loaded" + (string)ResetColor);

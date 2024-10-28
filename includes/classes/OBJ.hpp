@@ -10,6 +10,7 @@
 
 # define DEFAULT_COLORS (float[3]){0.8f, 0.6f, 0.4f}
 # define NO_INDEX (GLuint)0
+# define NO_TEXTURE (GLuint)-1
 using namespace std;
 
 typedef array<GLuint, 3> Indice; // Position, Texture, Normal
@@ -26,7 +27,7 @@ typedef struct Vertex {
 typedef struct Material {
 	string		name;
 	string		texture_path;
-	GLuint		texture_id;
+	GLuint		texture_index;
 	// ...
 } mtl_Data;
 
@@ -62,11 +63,11 @@ typedef struct Object {
 // Must be created after the OpenGL context is initialized
 class OBJ {
 	private:
-		Object obj;
-		GLuint VAO;
-		GLuint VBO; // Position, Color, Texture, Normal
-		GLuint EBO;
-		GLuint TBO;
+		Object 			obj;
+		GLuint 			VAO;
+		GLuint 			VBO; // Position, Color, Texture, Normal
+		GLuint 			EBO;
+		vector<GLuint>	TBO;
 
 
 		// Parsers
@@ -77,7 +78,7 @@ class OBJ {
 
 		// Privates functions
 
-		void	useTexture(const string &texture_path);
+		void	setObjectTextures();
 		void	setObjectSize();
 		void	setObjectCentroid();
 		void	setBuffers();
