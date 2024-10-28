@@ -100,8 +100,15 @@ void	OBJ::setBuffers() {
     std::vector<Vertex> vertexes;
 	int color = 0;
 
+	// for (const Material &mat : obj.materials) {
+	// 	cout << "Material : " << mat.name << endl;
+	// 	cout << "Path     : " << mat.texture_path << endl;
+	// 	cout << "Index    : " << mat.texture_index << endl;
+	// 	cout << "Texture  : " << TBO[mat.texture_index] << endl;
+	// }
+	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
-		printVerbose("Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
+		printVerbose("| Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
 		for (const Indice &indice : shape.indices) {
 			Vertex vertex;
 			vertex.position  = {obj.attributes.positions[3 * indice[0]], obj.attributes.positions[3 * indice[0] + 1], obj.attributes.positions[3 * indice[0] + 2]};

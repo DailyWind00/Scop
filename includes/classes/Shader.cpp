@@ -26,7 +26,7 @@ GLuint Shader::make_module(const string &filepath, GLuint module_type) {
 	stringstream buffer;
 	string line;
 
-	printVerbose("Compiling shader : " + filepath + " -> ", false);
+	printVerbose("> Compiling shader : " + filepath + " -> ", false);
 
 	if (!file.is_open()) {
 		printVerbose((string)BRed + "Error" + Color_Off);
@@ -69,7 +69,7 @@ GLuint Shader::make_shader(const string &vertex_path, const string &fragment_pat
 		glDeleteShader(module);
 	}
 
-	printVerbose("Linking shader -> ", false);
+	printVerbose("> Linking shader -> ", false);
 
 	glLinkProgram(shader);
 

@@ -63,7 +63,7 @@ ifstream	openReadFile(const string &filename) {
 
 // Load the texture using stb_image and return the data, throw an error if the texture can't be loaded
 unsigned char *stbi_loader(const string &filename, int &width, int &height, int &nrChannels) {
-	printVerbose("Loading texture " + filename + " -> ", false);
+	printVerbose("> Loading texture " + filename + " -> ", false);
 	stbi_set_flip_vertically_on_load(true); // Using OpenGL coordinate system
 
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);

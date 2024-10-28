@@ -129,7 +129,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 			}
 
 			obj.shapes.back().material = *it;
-			printVerbose("Shape " + obj.shapes.back().name + " is now using material " + obj.shapes.back().name);
+			printVerbose("+ Shape \"" + obj.shapes.back().name + "\" is now using material " + obj.shapes.back().name);
 		}
 	}
 	if (obj.name.empty())
@@ -176,7 +176,7 @@ void	OBJ::parseMTL(const string &object_file_path) {
 	}
 	obj.materials.push_back(current_material);
 	object_file.close();
-	printVerbose(to_string(obj.materials.size()) + " materials loaded");
+	printVerbose(to_string(obj.materials.size()) + " materials loaded :");
 	for (const Material &mtl : obj.materials)
-		printVerbose("Material : " + mtl.name + " - Texture : " + mtl.texture_path);
+		printVerbose("| Material : " + mtl.name + " - Texture : " + mtl.texture_path);
 }
