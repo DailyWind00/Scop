@@ -12,6 +12,7 @@ add_executable(Scop
 	srcs/flags.cpp
 	srcs/utils.cpp
 	includes/classes/OBJ.cpp
+	includes/classes/OBJ_parsers.cpp
 	includes/classes/Shader.cpp
 	includes/classes/Matrixes.cpp
 	dependencies/stb/stb_config.cpp

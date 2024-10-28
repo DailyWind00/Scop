@@ -68,8 +68,15 @@ class OBJ {
 		GLuint EBO;
 		GLuint TBO;
 
+
+		// Parsers
+
 		void	parseOBJ(const string &file_name);
 		void	parseMTL(const string &object_file);
+
+
+		// Privates functions
+
 		void	useTexture(const string &texture_path);
 		void	setObjectSize();
 		void	setObjectCentroid();
