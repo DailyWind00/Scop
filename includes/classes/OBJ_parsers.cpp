@@ -128,7 +128,6 @@ void	OBJ::parseOBJ(const string &file_name) {
 				obj.shapes.push_back(shape);
 			}
 
-			obj.shapes.back().material = *it;
 			printVerbose("+ Shape \"" + obj.shapes.back().name + "\" is now using material " + obj.shapes.back().name);
 		}
 	}

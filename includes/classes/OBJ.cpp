@@ -26,7 +26,7 @@ OBJ::~OBJ() {
 
 /// Privates functions
 void	OBJ::setObjectTextures() {
-	 TBO.resize(obj.materials.size());
+	TBO.resize(obj.materials.size());
 	glGenTextures(obj.materials.size(), TBO.data());
 	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
@@ -48,6 +48,7 @@ void	OBJ::setObjectTextures() {
 		}
 
 		glBindTexture(GL_TEXTURE_2D, TBO[current]);
+		obj.shapes[current].material_index = current;
 		mat.texture_index = current++;
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -114,12 +115,12 @@ void	OBJ::setBuffers() {
     std::vector<Vertex> vertexes;
 	int color = 0;
 
-	// for (const Material &mat : obj.materials) {
-	// 	cout << "Material : " << mat.name << endl;
-	// 	cout << "Path     : " << mat.texture_path << endl;
-	// 	cout << "Index    : " << mat.texture_index << endl;
-	// 	cout << "Texture  : " << TBO[mat.texture_index] << endl;
-	// }
+	for (const Material &mat : obj.materials) {
+		cout << "Material : " << mat.name << endl;
+		cout << "Path     : " << mat.texture_path << endl;
+		cout << "Index    : " << mat.texture_index << endl;
+		cout << "Texture  : " << TBO[mat.texture_index] << endl;
+	}
 	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
 		printVerbose("| Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
@@ -182,8 +183,8 @@ void	OBJ::destroyBuffers() {
 void	OBJ::drawObject() {
 	glBindVertexArray(VAO);
 	for (const Shape &shape : obj.shapes) {
-		if (shape.material.texture_index == NO_TEXTURE) // Segfault every 3/4 time
-			glBindTexture(GL_TEXTURE_2D, TBO[shape.material.texture_index]);
+		if (shape.material_index != NO_TEXTURE)
+			glBindTexture(GL_TEXTURE_2D, TBO[shape.material_index]);
 
 		glDrawElements(GL_TRIANGLES, shape.indices.size() * 6, GL_UNSIGNED_INT, 0);
 	}

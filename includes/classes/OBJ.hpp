@@ -10,7 +10,7 @@
 
 # define DEFAULT_COLORS (float[3]){0.8f, 0.6f, 0.4f}
 # define NO_INDEX (GLuint)0
-# define NO_TEXTURE (GLuint)-1
+# define NO_TEXTURE (unsigned short)-1
 using namespace std;
 
 typedef array<GLuint, 3> Indice; // Position, Texture, Normal
@@ -25,9 +25,9 @@ typedef struct Vertex {
 
 // Data structures for .mtl files
 typedef struct Material {
-	string		name;
-	string		texture_path;
-	GLuint		texture_index;
+	string			name;
+	string			texture_path;
+	unsigned short	texture_index;
 	// ...
 } mtl_Data;
 
@@ -36,7 +36,7 @@ typedef struct Material {
 typedef struct Shape {
 	string			name;   
 	vector<Indice>	indices;
-	Material		material;
+	unsigned short	material_index; // Index of Object::materials
 } Shape;
 
 // Raw vertex attributes
@@ -55,7 +55,7 @@ typedef struct Object {
 
 	Attributes			attributes; // Interleaved vertex attributes
 	vector<Shape>		shapes;
-	vector<Material>	materials;
+	vector<Material>	materials; // Use Shape::material_index for correct Shape/Texture loading
 } Object;
 
 // Class to load and draw .obj files
