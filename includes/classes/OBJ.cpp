@@ -43,7 +43,7 @@ void	OBJ::setObjectTextures() {
 		int width, height, nrChannels;
 		unsigned char *data = stbi_loader(mat.texture_path, width, height, nrChannels);
 		if (!data) {
-			printVerbose((string)BOrange + "Warning : Failed to load texture \"" + mat.texture_path +"\"");
+			printVerbose((string)BOrange + "Warning : Failed to load texture \"" + mat.texture_path + "\"" + ResetColor);
 			mat.texture_index = NO_TEXTURE; // Failed to load texture
 		}
 

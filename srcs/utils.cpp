@@ -57,7 +57,7 @@ void	displayCommands() {
 ifstream	openReadFile(const string &filename) {
 	ifstream file(filename);
 	if (!file.is_open())
-		throw runtime_error("Failed to open file " + filename + " : " + (string)strerror(errno));
+		throw runtime_error("Failed to open file : " + (string)strerror(errno));
 	return file;
 }
 
