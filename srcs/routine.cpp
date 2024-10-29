@@ -1,7 +1,6 @@
 #include "config.hpp"
 
 double	FRAMETIME = 0;
-float	RENDER_TEXTURE = 1;
 
 // Calculate the frametime of the program
 static void getFrametime() {
@@ -19,10 +18,6 @@ static void getFrametime() {
 
 // Keep the window alive, exiting this function mean the process is over
 static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
-
-	shaders.setInt(shaders.getCurrentShaderID(), "Texture", 0);
-	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
-
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		getFrametime();

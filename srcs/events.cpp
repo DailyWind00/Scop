@@ -1,7 +1,9 @@
 #include "config.hpp"
 
-float FOV = 45.0f;
-float ZOOM = 2.5f;
+float	FOV = 45.0f;
+float	ZOOM = 2.5f;
+float	RENDER_TEXTURE = 1;
+float	RENDER_TEXTURE_OFFSET_SPEED = 0.02f;
 
 #define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
 #define NEGATIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
@@ -62,6 +64,24 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 	}
 	else
 		changeShaderKeyPressed = false;
+}
+
+static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
+	static float offset = 0;
+
+	if (offset) { // Smooth transition
+		RENDER_TEXTURE = clamp(RENDER_TEXTURE + offset, 0.0f, 1.0f);
+		if (RENDER_TEXTURE == 0 || RENDER_TEXTURE == 1)
+			offset = 0;
+	}
+	else {
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+			offset = RENDER_TEXTURE_OFFSET_SPEED;
+		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+			offset = -RENDER_TEXTURE_OFFSET_SPEED;
+	}
+	cout << RENDER_TEXTURE << endl;
+	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 }
 
 static void	zoomHandler(GLFWwindow* window, double xoffset = 0, double yoffset = 0) {
@@ -168,6 +188,7 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	wireframeHandler(window);
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
+	renderTextureHandler(window, shaders);
 	glfwSetScrollCallback(window, zoomHandler);
 
 	transformObjectHandler(window, shaders, obj);
