@@ -9,9 +9,11 @@
 
 /// Custom includes
 # include "color.h"
-# include "OBJ.hpp"
-# include "Shader.hpp"
 # include "Matrixes.hpp"
+# include "Shader.hpp"
+class Shader;
+# include "OBJ.hpp"
+class OBJ;
 
 /// Defines
 # define ROTATION_SPEED 0.05f
@@ -23,8 +25,6 @@
 /// Global variables
 using namespace std;
 enum class ROTATION;
-class Shader;
-class OBJ;
 
 enum class KEYBOARD_LANGUAGE {
 	AZERTY,

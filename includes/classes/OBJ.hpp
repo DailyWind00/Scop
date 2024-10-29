@@ -91,7 +91,7 @@ class OBJ {
 
 		// Public functions
 
-		void  	drawObject();
+		void  	drawObject(Shader &shader);
 
 
 		// Getters

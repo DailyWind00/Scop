@@ -174,15 +174,18 @@ void	OBJ::destroyBuffers() {
 /// Public functions
 
 // Draw the object
-void	OBJ::drawObject() {
-	glBindVertexArray(VAO);
+void	OBJ::drawObject(Shader &shader) {
 	for (const Shape &shape : obj.shapes) {
-		if (shape.material_index != NO_TEXTURE)
+		if (shape.material_index != NO_TEXTURE) {
+			glActiveTexture(GL_TEXTURE0 + shape.material_index);
 			glBindTexture(GL_TEXTURE_2D, TBO[shape.material_index]);
+			shader.setInt(shader.getCurrentShaderID(), "texture_diffuse", (GLint)shape.material_index);
+		}
 
+		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, shape.indices.size() * 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
 	}
-	glBindVertexArray(0);
 }
 /// ---
 
