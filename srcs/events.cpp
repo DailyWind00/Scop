@@ -80,7 +80,6 @@ static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 			offset = -RENDER_TEXTURE_OFFSET_SPEED;
 	}
-	cout << RENDER_TEXTURE << endl;
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 }
 
