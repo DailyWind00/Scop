@@ -223,30 +223,76 @@ GLuint	Shader::SetPreviousShader() {
 
 /// Uniforms setters
 
+// Bool
+void    Shader::setBool(const string &name, bool value) {
+	glUniform1i(glGetUniformLocation(currentShaderID, name.c_str()), (int)value);
+}
 void    Shader::setBool(const GLuint &shaderID, const string &name, bool value) {
 	glUniform1i(glGetUniformLocation(shaderID, name.c_str()), (int)value);
 }
 
+// Int
+void    Shader::setInt(const string &name, int value) {
+	glUniform1i(glGetUniformLocation(currentShaderID, name.c_str()), value);
+}
 void    Shader::setInt(const GLuint &shaderID, const string &name, int value) {
 	glUniform1i(glGetUniformLocation(shaderID, name.c_str()), value);
 }
 
+// Float
+void    Shader::setFloat(const string &name, float value) {
+	glUniform1f(glGetUniformLocation(currentShaderID, name.c_str()), value);
+}
 void    Shader::setFloat(const GLuint &shaderID, const string &name, float value) {
 	glUniform1f(glGetUniformLocation(shaderID, name.c_str()), value);
 }
 
+// Vec2
+void    Shader::setVec2(const string &name, float x, float y) {
+	glUniform2f(glGetUniformLocation(currentShaderID, name.c_str()), x, y);
+}
 void    Shader::setVec2(const GLuint &shaderID, const string &name, float x, float y) {
 	glUniform2f(glGetUniformLocation(shaderID, name.c_str()), x, y);
 }
+void    Shader::setVec2(const string &name, vec2 vector) {
+	glUniform2f(glGetUniformLocation(currentShaderID, name.c_str()), vector[0], vector[1]);
+}
+void    Shader::setVec2(const GLuint &shaderID, const string &name, vec2 vector) {
+	glUniform2f(glGetUniformLocation(shaderID, name.c_str()), vector[0], vector[1]);
+}
 
+// Vec3
+void    Shader::setVec3(const string &name, float x, float y, float z) {
+	glUniform3f(glGetUniformLocation(currentShaderID, name.c_str()), x, y, z);
+}
 void    Shader::setVec3(const GLuint &shaderID, const string &name, float x, float y, float z) {
 	glUniform3f(glGetUniformLocation(shaderID, name.c_str()), x, y, z);
 }
+void    Shader::setVec3(const string &name, vec3 vector) {
+	glUniform3f(glGetUniformLocation(currentShaderID, name.c_str()), vector[0], vector[1], vector[2]);
+}
+void    Shader::setVec3(const GLuint &shaderID, const string &name, vec3 vector) {
+	glUniform3f(glGetUniformLocation(shaderID, name.c_str()), vector[0], vector[1], vector[2]);
+}
 
+// Vec4
+void    Shader::setVec4(const string &name, float x, float y, float z, float w) {
+	glUniform4f(glGetUniformLocation(currentShaderID, name.c_str()), x, y, z, w);
+}
 void    Shader::setVec4(const GLuint &shaderID, const string &name, float x, float y, float z, float w) {
 	glUniform4f(glGetUniformLocation(shaderID, name.c_str()), x, y, z, w);
 }
+void    Shader::setVec4(const string &name, vec4 vector) {
+	glUniform4f(glGetUniformLocation(currentShaderID, name.c_str()), vector[0], vector[1], vector[2], vector[3]);
+}
+void    Shader::setVec4(const GLuint &shaderID, const string &name, vec4 vector) {
+	glUniform4f(glGetUniformLocation(shaderID, name.c_str()), vector[0], vector[1], vector[2], vector[3]);
+}
 
+// Mat4
+void	Shader::setMat4(const string &name, mat4 matrix) {
+	glUniformMatrix4fv(glGetUniformLocation(currentShaderID, name.c_str()), 1, GL_FALSE, &matrix[0]);
+}
 void	Shader::setMat4(const GLuint &shaderID, const string &name, mat4 matrix) {
 	glUniformMatrix4fv(glGetUniformLocation(shaderID, name.c_str()), 1, GL_FALSE, &matrix[0]);
 }

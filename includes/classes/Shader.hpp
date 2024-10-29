@@ -5,6 +5,7 @@
 # include <vector>
 # include <map>
 # include "config.hpp"
+# include "Matrixes.hpp"
 
 using namespace std;
 typedef array<float, 16> mat4;
@@ -34,7 +35,7 @@ class Shader {
         ~Shader();
 
 
-        // public functions
+        /// public functions
 
         void    use(GLuint shaderID);
         GLuint  recompile(GLuint shaderID);
@@ -43,18 +44,44 @@ class Shader {
         GLuint	SetPreviousShader();
 
 
-        // Uniforms setters
+        /// Uniforms setters
 
+        // Bool
+        void    setBool  (const string &name, bool value);
         void    setBool  (const GLuint &shaderID, const string &name, bool value);
+
+        // Int
+        void    setInt   (const string &name, int value);
         void    setInt   (const GLuint &shaderID, const string &name, int value);
+
+        // Float
+        void    setFloat (const string &name, float value);
         void    setFloat (const GLuint &shaderID, const string &name, float value);
+
+        // Vec2
+        void    setVec2  (const string &name, float x, float y);
         void    setVec2  (const GLuint &shaderID, const string &name, float x, float y);
+        void    setVec2  (const string &name, vec2 vector);
+        void    setVec2  (const GLuint &shaderID, const string &name, vec2 vector);
+
+        // Vec3
+        void    setVec3  (const string &name, float x, float y, float z);
         void    setVec3  (const GLuint &shaderID, const string &name, float x, float y, float z);
+        void    setVec3  (const string &name, vec3 vector);
+        void    setVec3  (const GLuint &shaderID, const string &name, vec3 vector);
+
+        // Vec4
+        void    setVec4  (const string &name, float x, float y, float z, float w);
         void    setVec4  (const GLuint &shaderID, const string &name, float x, float y, float z, float w);
+        void    setVec4  (const string &name, vec4 vector);
+        void    setVec4  (const GLuint &shaderID, const string &name, vec4 vector);
+
+        // Mat4
+        void    setMat4  (const string &name, mat4 matrix);
         void    setMat4  (const GLuint &shaderID, const string &name, mat4 matrix);
 
 
-        // Getters
+        /// Getters
 
         const GLuint &getCurrentShaderID() const;
 };
