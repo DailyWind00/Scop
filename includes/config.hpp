@@ -35,7 +35,7 @@ extern int		WINDOW_WIDTH;
 extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
-extern float	RENDER_TEXTURE; // 0 = no texture, 1 = texture (smooth transition required)
+extern float	RENDER_TEXTURE; // between 0 and 1 : 0 = no texture, 1 = texture (smooth transition required)
 extern float	RENDER_TEXTURE_OFFSET_SPEED;
 extern float	ZOOM;
 
