@@ -5,9 +5,10 @@ in vec2 fragmentTexCoord;
 
 out vec4 screenColor;
 
-uniform sampler2D texture_diffuse;
+uniform float		RenderTexture;
+uniform sampler2D	texture_diffuse;
 
 void main() {
-	// screenColor = vec4(fragmentColor, 1.0);
-	screenColor = texture(texture_diffuse, fragmentTexCoord);
+	vec4 used_texture = texture(texture_diffuse, fragmentTexCoord);
+	screenColor = mix(vec4(fragmentColor, 1), used_texture, RenderTexture);
 }
