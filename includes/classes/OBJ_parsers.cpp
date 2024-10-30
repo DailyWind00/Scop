@@ -128,7 +128,8 @@ void	OBJ::parseOBJ(const string &file_name) {
 				obj.shapes.push_back(shape);
 			}
 
-			printVerbose("+ Shape \"" + obj.shapes.back().name + "\" is now using material " + obj.shapes.back().name);
+			obj.shapes.back().material_name = it->name;
+			printVerbose("+ Shape \"" + obj.shapes.back().name + "\" is now using material \"" + it->name + "\"");
 		}
 	}
 	if (obj.name.empty())

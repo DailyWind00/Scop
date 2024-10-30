@@ -33,11 +33,6 @@ void	OBJ::setObjectTextures() {
 
 	TBO.resize(obj.materials.size());
 	glGenTextures(obj.materials.size(), TBO.data());
-	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int current = 0;
 	for (Material &mat : obj.materials) {
@@ -53,13 +48,23 @@ void	OBJ::setObjectTextures() {
 		}
 
 		glBindTexture(GL_TEXTURE_2D, TBO[current]);
-		obj.shapes[current].material_index = current;
-		mat.texture_index = current++;
+
+	    // Set texture parameters after binding the texture
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
+
+		for (Shape &shapes : obj.shapes) {
+			if (shapes.material_name == mat.name)
+				shapes.material_index = current;
+		}
+		mat.texture_index = current++;
 	}
 }
 
@@ -129,8 +134,12 @@ void	OBJ::setBuffers() {
 			vertex.color     = {DEFAULT_COLORS[color % 3], DEFAULT_COLORS[color % 3], DEFAULT_COLORS[color % 3]};
 			if (indice[1] != NO_INDEX)
 				vertex.texCoords = {obj.attributes.textures[2 * indice[1]], obj.attributes.textures[2 * indice[1] + 1]};
+			else
+				vertex.texCoords = {0, 0};
 			if (indice[2] != NO_INDEX)
 				vertex.normal    = {obj.attributes.normals[3 * indice[2]], obj.attributes.normals[3 * indice[2] + 1], obj.attributes.normals[3 * indice[2] + 2]};
+			else
+				vertex.normal = {0, 0, 0};
 			vertexes.push_back(vertex);
 			color++;
 		}
@@ -185,10 +194,12 @@ void	OBJ::drawObject(Shader &shader) {
 
 	for (const Shape &shape : obj.shapes) {
 		if (shape.material_index != NO_TEXTURE) {
+			shader.setInt("texture_diffuse", (GLint)shape.material_index);
 			glActiveTexture(GL_TEXTURE0 + shape.material_index);
 			glBindTexture(GL_TEXTURE_2D, TBO[shape.material_index]);
-			shader.setInt("texture_diffuse", (GLint)shape.material_index);
 		}
+		else
+			shader.setFloat("RenderTexture", 0);
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, shape.indices.size() * 6, GL_UNSIGNED_INT, 0);
