@@ -26,6 +26,11 @@ OBJ::~OBJ() {
 
 /// Privates functions
 void	OBJ::setObjectTextures() {
+	if (obj.materials.empty()) {
+		cout << BYellow << "Notice : No texture is set, using vertex mode as default" << ResetColor << endl;
+		return;
+	}
+
 	TBO.resize(obj.materials.size());
 	glGenTextures(obj.materials.size(), TBO.data());
 	
@@ -175,11 +180,14 @@ void	OBJ::destroyBuffers() {
 
 // Draw the object
 void	OBJ::drawObject(Shader &shader) {
+	if (obj.materials.empty()) // Auto Vertex mode if no texture
+		shader.setFloat("RenderTexture", 0);
+
 	for (const Shape &shape : obj.shapes) {
 		if (shape.material_index != NO_TEXTURE) {
 			glActiveTexture(GL_TEXTURE0 + shape.material_index);
 			glBindTexture(GL_TEXTURE_2D, TBO[shape.material_index]);
-			shader.setInt(shader.getCurrentShaderID(), "texture_diffuse", (GLint)shape.material_index);
+			shader.setInt("texture_diffuse", (GLint)shape.material_index);
 		}
 
 		glBindVertexArray(VAO);

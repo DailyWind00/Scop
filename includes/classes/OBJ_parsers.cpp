@@ -67,7 +67,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 				faceIndices.push_back(values);
 			}
 			if (obj.shapes.empty()) { // Create a default group if no group is defined
-				cout << BYellow << "Notice : no group defined at line " << i << ", creating a default group" << ResetColor << endl;
+				cout << BYellow << "Notice : No group defined at line " << i << ", creating a default group" << ResetColor << endl;
 				Shape shape; shape.name = "default";
 				obj.shapes.push_back(shape);
 			}
@@ -118,12 +118,12 @@ void	OBJ::parseOBJ(const string &file_name) {
 				it++;
 
 			if (it == obj.materials.end()) {
-				cout << BOrange << "Warning : material \"" << material_name << "\" not found at line " << i << ResetColor << endl;
+				cout << BOrange << "Warning : Material \"" << material_name << "\" not found at line " << i << ResetColor << endl;
 				continue;
 			}
 
 			if (obj.shapes.empty()) { // Create a default group if no group is defined
-				cout << BYellow << "Notice : no group defined at line " << i << ", creating a default group" << ResetColor << endl;
+				cout << BYellow << "Notice : No group defined at line " << i << ", creating a default group" << ResetColor << endl;
 				Shape shape; shape.name = "default";
 				obj.shapes.push_back(shape);
 			}
@@ -138,7 +138,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 	object_file.close();
 
 	if (obj.shapes.empty()) {
-		cout << BOrange << "Warning : no shapes found in the object file, calling destructor" << ResetColor << endl;
+		cout << BOrange << "Warning : No shapes found in the object file, calling destructor" << ResetColor << endl;
 		this->~OBJ();
 	}
 }
