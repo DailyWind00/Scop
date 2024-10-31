@@ -138,10 +138,8 @@ void	OBJ::parseOBJ(const string &file_name) {
 	setObjectCentroid();
 	object_file.close();
 
-	if (obj.shapes.empty()) {
-		cout << BOrange << "Warning : No shapes found in the object file, calling destructor" << ResetColor << endl;
-		this->~OBJ();
-	}
+	if (obj.shapes.empty())
+		cout << BOrange << "Warning : No shapes found in the object file" << ResetColor << endl;
 }
 
 void	OBJ::parseMTL(const string &object_file_path) {

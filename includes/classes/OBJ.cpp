@@ -17,8 +17,7 @@ OBJ::OBJ(const string &file_name) {
 }
 
 OBJ::~OBJ() {
-	if (!obj.shapes.empty())
-		destroyBuffers();
+	destroyBuffers();
 }
 /// ---
 
