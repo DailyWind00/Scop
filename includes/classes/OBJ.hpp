@@ -15,14 +15,6 @@ using namespace std;
 
 typedef array<GLuint, 3> Indice; // Position, Texture, Normal
 
-// Used to interleave vertex attributes in OBJ::setBuffers()
-typedef struct Vertex {
-	vec3 position;
-	vec3 color;
-	vec2 texCoords;
-	vec3 normal;
-} Vertex;
-
 // Data structures for .mtl files
 typedef struct Material {
 	string			name;
@@ -40,10 +32,9 @@ typedef struct Shape {
 	unsigned short	material_index = NO_TEXTURE; // Index of Object::materials
 } Shape;
 
-// Raw vertex attributes
+// Raw vertex attributes from the .obj file
 typedef struct Attributes {
 	vector<GLfloat>	positions;
-	vector<GLfloat>	colors;    // See DEFAULT_COLORS define
 	vector<GLfloat>	textures;
 	vector<GLfloat> normals;
 } Attributes;

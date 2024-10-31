@@ -114,59 +114,86 @@ void	OBJ::setObjectCentroid() {
 void	OBJ::setBuffers() {
 	printVerbose("Setting GL buffers");
 
+    // Vertex Array Object
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-	setObjectTextures();
-
     glBindVertexArray(VAO);
 
-    // Interleave vertex attributes
-    std::vector<Vertex> vertexes;
-	int color = 0;
+    // Vertex Buffer Object
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    // Element Buffer Object
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+
+    // Interleave vertex attributes (positions, colors, texCoords, normals)
+    vector<GLfloat>	interleavedData;
+	vector<GLuint>	elementIndices;
+	int i = 0;
 
 	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
 		printVerbose("| Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
 		for (const Indice &indice : shape.indices) {
-			Vertex vertex;
-			vertex.position  = {obj.attributes.positions[3 * indice[0]], obj.attributes.positions[3 * indice[0] + 1], obj.attributes.positions[3 * indice[0] + 2]};
-			vertex.color     = {DEFAULT_COLORS[color % 3], DEFAULT_COLORS[color % 3], DEFAULT_COLORS[color % 3]};
-			if (indice[1] != NO_INDEX)
-				vertex.texCoords = {obj.attributes.textures[2 * indice[1]], obj.attributes.textures[2 * indice[1] + 1]};
-			else
-				vertex.texCoords = {0, 0};
-			if (indice[2] != NO_INDEX)
-				vertex.normal    = {obj.attributes.normals[3 * indice[2]], obj.attributes.normals[3 * indice[2] + 1], obj.attributes.normals[3 * indice[2] + 2]};
-			else
-				vertex.normal = {0, 0, 0};
-			vertexes.push_back(vertex);
-			color++;
-		}
+			// Positions
+			interleavedData.push_back(obj.attributes.positions[3 * indice[0]]);
+			interleavedData.push_back(obj.attributes.positions[3 * indice[0] + 1]);
+			interleavedData.push_back(obj.attributes.positions[3 * indice[0] + 2]);
+
+			// Colors
+			interleavedData.push_back(DEFAULT_COLORS[i % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[i % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[i % 3]);
+
+			// Texture coordinates
+			if (indice[1] != NO_INDEX) {
+				interleavedData.push_back(obj.attributes.textures[2 * indice[1]]);
+				interleavedData.push_back(obj.attributes.textures[2 * indice[1] + 1]);
+			}
+			else {
+				interleavedData.push_back(NO_INDEX);
+				interleavedData.push_back(NO_INDEX);
+			}
+
+			// Normals
+			if (indice[2] != NO_INDEX) {
+				interleavedData.push_back(obj.attributes.normals[3 * indice[2]]);
+				interleavedData.push_back(obj.attributes.normals[3 * indice[2] + 1]);
+				interleavedData.push_back(obj.attributes.normals[3 * indice[2] + 2]);
+			}
+			else {
+				interleavedData.push_back(NO_INDEX);
+				interleavedData.push_back(NO_INDEX);
+				interleavedData.push_back(NO_INDEX);
+			}
+
+			elementIndices.push_back(i++);
+    	}
 	}
 
-    // Bind and set VBO
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertexes.size() * sizeof(Vertex), &vertexes[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, interleavedData.size() * sizeof(GLfloat), interleavedData.data(), GL_STATIC_DRAW);
 
-    // Bind and set EBO
-    std::vector<GLuint> elementIndices;
-	for (size_t i = 0; i < vertexes.size(); i++)
-		elementIndices.push_back(i);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementIndices.size() * sizeof(GLuint), &elementIndices[0], GL_STATIC_DRAW);
+	// Define the layout of the vertex attributes
+    GLsizei stride = (3 + 3 + 2 + 3) * sizeof(GLfloat); // position + color + texCoords + normal
 
-    // Set vertex attribute pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
     glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, color));
-	glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
+
+    // Color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(3 * sizeof(GLfloat)));
+    glEnableVertexAttribArray(1);
+
+    // Texture coordinate attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride, (void*)(6 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+
+    // Normal attribute
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (void*)(8 * sizeof(GLfloat)));
     glEnableVertexAttribArray(3);
 
-    glBindVertexArray(0);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementIndices.size() * sizeof(GLuint), elementIndices.data(), GL_STATIC_DRAW);
+	setObjectTextures();
 
 	printVerbose("GL buffers set");
 }
