@@ -23,45 +23,45 @@ vt  0  1
 vt  0  0
 
 # Normals
-vn  0 -1  0
-vn  0  1  0
 vn  1  0  0
-vn -0  0  1
-vn -1 -0 -0
+vn  0  1  0
+vn  0  0  1
+vn -1  0  0
+vn  0 -1  0
 vn  0  0 -1
 
 # Faces
 g Cube_Red
 usemtl Red
-f 2/1/1 3/2/1 4/3/1
-f 8/1/2 7/3/2 6/4/2
+f 1/1/5 2/2/5 3/4/5
+f 1/1/5 3/4/5 4/3/5
 
 g Cube_Blue
-# usemtl Blue
-usemtl Red
-f 5/1/3 6/2/3 2/3/3
-f 6/1/4 7/3/4 3/4/4
+usemtl Blue
+# usemtl Red
+f 5/1/2 6/2/2 7/4/2
+f 5/1/2 7/4/2 8/3/2
 
 g Cube_Green
-# usemtl Green
-usemtl Red
-f 3/1/5 7/2/5 8/3/5
-f 1/1/6 4/3/6 8/4/6
+usemtl Green
+# usemtl Red
+f 1/1/6 5/2/6 8/4/6
+f 1/1/6 8/4/6 4/3/6
 
 g Cube_Purple
-# usemtl Purple
-usemtl Red
-f 1/1/1 2/2/1 4/3/1
-f 5/1/2 8/3/2 6/4/2
+usemtl Purple
+# usemtl Red
+f 2/1/1 6/2/1 7/4/1
+f 2/1/1 7/4/1 3/3/1
 
 g Cube_Yellow
-# usemtl Yellow
-usemtl Red
-f 1/1/3 5/2/3 2/3/3
-f 2/1/4 6/3/4 3/4/4
+usemtl Yellow
+# usemtl Red
+f 3/1/3 7/2/3 8/4/3
+f 3/1/3 8/4/3 4/3/3
 
 g Cube_Teal
-# usemtl Teal
-usemtl Red
-f 4/1/5 3/2/5 8/3/5
-f 5/1/6 1/3/6 8/4/6
+usemtl Teal
+# usemtl Red
+f 1/1/4 2/2/4 6/4/4
+f 1/1/4 6/4/4 5/3/4
