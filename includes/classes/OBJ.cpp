@@ -35,15 +35,17 @@ void	OBJ::setObjectTextures() {
 
 	int current = 0;
 	for (Material &mat : obj.materials) {
-		if (mat.texture_path.empty()) {
-			mat.texture_index = NO_TEXTURE; // No texture for this material
-		}
-
 		int width, height, nrChannels;
-		unsigned char *data = stbi_loader(mat.texture_path, width, height, nrChannels);
-		if (!data) {
-			printVerbose((string)BOrange + "Warning : Failed to load texture \"" + mat.texture_path + "\"" + ResetColor);
-			mat.texture_index = NO_TEXTURE; // Failed to load texture
+		unsigned char *data = NULL;
+
+		if (mat.texture_path.empty())
+			mat.texture_index = NO_TEXTURE; // No texture for this material
+		else {
+			data = stbi_loader(mat.texture_path, width, height, nrChannels);
+			if (!data) {
+				printVerbose((string)BOrange + "Warning : Failed to load texture \"" + mat.texture_path + "\"" + ResetColor);
+				mat.texture_index = NO_TEXTURE; // Failed to load texture
+			}
 		}
 
 		glBindTexture(GL_TEXTURE_2D, TBO[current]);

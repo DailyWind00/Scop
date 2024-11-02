@@ -176,5 +176,5 @@ void	OBJ::parseMTL(const string &object_file_path) {
 	object_file.close();
 	printVerbose(to_string(obj.materials.size()) + " materials loaded :");
 	for (const Material &mtl : obj.materials)
-		printVerbose("| Material : " + mtl.name + " - Texture : " + mtl.texture_path);
+		printVerbose("| Material : " + mtl.name + " - Texture : " + (mtl.texture_path.empty() ? "None" : mtl.texture_path));
 }
