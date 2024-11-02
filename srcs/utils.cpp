@@ -47,6 +47,7 @@ void	displayCommands() {
 	}
 	cout << " F1\t\t\t: Enable/Disable wireframe mode\n";
 	cout << " F5\t\t\t: Recompile the current shader\n";
+	cout << " Up/Down arrows\t\t: Switch rendering method (texture / vertex)\n";
 	cout << " Left/Right arrows\t: Change shader\n";
 	cout << " Scroll\t\t\t: Zoom in/out\n";
 	cout << " ESC\t\t\t: Close the window\n";
