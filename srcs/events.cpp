@@ -74,10 +74,14 @@ static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 			offset = 0;
 	}
 	else {
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && RENDER_TEXTURE < 1) {
+			printVerbose("Switching to texture rendering mode");
 			offset = RENDER_TEXTURE_OFFSET_SPEED;
-		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		}
+		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && RENDER_TEXTURE > 0) {
+			printVerbose("Switching to vertex rendering mode");
 			offset = -RENDER_TEXTURE_OFFSET_SPEED;
+		}
 	}
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 }
