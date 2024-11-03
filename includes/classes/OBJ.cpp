@@ -18,6 +18,7 @@ OBJ::OBJ(const string &file_name) {
 
 OBJ::~OBJ() {
 	destroyBuffers();
+	glDeleteTextures(TBO.size(), TBO.data());
 }
 /// ---
 
