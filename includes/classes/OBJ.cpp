@@ -60,6 +60,8 @@ void	OBJ::setObjectTextures() {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		else if (nrChannels == 4)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		else
+			throw runtime_error("Error while loading texture : invalid number of channels");
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
