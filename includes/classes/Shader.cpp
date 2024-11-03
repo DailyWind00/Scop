@@ -29,7 +29,7 @@ GLuint Shader::make_module(const string &filepath, GLuint module_type) {
 	printVerbose("> Compiling shader : " + filepath + " -> ", false);
 
 	if (!file.is_open()) {
-		printVerbose((string)BRed + "Error" + Color_Off);
+		printVerbose(BRed + "Error" + Color_Off);
 		throw runtime_error("Failed to open file " + filepath);
 	}
 
@@ -47,14 +47,14 @@ GLuint Shader::make_module(const string &filepath, GLuint module_type) {
 	int success;
 	glGetShaderiv(shaderModule, GL_COMPILE_STATUS, &success);
 	if (!success) {
-		printVerbose((string)BRed + "Error" + Color_Off);
+		printVerbose(BRed + "Error" + Color_Off);
 		string infoLog;
 		infoLog.resize(1024);
 		glGetShaderInfoLog(shaderModule, 1024, nullptr, (GLchar *)infoLog.data());
 		throw runtime_error("Failed to compile shader " + filepath + ":\n\t" + infoLog);
 	}
 
-	printVerbose((string)BGreen + "Shader compiled" + Color_Off);
+	printVerbose(BGreen + "Shader compiled" + Color_Off);
 
 	return shaderModule;
 }
@@ -77,14 +77,14 @@ GLuint Shader::make_shader(const string &vertex_path, const string &fragment_pat
 	int success;
 	glGetProgramiv(shader, GL_LINK_STATUS, &success);
 	if (!success) {
-		printVerbose((string)BRed + "Error" + Color_Off);
+		printVerbose(BRed + "Error" + Color_Off);
 		string infoLog;
 		infoLog.resize(1024);
 		glGetProgramInfoLog(shader, 1024, nullptr, (GLchar *)infoLog.data());
 		throw runtime_error("Failed to link shader:\n\t" + infoLog);
 	}
 
-	printVerbose((string)BGreen + "Shader linked" + Color_Off);
+	printVerbose(BGreen + "Shader linked" + Color_Off);
 
 	return shader;
 }

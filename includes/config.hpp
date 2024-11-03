@@ -8,7 +8,8 @@
 # include <fstream>
 
 /// Custom includes
-# include "color.h"
+# define COLOR_HEADER_CXX
+# include "color.hpp"
 # include "Matrixes.hpp"
 # include "Shader.hpp"
 class Shader;
