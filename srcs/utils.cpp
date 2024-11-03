@@ -67,7 +67,7 @@ unsigned char *stbi_loader(const string &filename, int &width, int &height, int 
 	printVerbose("> Loading texture " + filename + " -> ", false);
 	stbi_set_flip_vertically_on_load(true); // Using OpenGL coordinate system
 
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, STBI_default);
 	if (!data) {
 		printVerbose((string)BRed + "Error" + (string)ResetColor);
 		return nullptr;
