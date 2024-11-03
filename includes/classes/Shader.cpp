@@ -41,7 +41,7 @@ GLuint Shader::make_module(const string &filepath, GLuint module_type) {
 	file.close();
 
 	GLuint shaderModule = glCreateShader(module_type);
-	glShaderSource(shaderModule, 1, &shaderSource, NULL);
+	glShaderSource(shaderModule, 1, &shaderSource, nullptr);
 	glCompileShader(shaderModule);
 
 	int success;
@@ -50,7 +50,7 @@ GLuint Shader::make_module(const string &filepath, GLuint module_type) {
 		printVerbose((string)BRed + "Error" + Color_Off);
 		string infoLog;
 		infoLog.resize(1024);
-		glGetShaderInfoLog(shaderModule, 1024, NULL, (GLchar *)infoLog.data());
+		glGetShaderInfoLog(shaderModule, 1024, nullptr, (GLchar *)infoLog.data());
 		throw runtime_error("Failed to compile shader " + filepath + ":\n\t" + infoLog);
 	}
 
@@ -80,7 +80,7 @@ GLuint Shader::make_shader(const string &vertex_path, const string &fragment_pat
 		printVerbose((string)BRed + "Error" + Color_Off);
 		string infoLog;
 		infoLog.resize(1024);
-		glGetProgramInfoLog(shader, 1024, NULL, (GLchar *)infoLog.data());
+		glGetProgramInfoLog(shader, 1024, nullptr, (GLchar *)infoLog.data());
 		throw runtime_error("Failed to link shader:\n\t" + infoLog);
 	}
 

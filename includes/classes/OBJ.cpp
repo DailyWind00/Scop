@@ -36,7 +36,7 @@ void	OBJ::setObjectTextures() {
 	int current = 0;
 	for (Material &mat : obj.materials) {
 		int width, height, nrChannels;
-		unsigned char *data = NULL;
+		unsigned char *data = nullptr;
 
 		if (mat.texture_path.empty())
 			mat.texture_index = NO_TEXTURE; // No texture for this material
