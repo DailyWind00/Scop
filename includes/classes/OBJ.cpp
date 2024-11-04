@@ -36,6 +36,16 @@ void	OBJ::setObjectTextures() {
 
 	int current = 0;
 	for (Material &mat : obj.materials) {
+		int count = 0;
+		for (Shape &shapes : obj.shapes) {
+			if (shapes.material_name == mat.name)
+				count++;
+		}
+		if (!count) {
+			printVerbose(BOrange + "Warning : No shape is using material \"" + mat.name + "\"" + ResetColor);
+			continue ;
+		}
+
 		int width, height, nrChannels;
 		unsigned char *data = nullptr;
 
