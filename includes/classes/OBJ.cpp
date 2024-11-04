@@ -18,7 +18,6 @@ OBJ::OBJ(const string &file_name) {
 
 OBJ::~OBJ() {
 	destroyBuffers();
-	glDeleteTextures(TBO.size(), TBO.data());
 }
 /// ---
 
@@ -42,6 +41,16 @@ void	OBJ::setObjectTextures() {
 		if (!count) {
 			cout << BYellow << "Notice : No shape is using material \"" << mat.name << "\"" << ResetColor << endl;
 			continue ;
+		}
+
+		if (current >= MAX_TEXTURES_COUNT) { // Maximum number of textures reached
+			static bool warning = false;
+			if (!warning) {
+				cout << BOrange << "Warning : Maximum number of textures reached" << ResetColor << endl;
+				cout << BCyan   << "Tip : Consider using texture atlas"           << ResetColor << endl;
+				warning = true;
+			}
+			continue;
 		}
 
 		int width, height, nrChannels;
@@ -192,6 +201,7 @@ void	OBJ::setBuffers() {
 	}
 
 	glBufferData(GL_ARRAY_BUFFER, interleavedData.size() * sizeof(GLfloat), interleavedData.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementIndices.size() * sizeof(GLuint), elementIndices.data(), GL_STATIC_DRAW);
 
 	// Define the layout of the vertex attributes
     GLsizei stride = (3 + 3 + 2 + 3) * sizeof(GLfloat); // position + color + texCoords + normal
@@ -212,7 +222,6 @@ void	OBJ::setBuffers() {
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (void*)(8 * sizeof(GLfloat)));
     glEnableVertexAttribArray(3);
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementIndices.size() * sizeof(GLuint), elementIndices.data(), GL_STATIC_DRAW);
 	setObjectTextures();
 
 	printVerbose("GL buffers set");

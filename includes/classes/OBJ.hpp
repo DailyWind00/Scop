@@ -9,6 +9,7 @@
 # include <string.h>
 
 # define DEFAULT_COLORS (float[3]){0.8f, 0.6f, 0.4f}
+# define MAX_TEXTURES_COUNT 32
 # define NO_INDEX (GLuint)0
 # define NO_TEXTURE (unsigned short)-1
 using namespace std;
