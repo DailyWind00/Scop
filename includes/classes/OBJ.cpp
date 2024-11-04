@@ -46,6 +46,7 @@ void	OBJ::setObjectTextures() {
 			if (!data) {
 				printVerbose(BOrange + "Warning : Failed to load texture \"" + mat.texture_path + "\"" + ResetColor);
 				mat.texture_index = NO_TEXTURE; // Failed to load texture
+				stbi_image_free(data);
 				continue ;
 			}
 		
