@@ -233,7 +233,7 @@ void	OBJ::drawObject(Shader &shader) {
 
 	for (const Shape &shape : obj.shapes) {
 		if (shape.material_index != NO_TEXTURE) {
-			shader.setInt("texture_diffuse", (GLint)shape.material_index);
+			shader.setInt("textureDiffuse", (GLint)shape.material_index);
 			glActiveTexture(GL_TEXTURE0 + shape.material_index);
 			glBindTexture(GL_TEXTURE_2D, TBO[shape.material_index]);
 		}
