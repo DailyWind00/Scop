@@ -42,7 +42,7 @@ void	OBJ::setObjectTextures() {
 				count++;
 		}
 		if (!count) {
-			printVerbose(BOrange + "Warning : No shape is using material \"" + mat.name + "\"" + ResetColor);
+			cout << BYellow << "Notice : No shape is using material \"" << mat.name << "\"" << ResetColor << endl;
 			continue ;
 		}
 
