@@ -63,14 +63,16 @@ void	OBJ::setObjectTextures() {
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		else if (nrChannels == 4)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		else if (mat.texture_index != NO_TEXTURE) {
+		else {
 			stbi_image_free(data);
 			throw runtime_error("Error while loading texture : invalid number of channels");
 		}
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
-		for (Shape &shapes : obj.shapes) { // Set the texture index for each shape
+
+		// Set the texture index for each shape
+		for (Shape &shapes : obj.shapes) {
 			if (shapes.material_name == mat.name)
 				shapes.material_index = current;
 		}
