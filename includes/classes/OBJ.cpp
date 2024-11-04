@@ -254,7 +254,7 @@ void	OBJ::drawObject(Shader &shader) {
 			glActiveTexture(GL_TEXTURE0 + shape.material_index);
 			glBindTexture(GL_TEXTURE_2D, TBO[shape.material_index]);
 		}
-		else
+		else // Auto Vertex render mode if no texture
 			shader.setFloat("RenderTexture", 0);
 
 		glBindVertexArray(VAO);
