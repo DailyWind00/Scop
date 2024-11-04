@@ -29,6 +29,7 @@ typedef struct Material {
 typedef struct Shape {
 	string			name;   
 	vector<Indice>	indices;
+	unsigned short	indices_index = 0;           // Index of Object::indices
 	string			material_name;
 	unsigned short	material_index = NO_TEXTURE; // Index of Object::materials
 } Shape;

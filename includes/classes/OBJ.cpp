@@ -258,7 +258,7 @@ void	OBJ::drawObject(Shader &shader) {
 			shader.setFloat("RenderTexture", 0);
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, shape.indices.size(), GL_UNSIGNED_INT, (void *)(6 * shape.material_index * sizeof(GLuint)));
+		glDrawElements(GL_TRIANGLES, shape.indices.size(), GL_UNSIGNED_INT, (void *)(6 * shape.indices_index * sizeof(GLuint)));
 		glBindVertexArray(0);
 	}
 }
