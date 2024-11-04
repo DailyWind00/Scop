@@ -37,7 +37,7 @@ void	OBJ::setObjectTextures() {
 	int current = 0;
 	for (Material &mat : obj.materials) {
 		int count = 0;
-		for (Shape &shapes : obj.shapes) {
+		for (const Shape &shapes : obj.shapes) {
 			if (shapes.material_name == mat.name)
 				count++;
 		}
