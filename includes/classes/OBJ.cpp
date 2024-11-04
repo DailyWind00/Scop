@@ -46,34 +46,35 @@ void	OBJ::setObjectTextures() {
 			if (!data) {
 				printVerbose(BOrange + "Warning : Failed to load texture \"" + mat.texture_path + "\"" + ResetColor);
 				mat.texture_index = NO_TEXTURE; // Failed to load texture
+				continue ;
 			}
-		}
-
-		glBindTexture(GL_TEXTURE_2D, TBO[current]);
-
-	    // Set texture parameters after binding the texture
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
-		if (nrChannels == 3)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		else if (nrChannels == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		else {
+			glBindTexture(GL_TEXTURE_2D, TBO[current]);
+
+			// Set texture parameters after binding the texture
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,  GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,  GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			
+			if (nrChannels == 3)
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			else if (nrChannels == 4)
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			else if (mat.texture_index != NO_TEXTURE) {
+				stbi_image_free(data);
+				throw runtime_error("Error while loading texture : invalid number of channels");
+			}
+			glGenerateMipmap(GL_TEXTURE_2D);
+
 			stbi_image_free(data);
-			throw runtime_error("Error while loading texture : invalid number of channels");
-		}
-		glGenerateMipmap(GL_TEXTURE_2D);
 
-		stbi_image_free(data);
-
-		for (Shape &shapes : obj.shapes) {
-			if (shapes.material_name == mat.name)
-				shapes.material_index = current;
+			for (Shape &shapes : obj.shapes) {
+				if (shapes.material_name == mat.name)
+					shapes.material_index = current;
+			}
+			mat.texture_index = current++;
 		}
-		mat.texture_index = current++;
 	}
 }
 

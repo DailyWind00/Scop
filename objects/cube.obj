@@ -38,30 +38,25 @@ f 1/1/5 3/4/5 4/3/5
 
 g Cube_Blue
 usemtl Blue
-# usemtl Red
 f 5/1/2 6/2/2 7/4/2
 f 5/1/2 7/4/2 8/3/2
 
 g Cube_Green
 usemtl Green
-# usemtl Red
 f 1/1/6 5/2/6 8/4/6
 f 1/1/6 8/4/6 4/3/6
 
 g Cube_Purple
 usemtl Purple
-# usemtl Red
 f 2/1/1 6/2/1 7/4/1
 f 2/1/1 7/4/1 3/3/1
 
 g Cube_Yellow
 usemtl Yellow
-# usemtl Red
 f 3/1/3 7/2/3 8/4/3
 f 3/1/3 8/4/3 4/3/3
 
 g Cube_Teal
 usemtl Teal
-# usemtl Red
 f 1/1/4 2/2/4 6/4/4
 f 1/1/4 6/4/4 5/3/4
