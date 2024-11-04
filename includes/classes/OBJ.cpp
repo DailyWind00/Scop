@@ -27,7 +27,7 @@ OBJ::~OBJ() {
 /// Privates functions
 void	OBJ::setObjectTextures() {
 	if (obj.materials.empty()) {
-		cout << BYellow << "Notice : No texture is set, using vertex mode as default" << ResetColor << endl;
+		cout << BYellow << "Notice : No texture is set, using vertex render mode as default" << ResetColor << endl;
 		return;
 	}
 
@@ -56,7 +56,7 @@ void	OBJ::setObjectTextures() {
 
 		data = stbi_loader(mat.texture_path, width, height, nrChannels);
 		if (!data) {
-			printVerbose(BOrange + "Warning : Failed to load texture \"" + mat.texture_path + "\"" + ResetColor);
+			cout << BOrange << "Warning : Failed to load texture \"" << mat.texture_path << "\"" << ResetColor << endl;
 			mat.texture_index = NO_TEXTURE; // Failed to load texture
 			stbi_image_free(data);
 			continue ;
@@ -238,7 +238,7 @@ void	OBJ::destroyBuffers() {
 
 // Draw the object
 void	OBJ::drawObject(Shader &shader) {
-	if (obj.materials.empty()) // Auto Vertex mode if no texture
+	if (obj.materials.empty()) // Auto Vertex render mode if no texture
 		shader.setFloat("RenderTexture", 0);
 
 	for (const Shape &shape : obj.shapes) {
