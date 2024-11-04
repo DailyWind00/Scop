@@ -133,7 +133,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 		}
 	}
 	if (obj.name.empty())
-		obj.name = file_name.substr(file_name.find_last_of("/\\") + 1, file_name.size() - 5); // get the name of the object file
+		obj.name = file_name.substr(file_name.find_last_of("/\\") + 1, file_name.size()); // get the name of the object file
 	setObjectSize();
 	setObjectCentroid();
 	object_file.close();
