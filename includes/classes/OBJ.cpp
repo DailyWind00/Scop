@@ -38,7 +38,7 @@ void	OBJ::setObjectTextures() {
 	for (Material &mat : obj.materials) {
 		int count = 0;
 		for (const Shape &shapes : obj.shapes)
-			count += (shapes.material_name == mat.name);
+			count += (shapes.material_name == mat.name); // Count the number of shapes using this material
 		if (!count) {
 			cout << BYellow << "Notice : No shape is using material \"" << mat.name << "\"" << ResetColor << endl;
 			continue ;
