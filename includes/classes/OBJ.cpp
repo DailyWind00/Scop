@@ -158,7 +158,7 @@ void	OBJ::setBuffers() {
     // Interleave vertex attributes (positions, colors, texCoords, normals)
     vector<GLfloat>	interleavedData;
 	vector<GLuint>	elementIndices;
-	int i = 0;
+	int vertexCount = 0;
 
 	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
@@ -170,9 +170,9 @@ void	OBJ::setBuffers() {
 			interleavedData.push_back(obj.attributes.positions[3 * indice[0] + 2]);
 
 			// Colors
-			interleavedData.push_back(DEFAULT_COLORS[i % 3]);
-			interleavedData.push_back(DEFAULT_COLORS[i % 3]);
-			interleavedData.push_back(DEFAULT_COLORS[i % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[vertexCount % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[vertexCount % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[vertexCount % 3]);
 
 			// Texture coordinates
 			if (indice[1] != NO_INDEX) {
@@ -223,6 +223,11 @@ void	OBJ::setBuffers() {
     glEnableVertexAttribArray(3);
 
 	setObjectTextures();
+
+	// Unbind buffers
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	printVerbose("GL buffers set");
 }
