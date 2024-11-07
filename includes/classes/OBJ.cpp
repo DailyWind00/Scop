@@ -164,7 +164,7 @@ void	OBJ::setBuffers() {
 	for (const Shape &shape : obj.shapes) {
 		printVerbose("| Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
 		for (size_t i = 0; i < shape.indices.size(); i++) {
-			// Positions
+			// Positions (stride = 3)
 			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0]]);
 			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0] + 1]);
 			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0] + 2]);
@@ -175,11 +175,11 @@ void	OBJ::setBuffers() {
 			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
 			color++;
 
-			// Texture coordinates
+			// Texture coordinates (stride = 2)
 			interleavedData.push_back(obj.attributes.textures[2 * shape.indices[i][1]]);
 			interleavedData.push_back(obj.attributes.textures[2 * shape.indices[i][1] + 1]);
 
-			// Normals
+			// Normals (stride = 3)
 			interleavedData.push_back(obj.attributes.normals[3 * shape.indices[i][2]]);
 			interleavedData.push_back(obj.attributes.normals[3 * shape.indices[i][2] + 1]);
 			interleavedData.push_back(obj.attributes.normals[3 * shape.indices[i][2] + 2]);
