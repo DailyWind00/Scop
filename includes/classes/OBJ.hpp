@@ -12,8 +12,6 @@
 # define MAX_TEXTURES_COUNT 32
 # define NO_INDEX (GLuint)0
 # define NO_TEXTURE (unsigned short)-1
-# define PUSHBACK_ATTRIBUTE(buffer, attribute) /* Pushes an attribute in the buffer, or NO_INDEX if the attribute is not set */ \
-	{attribute == NO_INDEX ? buffer.push_back(NO_INDEX) : buffer.push_back(attribute);}
 using namespace std;
 
 typedef array<GLuint, 3> Indice; // Position, Texture, Normal

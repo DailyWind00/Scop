@@ -177,13 +177,13 @@ void	OBJ::setBuffers() {
 			color++;
 
 			// Texture coordinates
-			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.textures[shape.indices[i][1]]);
-			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.textures[shape.indices[i + 1][1]]);
+			interleavedData.push_back(obj.attributes.textures[shape.indices[i][1]]);
+			interleavedData.push_back(obj.attributes.textures[shape.indices[i + 1][1]]);
 
 			// Normals
-			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.normals[shape.indices[i][2]]);
-			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.normals[shape.indices[i + 1][2]]);
-			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.normals[shape.indices[i + 2][2]]);
+			interleavedData.push_back(obj.attributes.normals[shape.indices[i][2]]);
+			interleavedData.push_back(obj.attributes.normals[shape.indices[i + 1][2]]);
+			interleavedData.push_back(obj.attributes.normals[shape.indices[i + 2][2]]);
 
 			// EBO
 			elementIndices.push_back(shape.indices[i][0]);
@@ -192,6 +192,7 @@ void	OBJ::setBuffers() {
 			cout << "EBO : " << shape.indices[i][0] << " " << shape.indices[i + 1][0] << " " << shape.indices[i + 2][0] << endl; // to remove
     	}
 	}
+	cout << "InterleavedData size : " << interleavedData.size() << endl; // to remove
 	for (size_t i = 0; i < interleavedData.size(); i += 11) {
 		cout << "InterleavedData : " << interleavedData[i] << " " << interleavedData[i + 1] << " " << interleavedData[i + 2]; // to remove
 		cout << " : " << interleavedData[i + 3] << " " << interleavedData[i + 4] << " " << interleavedData[i + 5];            // to remove
