@@ -33,7 +33,7 @@ void	displayCommands() {
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
 	cout << "> Object translation :\n";
 	cout << " J/L\t\t\t: Translate the object on the X axis\n";
-	cout << " K/I\t\t\t: Translate the object on the Y axis\n";
+	cout << " I/K\t\t\t: Translate the object on the Y axis\n";
 	cout << " U/O\t\t\t: Translate the object on the Z axis\n";
 	cout << endl;
 	if (AUTOROTATE == ROTATION::NONE) {
