@@ -31,6 +31,11 @@ void	displayCommands() {
 		return;
 
 	cout << BLightBlue << "=== Commands ===\n" << ResetColor;
+	cout << "> Object translation :\n";
+	cout << " J/L\t\t\t: Translate the object on the X axis\n";
+	cout << " K/I\t\t\t: Translate the object on the Y axis\n";
+	cout << " U/O\t\t\t: Translate the object on the Z axis\n";
+	cout << endl;
 	if (AUTOROTATE == ROTATION::NONE) {
 		cout << "> Object rotation :\n";
 		if (KEYBOARD == KEYBOARD_LANGUAGE::AZERTY) {
@@ -43,10 +48,11 @@ void	displayCommands() {
 			cout << " Q/E\t\t\t: Rotate the object on the Roll axis\n";
 		}
 		cout << endl;
-		cout << "> Others commands :\n";
 	}
+	cout << "> Others commands :\n";
 	cout << " F1\t\t\t: Enable/Disable wireframe mode\n";
 	cout << " F5\t\t\t: Recompile the current shader\n";
+	cout << " Space\t\t\t: Reset the object position and rotation\n";
 	cout << " Up/Down arrows\t\t: Switch rendering method (texture / vertex)\n";
 	cout << " Left/Right arrows\t: Change shader\n";
 	cout << " Scroll\t\t\t: Zoom in/out\n";

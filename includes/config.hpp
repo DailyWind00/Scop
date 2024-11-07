@@ -18,6 +18,7 @@ class OBJ;
 
 /// Defines
 # define ROTATION_SPEED 0.05f
+# define TRANSLATION_SPEED 0.001f
 # define AUTOROTATION_SPEED 0.015f
 # define RENDER_TEXTURE_OFFSET_SPEED 0.005f
 # define ZOOM_SPEED 0.1f

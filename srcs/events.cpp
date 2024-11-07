@@ -95,10 +95,26 @@ static void	zoomHandler(GLFWwindow* window, double xoffset = 0, double yoffset =
 
 // Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
-	static float pitch_angle = 0;
-	static float yaw_angle = 0;
-	static float roll_angle = 0;
+	static float x_movement, y_movement, z_movement = 0;
+	static float pitch_angle, yaw_angle, roll_angle = 0;
 
+	/// Translation of the object
+	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+		x_movement += TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+	else if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
+		x_movement -= TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+
+	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
+		y_movement += TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+	else if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
+		y_movement -= TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+
+	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
+		z_movement += TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+	else if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
+		z_movement -= TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+
+	/// Rotation of the object
 	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
 		if (POSITIVE_PITCH_KEY_PRESSED)
 			pitch_angle += ROTATION_SPEED * FRAMETIME * SPEED;
@@ -137,11 +153,16 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		time += AUTOROTATION_SPEED * FRAMETIME;
 	}
 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { // Reset the object position
+		x_movement = y_movement = z_movement = 0;
+		pitch_angle = yaw_angle = roll_angle = 0;
+	}
+
 	// Translation of the object
 	TranslationMatrix objectTranslation( // Translate the object to the origin to rotate around the centroid
-		-obj.getObjectData().centroid[0],
-		-obj.getObjectData().centroid[1],
-		-obj.getObjectData().centroid[2]
+		-obj.getObjectData().centroid[0] + x_movement,
+		-obj.getObjectData().centroid[1] + y_movement,
+		-obj.getObjectData().centroid[2] + z_movement
 	);
 
 	// Rotations of the object
@@ -159,7 +180,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	ScalingMatrix objectScale;
 
 	// Combine the transformations
-	Matrix transform = objectTranslation * objectRotation * objectScale; // Took this order to rotate around the centroid while considering the scale
+	Matrix transform = objectRotation * objectTranslation * objectScale; // Took this order to rotate around the centroid while considering the scale
 
 	// Camera transformations
 	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * ZOOM); // Negative to be in front of the object
