@@ -39,7 +39,6 @@ extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
 extern float	RENDER_TEXTURE; // between 0 and 1 : 0 = no texture, 1 = texture (smooth transition required)
-extern float	ZOOM;
 
 // Flags (default values are set in flags.cpp)
 extern bool					VERBOSE;

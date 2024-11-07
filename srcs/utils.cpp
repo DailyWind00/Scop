@@ -55,7 +55,6 @@ void	displayCommands() {
 	cout << " Space\t\t\t: Reset the object position and rotation\n";
 	cout << " Up/Down arrows\t\t: Switch rendering method (texture / vertex)\n";
 	cout << " Left/Right arrows\t: Change shader\n";
-	cout << " Scroll\t\t\t: Zoom in/out\n";
 	cout << " ESC\t\t\t: Close the window\n";
 	printVerbose(BLightBlue + "================" + ResetColor);
 }

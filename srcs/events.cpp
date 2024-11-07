@@ -1,7 +1,6 @@
 #include "config.hpp"
 
 float	FOV = 45.0f;
-float	ZOOM = 2.5f;
 float	RENDER_TEXTURE = 1;
 
 #define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
@@ -84,13 +83,6 @@ static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 		}
 	}
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
-}
-
-static void	zoomHandler(GLFWwindow* window, double xoffset = 0, double yoffset = 0) {
-	(void)window;
-	(void)xoffset;
-
-	ZOOM = clamp(ZOOM - yoffset * ZOOM_SPEED, MIN_ZOOM, MAX_ZOOM);
 }
 
 // Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
@@ -183,7 +175,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	Matrix transform = objectRotation * objectTranslation * objectScale; // Took this order to rotate around the centroid while considering the scale
 
 	// Camera transformations
-	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * ZOOM); // Negative to be in front of the object
+	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * 2.5); // Negative to be in front of the object
 	RotationMatrix    cameraAngle(0.0f, 0.0f, 0.0f);
 
 	Matrix view = cameraAngle * cameraPos;
@@ -212,7 +204,6 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
 	renderTextureHandler(window, shaders);
-	glfwSetScrollCallback(window, zoomHandler);
 
 	transformObjectHandler(window, shaders, obj);
 }
