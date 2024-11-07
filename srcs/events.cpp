@@ -173,7 +173,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 
 
 	// Scale of the object
-	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetScrollCallback(window, scroll_callback); // Modify SCALE
 	ScalingMatrix objectScale(SCALE, SCALE, SCALE);
 
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
