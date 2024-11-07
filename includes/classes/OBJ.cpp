@@ -158,7 +158,7 @@ void	OBJ::setBuffers() {
     // Interleave vertex attributes (positions, colors, texCoords, normals)
     vector<GLfloat>	interleavedData;
 	vector<GLuint>	elementIndices;
-	int color = 0;
+	int count = 0;
 
 	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
@@ -170,10 +170,10 @@ void	OBJ::setBuffers() {
 			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0] + 2]);
 
 			// Colors
-			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
-			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
-			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
-			color++;
+			interleavedData.push_back(DEFAULT_COLORS[count % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[count % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[count % 3]);
+			
 
 			// Texture coordinates (stride = 2)
 			interleavedData.push_back(obj.attributes.textures[2 * shape.indices[i][1]]);
@@ -186,19 +186,12 @@ void	OBJ::setBuffers() {
 
 			// EBO
 			if (!(i % 3)) {
-				elementIndices.push_back(shape.indices[i][0]);
-				elementIndices.push_back(shape.indices[i + 1][0]);
-				elementIndices.push_back(shape.indices[i + 2][0]);
-				cout << "EBO : " << shape.indices[i][0] << " " << shape.indices[i + 1][0] << " " << shape.indices[i + 2][0] << endl; // to remove
+				elementIndices.push_back(count);
+				elementIndices.push_back(count + 1);
+				elementIndices.push_back(count + 2);
 			}
+			count++;
     	}
-	}
-	cout << "InterleavedData size : " << interleavedData.size() << endl; // to remove
-	for (size_t i = 0; i < interleavedData.size(); i += 11) {
-		cout << "InterleavedData : " << interleavedData[i] << " " << interleavedData[i + 1] << " " << interleavedData[i + 2]; // to remove
-		cout << " : " << interleavedData[i + 3] << " " << interleavedData[i + 4] << " " << interleavedData[i + 5];            // to remove
-		cout << " : " << interleavedData[i + 6] << " " << interleavedData[i + 7];                                             // to remove
-		cout << " : " << interleavedData[i + 8] << " " << interleavedData[i + 9] << " " << interleavedData[i + 10] << endl;   // to remove
 	}
 
 	glBufferData(GL_ARRAY_BUFFER, interleavedData.size() * sizeof(GLfloat), interleavedData.data(), GL_STATIC_DRAW);
