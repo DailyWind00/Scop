@@ -21,9 +21,6 @@ class OBJ;
 # define TRANSLATION_SPEED 0.001f
 # define AUTOROTATION_SPEED 0.015f
 # define RENDER_TEXTURE_OFFSET_SPEED 0.005f
-# define ZOOM_SPEED 0.1f
-# define MAX_ZOOM 10.0
-# define MIN_ZOOM 1.0
 
 /// Global variables
 using namespace std;
