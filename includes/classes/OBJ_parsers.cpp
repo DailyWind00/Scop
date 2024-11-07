@@ -134,6 +134,15 @@ void	OBJ::parseOBJ(const string &file_name) {
 	}
 	if (obj.name.empty())
 		obj.name = file_name.substr(file_name.find_last_of("/\\") + 1, file_name.size()); // get the name of the object file
+	if (obj.attributes.textures.empty()) { // Default texture coordinates
+		obj.attributes.textures.push_back(0.0f);
+		obj.attributes.textures.push_back(0.0f);
+	}
+	if (obj.attributes.normals.empty()) { // Default normals
+		obj.attributes.normals.push_back(0.0f);
+		obj.attributes.normals.push_back(0.0f);
+		obj.attributes.normals.push_back(0.0f);
+	}
 	setObjectSize();
 	setObjectCentroid();
 	object_file.close();
