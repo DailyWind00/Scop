@@ -97,7 +97,7 @@ void	OBJ::setObjectTextures() {
 	}
 }
 
-void	OBJ::setObjectSize() {
+void	OBJ::setObjectVirtualData() {
     if (obj.attributes.positions.empty()) {
         obj.size = 0.0f;
         return;	
@@ -107,7 +107,7 @@ void	OBJ::setObjectSize() {
 	vec3 min_ = {0.0f, 0.0f, 0.0f};
     size_t numVertices = obj.attributes.positions.size() / 3;
 
-    for (size_t i = 0; i < numVertices; ++i) {
+    for (size_t i = 0; i < numVertices; i++) {
         max_[0] = max(max_[0], obj.attributes.positions[3 * i]);
 		max_[1] = max(max_[1], obj.attributes.positions[3 * i + 1]);
 		max_[2] = max(max_[2], obj.attributes.positions[3 * i + 2]);
@@ -118,26 +118,9 @@ void	OBJ::setObjectSize() {
     }
 
 	obj.size = max(max_[0] - min_[0], max(max_[1] - min_[1], max_[2] - min_[2]));
-}
-
-void	OBJ::setObjectCentroid() {
-    if (obj.attributes.positions.empty()) {
-        obj.centroid = {0.0f, 0.0f, 0.0f};
-        return;	
-    }
-
-    vec3 sum = {0.0f, 0.0f, 0.0f};
-    size_t numVertices = obj.attributes.positions.size() / 3;
-
-    for (size_t i = 0; i < numVertices; ++i) {
-        sum[0] += obj.attributes.positions[3 * i];
-        sum[1] += obj.attributes.positions[3 * i + 1];
-        sum[2] += obj.attributes.positions[3 * i + 2];
-    }
-
-    obj.centroid[0] = sum[0] / numVertices;
-    obj.centroid[1] = sum[1] / numVertices;
-    obj.centroid[2] = sum[2] / numVertices;
+	obj.centroid[0] = (max_[0] + min_[0]) / 2;
+	obj.centroid[1] = (max_[1] + min_[1]) / 2;
+	obj.centroid[2] = (max_[2] + min_[2]) / 2;
 }
 
 void	OBJ::setBuffers() {

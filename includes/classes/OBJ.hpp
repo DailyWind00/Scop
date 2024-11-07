@@ -45,7 +45,7 @@ typedef struct Attributes {
 typedef struct Object {
 	string	name;     // Name of the object (first occurernce of "o" in the file)
 	float	size;     // Virtual size of the edge of a cube containing the whole object, used for camera placement
-	vec3	centroid; // Center of the object
+	vec3	centroid; // Virtual center of the object
 
 	Attributes			attributes; // Interleaved vertex attributes
 	vector<Shape>		shapes;
@@ -73,8 +73,7 @@ class OBJ {
 		// Privates functions
 
 		void	setObjectTextures();
-		void	setObjectSize();
-		void	setObjectCentroid();
+		void	setObjectVirtualData();
 		void	setBuffers();
 		void	destroyBuffers();
 

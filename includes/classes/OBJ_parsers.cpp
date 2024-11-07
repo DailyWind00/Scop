@@ -143,8 +143,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 		obj.attributes.normals.push_back(0.0f);
 		obj.attributes.normals.push_back(0.0f);
 	}
-	setObjectSize();
-	setObjectCentroid();
+	setObjectVirtualData();
 	object_file.close();
 
 	if (obj.shapes.empty())
