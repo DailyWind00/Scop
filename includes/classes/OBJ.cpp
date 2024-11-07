@@ -158,50 +158,56 @@ void	OBJ::setBuffers() {
     // Interleave vertex attributes (positions, colors, texCoords, normals)
     vector<GLfloat>	interleavedData;
 	vector<GLuint>	elementIndices;
-	int vertexCount = 0;
+	int color = 0;
 
 	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
 		printVerbose("| Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
-		for (const Indice &indice : shape.indices) {
+		for (size_t i = 0; i < shape.indices.size(); i += 3) {
 			// Positions
-			interleavedData.push_back(obj.attributes.positions[3 * indice[0]]);
-			interleavedData.push_back(obj.attributes.positions[3 * indice[0] + 1]);
-			interleavedData.push_back(obj.attributes.positions[3 * indice[0] + 2]);
+			interleavedData.push_back(obj.attributes.positions[shape.indices[i][0]]);
+			interleavedData.push_back(obj.attributes.positions[shape.indices[i + 1][0]]);
+			interleavedData.push_back(obj.attributes.positions[shape.indices[i + 2][0]]);
+			// cout << "Positions : " << obj.attributes.positions[shape.indices[i][0]] << " " << obj.attributes.positions[shape.indices[i + 1][0]] << " " << obj.attributes.positions[shape.indices[i + 2][0]] << endl; // to remove
 
 			// Colors
-			interleavedData.push_back(DEFAULT_COLORS[vertexCount % 3]);
-			interleavedData.push_back(DEFAULT_COLORS[vertexCount % 3]);
-			interleavedData.push_back(DEFAULT_COLORS[vertexCount % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
+			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
+			color++;
 
 			// Texture coordinates
-			if (indice[1] != NO_INDEX) {
-				interleavedData.push_back(obj.attributes.textures[2 * indice[1]]);
-				interleavedData.push_back(obj.attributes.textures[2 * indice[1] + 1]);
-			}
-			else {
-				interleavedData.push_back(NO_INDEX);
-				interleavedData.push_back(NO_INDEX);
-			}
+			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.textures[shape.indices[i][1]]);
+			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.textures[shape.indices[i + 1][1]]);
 
 			// Normals
-			if (indice[2] != NO_INDEX) {
-				interleavedData.push_back(obj.attributes.normals[3 * indice[2]]);
-				interleavedData.push_back(obj.attributes.normals[3 * indice[2] + 1]);
-				interleavedData.push_back(obj.attributes.normals[3 * indice[2] + 2]);
-			}
-			else {
-				interleavedData.push_back(NO_INDEX);
-				interleavedData.push_back(NO_INDEX);
-				interleavedData.push_back(NO_INDEX);
-			}
+			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.normals[shape.indices[i][2]]);
+			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.normals[shape.indices[i + 1][2]]);
+			PUSHBACK_ATTRIBUTE(interleavedData, obj.attributes.normals[shape.indices[i + 2][2]]);
 
-			elementIndices.push_back(i++);
+			// EBO
+			elementIndices.push_back(shape.indices[i][0]);
+			elementIndices.push_back(shape.indices[i + 1][0]);
+			elementIndices.push_back(shape.indices[i + 2][0]);
+			cout << "EBO : " << shape.indices[i][0] << " " << shape.indices[i + 1][0] << " " << shape.indices[i + 2][0] << endl; // to remove
     	}
+	}
+	for (size_t i = 0; i < interleavedData.size(); i += 11) {
+		cout << "InterleavedData : " << interleavedData[i] << " " << interleavedData[i + 1] << " " << interleavedData[i + 2]; // to remove
+		cout << " : " << interleavedData[i + 3] << " " << interleavedData[i + 4] << " " << interleavedData[i + 5];            // to remove
+		cout << " : " << interleavedData[i + 6] << " " << interleavedData[i + 7];                                             // to remove
+		cout << " : " << interleavedData[i + 8] << " " << interleavedData[i + 9] << " " << interleavedData[i + 10] << endl;   // to remove
 	}
 
 	glBufferData(GL_ARRAY_BUFFER, interleavedData.size() * sizeof(GLfloat), interleavedData.data(), GL_STATIC_DRAW);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, elementIndices.size() * sizeof(GLuint), elementIndices.data(), GL_STATIC_DRAW);
+
+	// Set the indices index for each shape
+	GLuint index = 0;
+	for (Shape &shape : obj.shapes) {
+        shape.indices_index = index;
+		index += shape.indices.size();
+	}
 
 	// Define the layout of the vertex attributes
     GLsizei stride = (3 + 3 + 2 + 3) * sizeof(GLfloat); // position + color + texCoords + normal
@@ -221,6 +227,7 @@ void	OBJ::setBuffers() {
     // Normal attribute
     glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, stride, (void*)(8 * sizeof(GLfloat)));
     glEnableVertexAttribArray(3);
+
 
 	setObjectTextures();
 
@@ -263,7 +270,7 @@ void	OBJ::drawObject(Shader &shader) {
 			shader.setFloat("RenderTexture", 0);
 
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, shape.indices.size(), GL_UNSIGNED_INT, (void *)(6 * shape.indices_index * sizeof(GLuint)));
+		glDrawElements(GL_TRIANGLES, shape.indices.size(), GL_UNSIGNED_INT, (void *)(shape.indices_index * sizeof(GLuint)));
 		glBindVertexArray(0);
 	}
 }
