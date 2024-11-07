@@ -23,7 +23,7 @@ static void program_loop(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 		getFrametime();
 		handleEvents(window, obj, shaders);
 
-		obj.drawObject();
+		obj.drawObject(shaders);
 
 		glfwSwapBuffers(window);
 	}

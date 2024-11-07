@@ -67,7 +67,7 @@ void	OBJ::parseOBJ(const string &file_name) {
 				faceIndices.push_back(values);
 			}
 			if (obj.shapes.empty()) { // Create a default group if no group is defined
-				cout << BYellow << "Notice : no group defined at line " << i << ", creating a default group" << ResetColor << endl;
+				cout << BYellow << "Notice : No group defined at line " << i << ", creating a default group" << ResetColor << endl;
 				Shape shape; shape.name = "default";
 				obj.shapes.push_back(shape);
 			}
@@ -118,29 +118,37 @@ void	OBJ::parseOBJ(const string &file_name) {
 				it++;
 
 			if (it == obj.materials.end()) {
-				cout << BOrange << "Warning : material \"" << material_name << "\" not found at line " << i << ResetColor << endl;
+				cout << BOrange << "Warning : Material \"" << material_name << "\" not found at line " << i << ResetColor << endl;
 				continue;
 			}
 
 			if (obj.shapes.empty()) { // Create a default group if no group is defined
-				cout << BYellow << "Notice : no group defined at line " << i << ", creating a default group" << ResetColor << endl;
+				cout << BYellow << "Notice : No group defined at line " << i << ", creating a default group" << ResetColor << endl;
 				Shape shape; shape.name = "default";
 				obj.shapes.push_back(shape);
 			}
 
-			printVerbose("+ Shape \"" + obj.shapes.back().name + "\" is now using material " + obj.shapes.back().name);
+			obj.shapes.back().material_name = it->name;
+			printVerbose("+ Shape \"" + obj.shapes.back().name + "\" is now using material \"" + it->name + "\"");
 		}
 	}
 	if (obj.name.empty())
-		obj.name = "Object Viewer";
+		obj.name = file_name.substr(file_name.find_last_of("/\\") + 1, file_name.size()); // get the name of the object file
+	if (obj.attributes.textures.empty()) { // Default texture coordinates
+		obj.attributes.textures.push_back(0.0f);
+		obj.attributes.textures.push_back(0.0f);
+	}
+	if (obj.attributes.normals.empty()) { // Default normals
+		obj.attributes.normals.push_back(0.0f);
+		obj.attributes.normals.push_back(0.0f);
+		obj.attributes.normals.push_back(0.0f);
+	}
 	setObjectSize();
 	setObjectCentroid();
 	object_file.close();
 
-	if (obj.shapes.empty()) {
-		cout << BOrange << "Warning : no shapes found in the object file, calling destructor" << ResetColor << endl;
-		this->~OBJ();
-	}
+	if (obj.shapes.empty())
+		cout << BOrange << "Warning : No shapes found in the object file" << ResetColor << endl;
 }
 
 void	OBJ::parseMTL(const string &object_file_path) {
@@ -177,5 +185,5 @@ void	OBJ::parseMTL(const string &object_file_path) {
 	object_file.close();
 	printVerbose(to_string(obj.materials.size()) + " materials loaded :");
 	for (const Material &mtl : obj.materials)
-		printVerbose("| Material : " + mtl.name + " - Texture : " + mtl.texture_path);
+		printVerbose("| Material : " + mtl.name + " - Texture : " + (mtl.texture_path.empty() ? "None" : mtl.texture_path));
 }

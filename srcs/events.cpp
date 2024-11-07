@@ -3,7 +3,6 @@
 float	FOV = 45.0f;
 float	ZOOM = 2.5f;
 float	RENDER_TEXTURE = 1;
-float	RENDER_TEXTURE_OFFSET_SPEED = 0.02f;
 
 #define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
 #define NEGATIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
@@ -75,10 +74,14 @@ static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 			offset = 0;
 	}
 	else {
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS && RENDER_TEXTURE < 1) {
+			printVerbose("Switching to texture rendering mode");
 			offset = RENDER_TEXTURE_OFFSET_SPEED;
-		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		}
+		else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS && RENDER_TEXTURE > 0) {
+			printVerbose("Switching to vertex rendering mode");
 			offset = -RENDER_TEXTURE_OFFSET_SPEED;
+		}
 	}
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 }

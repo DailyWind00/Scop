@@ -22,7 +22,7 @@ GLFWwindow	*CreateWindow() {
 	printVerbose("GLFW initialized");
 
 	const string title = "Scop";
-	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title.c_str(), NULL, NULL);
+	window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title.c_str(), nullptr, nullptr);
 	if (!window) {
 		glfwTerminate();
 		throw runtime_error("Failed to create window");

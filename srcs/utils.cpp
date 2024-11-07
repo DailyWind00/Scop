@@ -47,10 +47,11 @@ void	displayCommands() {
 	}
 	cout << " F1\t\t\t: Enable/Disable wireframe mode\n";
 	cout << " F5\t\t\t: Recompile the current shader\n";
+	cout << " Up/Down arrows\t\t: Switch rendering method (texture / vertex)\n";
 	cout << " Left/Right arrows\t: Change shader\n";
 	cout << " Scroll\t\t\t: Zoom in/out\n";
 	cout << " ESC\t\t\t: Close the window\n";
-	printVerbose((string)BLightBlue + "================" + ResetColor);
+	printVerbose(BLightBlue + "================" + ResetColor);
 }
 
 // Open the file in read mode and return the ifstream object, throw an error if the file can't be opened
@@ -66,13 +67,13 @@ unsigned char *stbi_loader(const string &filename, int &width, int &height, int 
 	printVerbose("> Loading texture " + filename + " -> ", false);
 	stbi_set_flip_vertically_on_load(true); // Using OpenGL coordinate system
 
-	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &nrChannels, STBI_default);
 	if (!data) {
-		printVerbose((string)BRed + "Error" + (string)ResetColor);
-		return NULL;
+		printVerbose(BRed + "Error" + ResetColor);
+		return nullptr;
 	}
 
-	printVerbose((string)BGreen + "Texture loaded" + (string)ResetColor);
+	printVerbose(BGreen + "Texture loaded" + ResetColor);
 	return data;
 }
 

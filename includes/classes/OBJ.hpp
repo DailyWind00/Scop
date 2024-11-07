@@ -9,19 +9,12 @@
 # include <string.h>
 
 # define DEFAULT_COLORS (float[3]){0.8f, 0.6f, 0.4f}
+# define MAX_TEXTURES_COUNT 32
 # define NO_INDEX (GLuint)0
 # define NO_TEXTURE (unsigned short)-1
 using namespace std;
 
 typedef array<GLuint, 3> Indice; // Position, Texture, Normal
-
-// Used to interleave vertex attributes in OBJ::setBuffers()
-typedef struct Vertex {
-	vec3 position;
-	vec3 color;
-	vec2 texCoords;
-	vec3 normal;
-} Vertex;
 
 // Data structures for .mtl files
 typedef struct Material {
@@ -36,13 +29,14 @@ typedef struct Material {
 typedef struct Shape {
 	string			name;   
 	vector<Indice>	indices;
+	GLuint			indices_index = NO_INDEX;    // Index of OBJ::EBO
+	string			material_name;
 	unsigned short	material_index = NO_TEXTURE; // Index of Object::materials
 } Shape;
 
-// Raw vertex attributes
+// Raw vertex attributes from the .obj file
 typedef struct Attributes {
 	vector<GLfloat>	positions;
-	vector<GLfloat>	colors;    // See DEFAULT_COLORS define
 	vector<GLfloat>	textures;
 	vector<GLfloat> normals;
 } Attributes;
@@ -91,7 +85,7 @@ class OBJ {
 
 		// Public functions
 
-		void  	drawObject();
+		void  	drawObject(Shader &shader);
 
 
 		// Getters

@@ -8,14 +8,18 @@
 # include <fstream>
 
 /// Custom includes
-# include "color.h"
-# include "OBJ.hpp"
-# include "Shader.hpp"
+# define COLOR_HEADER_CXX
+# include "color.hpp"
 # include "Matrixes.hpp"
+# include "Shader.hpp"
+class Shader;
+# include "OBJ.hpp"
+class OBJ;
 
 /// Defines
 # define ROTATION_SPEED 0.05f
 # define AUTOROTATION_SPEED 0.015f
+# define RENDER_TEXTURE_OFFSET_SPEED 0.005f
 # define ZOOM_SPEED 0.1f
 # define MAX_ZOOM 10.0
 # define MIN_ZOOM 1.0
@@ -23,8 +27,6 @@
 /// Global variables
 using namespace std;
 enum class ROTATION;
-class Shader;
-class OBJ;
 
 enum class KEYBOARD_LANGUAGE {
 	AZERTY,
@@ -36,7 +38,6 @@ extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
 extern float	RENDER_TEXTURE; // between 0 and 1 : 0 = no texture, 1 = texture (smooth transition required)
-extern float	RENDER_TEXTURE_OFFSET_SPEED;
 extern float	ZOOM;
 
 // Flags (default values are set in flags.cpp)
