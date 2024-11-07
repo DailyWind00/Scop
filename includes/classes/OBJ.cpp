@@ -163,12 +163,11 @@ void	OBJ::setBuffers() {
 	printVerbose("Loading " + to_string(obj.shapes.size()) + " shapes :");
 	for (const Shape &shape : obj.shapes) {
 		printVerbose("| Shape : " + shape.name + " - Indices : " + to_string(shape.indices.size()));
-		for (size_t i = 0; i < shape.indices.size(); i += 3) {
+		for (size_t i = 0; i < shape.indices.size(); i++) {
 			// Positions
-			interleavedData.push_back(obj.attributes.positions[shape.indices[i][0]]);
-			interleavedData.push_back(obj.attributes.positions[shape.indices[i + 1][0]]);
-			interleavedData.push_back(obj.attributes.positions[shape.indices[i + 2][0]]);
-			// cout << "Positions : " << obj.attributes.positions[shape.indices[i][0]] << " " << obj.attributes.positions[shape.indices[i + 1][0]] << " " << obj.attributes.positions[shape.indices[i + 2][0]] << endl; // to remove
+			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0]]);
+			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0] + 1]);
+			interleavedData.push_back(obj.attributes.positions[3 * shape.indices[i][0] + 2]);
 
 			// Colors
 			interleavedData.push_back(DEFAULT_COLORS[color % 3]);
@@ -177,19 +176,21 @@ void	OBJ::setBuffers() {
 			color++;
 
 			// Texture coordinates
-			interleavedData.push_back(obj.attributes.textures[shape.indices[i][1]]);
-			interleavedData.push_back(obj.attributes.textures[shape.indices[i + 1][1]]);
+			interleavedData.push_back(obj.attributes.textures[2 * shape.indices[i][1]]);
+			interleavedData.push_back(obj.attributes.textures[2 * shape.indices[i][1] + 1]);
 
 			// Normals
-			interleavedData.push_back(obj.attributes.normals[shape.indices[i][2]]);
-			interleavedData.push_back(obj.attributes.normals[shape.indices[i + 1][2]]);
-			interleavedData.push_back(obj.attributes.normals[shape.indices[i + 2][2]]);
+			interleavedData.push_back(obj.attributes.normals[3 * shape.indices[i][2]]);
+			interleavedData.push_back(obj.attributes.normals[3 * shape.indices[i][2] + 1]);
+			interleavedData.push_back(obj.attributes.normals[3 * shape.indices[i][2] + 2]);
 
 			// EBO
-			elementIndices.push_back(shape.indices[i][0]);
-			elementIndices.push_back(shape.indices[i + 1][0]);
-			elementIndices.push_back(shape.indices[i + 2][0]);
-			cout << "EBO : " << shape.indices[i][0] << " " << shape.indices[i + 1][0] << " " << shape.indices[i + 2][0] << endl; // to remove
+			if (!(i % 3)) {
+				elementIndices.push_back(shape.indices[i][0]);
+				elementIndices.push_back(shape.indices[i + 1][0]);
+				elementIndices.push_back(shape.indices[i + 2][0]);
+				cout << "EBO : " << shape.indices[i][0] << " " << shape.indices[i + 1][0] << " " << shape.indices[i + 2][0] << endl; // to remove
+			}
     	}
 	}
 	cout << "InterleavedData size : " << interleavedData.size() << endl; // to remove
