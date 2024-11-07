@@ -117,6 +117,11 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		-obj.getObjectData().centroid[1] + y_movement,
 		-obj.getObjectData().centroid[2] + z_movement
 	);
+	TranslationMatrix objectTranslationBack( // Translate the object back to its original position
+		-obj.getObjectData().centroid[0],
+		-obj.getObjectData().centroid[1],
+		-obj.getObjectData().centroid[2]
+	);
 
 
 	/// Rotation of the object
@@ -163,19 +168,21 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		yaw_angle = -yaw_angle;
 		roll_angle = -roll_angle;
 	}
-	RotationMatrix pitch(ROTATION::PITCH, pitch_angle);
-	RotationMatrix yaw(ROTATION::YAW, yaw_angle);
-	RotationMatrix roll(ROTATION::ROLL, roll_angle);
-	Matrix objectRotation = pitch * yaw * roll;
+	RotationMatrix objectRotation(pitch_angle, yaw_angle, roll_angle);
 
 
 	// Scale of the object
 	glfwSetScrollCallback(window, scroll_callback);
 	ScalingMatrix objectScale(SCALE, SCALE, SCALE);
 
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		x_movement = y_movement = z_movement = 0;
+		pitch_angle = yaw_angle = roll_angle = 0;
+		SCALE = 1;
+	}
 
 	// Combine the transformations
-	Matrix transform = objectRotation * objectTranslation * objectScale; // Took this order to rotate around the centroid while considering the scale
+	Matrix transform = objectTranslationBack * objectRotation * objectScale * objectTranslation; // Order is important
 
 	// Camera transformations
 	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * 2.5); // Negative to be in front of the object
