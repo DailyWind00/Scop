@@ -95,6 +95,7 @@ static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) 
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float x_movement, y_movement, z_movement = 0;
 	static float pitch_angle, yaw_angle, roll_angle = 0;
+	const vec3 &centroid = obj.getObjectData().centroid;
 
 	/// Translation of the object
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
@@ -113,14 +114,14 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		z_movement -= TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
 
 	TranslationMatrix objectTranslation( // Translate the object to the origin to rotate around the centroid
-		-obj.getObjectData().centroid[0] + x_movement,
-		-obj.getObjectData().centroid[1] + y_movement,
-		-obj.getObjectData().centroid[2] + z_movement
+		-centroid[0] + x_movement,
+		-centroid[1] + y_movement,
+		-centroid[2] + z_movement
 	);
 	TranslationMatrix objectTranslationBack( // Translate the object back to its original position
-		-obj.getObjectData().centroid[0],
-		-obj.getObjectData().centroid[1],
-		-obj.getObjectData().centroid[2]
+		-centroid[0],
+		-centroid[1],
+		-centroid[2]
 	);
 
 
@@ -185,7 +186,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	Matrix transform = objectTranslationBack * objectRotation * objectScale * objectTranslation; // Order is important
 
 	// Camera transformations
-	TranslationMatrix cameraPos(0.0f, 0.0f, -obj.getObjectData().size * 2.5); // Negative to be in front of the object
+	TranslationMatrix cameraPos(centroid[0], centroid[1], centroid[2] - obj.getObjectData().size * 2.5); // Negative to be in front of the object
 	RotationMatrix    cameraAngle(0.0f, 0.0f, 0.0f);
 
 	Matrix view = cameraAngle * cameraPos;

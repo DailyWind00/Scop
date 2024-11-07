@@ -52,7 +52,7 @@ void	displayCommands() {
 	cout << "> Others commands :\n";
 	cout << " F1\t\t\t: Enable/Disable wireframe mode\n";
 	cout << " F5\t\t\t: Recompile the current shader\n";
-	cout << " Space\t\t\t: Reset the object position and rotation\n";
+	cout << " Space\t\t\t: Reset the object\n";
 	cout << " Scroll\t\t\t: Scale the object\n";
 	cout << " Up/Down arrows\t\t: Switch rendering method (texture / vertex)\n";
 	cout << " Left/Right arrows\t: Change shader\n";
