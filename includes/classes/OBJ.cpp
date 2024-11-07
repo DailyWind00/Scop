@@ -100,6 +100,7 @@ void	OBJ::setObjectTextures() {
 void	OBJ::setObjectVirtualData() {
     if (obj.attributes.positions.empty()) {
         obj.size = 0.0f;
+		obj.centroid = {0.0f, 0.0f, 0.0f};
         return;	
     }
 
