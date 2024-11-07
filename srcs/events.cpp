@@ -2,6 +2,7 @@
 
 float	FOV = 45.0f;
 float	RENDER_TEXTURE = 1;
+float	SCALE = 1;
 
 #define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
 #define NEGATIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
@@ -85,6 +86,11 @@ static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 }
 
+static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
+	SCALE = clamp(SCALE + (float)yoffset * SCROLL_SPEED, MIN_SCALE, MAX_SCALE);
+	(void)window; (void)xoffset;
+}
+
 // Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float x_movement, y_movement, z_movement = 0;
@@ -105,6 +111,13 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		z_movement += TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
 	else if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
 		z_movement -= TRANSLATION_SPEED * FRAMETIME * SPEED * obj.getObjectData().size;
+
+	TranslationMatrix objectTranslation( // Translate the object to the origin to rotate around the centroid
+		-obj.getObjectData().centroid[0] + x_movement,
+		-obj.getObjectData().centroid[1] + y_movement,
+		-obj.getObjectData().centroid[2] + z_movement
+	);
+
 
 	/// Rotation of the object
 	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
@@ -145,19 +158,6 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 		time += AUTOROTATION_SPEED * FRAMETIME;
 	}
 
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { // Reset the object position
-		x_movement = y_movement = z_movement = 0;
-		pitch_angle = yaw_angle = roll_angle = 0;
-	}
-
-	// Translation of the object
-	TranslationMatrix objectTranslation( // Translate the object to the origin to rotate around the centroid
-		-obj.getObjectData().centroid[0] + x_movement,
-		-obj.getObjectData().centroid[1] + y_movement,
-		-obj.getObjectData().centroid[2] + z_movement
-	);
-
-	// Rotations of the object
 	if (INVERSE_AUTOROTATE) {
 		pitch_angle = -pitch_angle;
 		yaw_angle = -yaw_angle;
@@ -168,8 +168,11 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	RotationMatrix roll(ROTATION::ROLL, roll_angle);
 	Matrix objectRotation = pitch * yaw * roll;
 
+
 	// Scale of the object
-	ScalingMatrix objectScale;
+	glfwSetScrollCallback(window, scroll_callback);
+	ScalingMatrix objectScale(SCALE, SCALE, SCALE);
+
 
 	// Combine the transformations
 	Matrix transform = objectRotation * objectTranslation * objectScale; // Took this order to rotate around the centroid while considering the scale

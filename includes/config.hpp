@@ -21,6 +21,9 @@ class OBJ;
 # define TRANSLATION_SPEED 0.001f
 # define AUTOROTATION_SPEED 0.015f
 # define RENDER_TEXTURE_OFFSET_SPEED 0.005f
+# define SCROLL_SPEED 0.1f
+# define MIN_SCALE 0.1f
+# define MAX_SCALE 10.0f
 
 /// Global variables
 using namespace std;
@@ -36,6 +39,7 @@ extern int		WINDOW_HEIGHT;
 extern double	FRAMETIME;
 extern float	FOV;
 extern float	RENDER_TEXTURE; // between 0 and 1 : 0 = no texture, 1 = texture (smooth transition required)
+extern float	SCALE;
 
 // Flags (default values are set in flags.cpp)
 extern bool					VERBOSE;
