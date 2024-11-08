@@ -93,7 +93,7 @@ static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) 
 	(void)window; (void)xoffset;
 }
 
-// Handle the transformation of the object, here only rotation is useful (keybind change with keyboard language)
+// Handle the transformation of the object (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float x_movement, y_movement, z_movement = 0;
 	static float pitch_angle, yaw_angle, roll_angle = 0;
