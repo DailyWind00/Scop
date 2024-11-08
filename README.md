@@ -14,7 +14,7 @@ make re      # Recompile the project
 # You can display the help message using :
 ./Scop -h
 ```
-## Tips
+## Informations
 
 You have benchmark objects in the folder ./objects
 
