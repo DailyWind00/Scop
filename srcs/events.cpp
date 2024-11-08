@@ -176,11 +176,18 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 	glfwSetScrollCallback(window, scroll_callback); // Modify SCALE
 	ScalingMatrix objectScale(SCALE, SCALE, SCALE);
 
+	static bool space_key_pressed = false;
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-		x_movement = y_movement = z_movement = 0;
-		pitch_angle = yaw_angle = roll_angle = 0;
-		SCALE = 1;
+		if (!space_key_pressed) {
+			printVerbose("Reset object");
+			x_movement = y_movement = z_movement = 0;
+			pitch_angle = yaw_angle = roll_angle = 0;
+			SCALE = 1;
+			space_key_pressed = true;
+		}
 	}
+	else
+		space_key_pressed = false;
 
 	// Combine the transformations
 	Matrix transform = objectTranslationBack * objectRotation * objectScale * objectTranslation; // Order is important
