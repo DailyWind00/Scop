@@ -65,6 +65,7 @@ static void shaderSwitchHandler(GLFWwindow *window, Shader &shaders) {
 		changeShaderKeyPressed = false;
 }
 
+// Handle the switch between vertex and texture render modes
 static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 	static float offset = 0;
 
@@ -86,6 +87,7 @@ static void renderTextureHandler(GLFWwindow *window, Shader &shaders) {
 	shaders.setFloat(shaders.getCurrentShaderID(), "RenderTexture", RENDER_TEXTURE);
 }
 
+// Use the scroll to resize the SCALE of the object
 static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
 	SCALE = clamp(SCALE + (float)yoffset * SCROLL_SPEED, MIN_SCALE, MAX_SCALE);
 	(void)window; (void)xoffset;
