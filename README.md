@@ -19,10 +19,10 @@ make re      # Recompile the project
 You have benchmark objects in the folder ./objects
 
 You can get different error messages with different colors :
-  - Blue   : Tips, usually right after a warning/error to help remove it
-  - Yellow : Notice, information and error handled by the program
-  - Orange : Warning, non-critical error
-  - Red    : Critical error
+  - $${\color{cyan}Cyan}$$   : Tips, usually right after a warning/error to help remove it
+  - $${\color{yellow}Yellow}$$ : Notice, information and error handled by the program
+  - $${\color{orange}Orange}$$ : Warning, non-critical error
+  - $${\color{red}Red}$$ : Critical error
 
 #
 <p align="center">
