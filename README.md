@@ -24,3 +24,7 @@ You can get different error messages with different colors :
   - Orange : Warning, non-critical error
   - Red    : Critical error
 
+#
+<p align="center">
+  <img src="skull_exemple.gif"/>
+</p>
