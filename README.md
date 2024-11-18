@@ -16,7 +16,7 @@ make re      # Recompile the project
 ```
 ## Informations
 
-You have benchmark objects in the folder ./objects
+You have benchmark objects in the folder ./objects (not in release)
 
 You can get different error messages with different colors :
   - $${\color{cyan}Cyan}$$   : Tips, usually right after a warning/error to help remove it
