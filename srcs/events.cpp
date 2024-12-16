@@ -120,7 +120,6 @@ static void	mouseHandler(GLFWwindow *window) {
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float x_movement, y_movement, z_movement = 0;
 	static float pitch_angle, yaw_angle, roll_angle = 0;
-	static Matrix currentRotation = Matrix();
 	const vec3 &centroid = obj.getObjectData().centroid;
 
 	/// Translation of the object
