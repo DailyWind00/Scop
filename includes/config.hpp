@@ -40,8 +40,6 @@ typedef struct mouse_data {
 	double	cur_y;
 	double	last_x;
 	double	last_y;
-	double	first_x;
-	double	first_y;
 	bool	left_button_pressed;
 	bool	right_button_pressed;
 } mouse_data;

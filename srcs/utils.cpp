@@ -47,6 +47,7 @@ void	displayCommands() {
 			cout << " A/D\t\t\t: Rotate the object on the Yaw axis\n";
 			cout << " Q/E\t\t\t: Rotate the object on the Roll axis\n";
 		}
+		cout << " Mouse dragging\t\t: Rotate the object based on it's current position\n";
 		cout << endl;
 	}
 	cout << "> Others commands :\n";
