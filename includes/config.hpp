@@ -18,6 +18,7 @@ class OBJ;
 
 /// Defines
 # define ROTATION_SPEED 0.05f
+# define MOUSE_ROTATION_SPEED 0.004f
 # define TRANSLATION_SPEED 0.001f
 # define AUTOROTATION_SPEED 0.015f
 # define RENDER_TEXTURE_OFFSET_SPEED 0.005f
@@ -34,12 +35,24 @@ enum class KEYBOARD_LANGUAGE {
 	QWERTY
 };
 
-extern int		WINDOW_WIDTH;
-extern int		WINDOW_HEIGHT;
-extern double	FRAMETIME;
-extern float	FOV;
-extern float	RENDER_TEXTURE; // between 0 and 1 : 0 = no texture, 1 = texture (smooth transition required)
-extern float	SCALE;
+typedef struct mouse_data {
+	double	cur_x;
+	double	cur_y;
+	double	last_x;
+	double	last_y;
+	double	first_x;
+	double	first_y;
+	bool	left_button_pressed;
+	bool	right_button_pressed;
+} mouse_data;
+
+extern int			WINDOW_WIDTH;
+extern int			WINDOW_HEIGHT;
+extern double		FRAMETIME;
+extern float		FOV;
+extern float		RENDER_TEXTURE; // between 0 and 1 : 0 = no texture, 1 = texture (smooth transition required)
+extern float		SCALE;
+extern mouse_data	MOUSE;
 
 // Flags (default values are set in flags.cpp)
 extern bool					VERBOSE;
@@ -71,3 +84,5 @@ void			displayCommands();
 ifstream		openReadFile(const string &filename);
 unsigned char	*stbi_loader(const string &filename, int &width, int &height, int &nrChannels);
 void			printVerbose(const string &message, bool newline = true);
+float			clamp(float value, float min, float max);
+float			toRadians(float degrees);

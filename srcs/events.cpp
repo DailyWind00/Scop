@@ -3,6 +3,7 @@
 float	FOV = 45.0f;
 float	RENDER_TEXTURE = 1;
 float	SCALE = 1;
+mouse_data MOUSE = {0, 0, 0, 0, 0, 0, false, false};
 
 #define POSITIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
 #define NEGATIVE_PITCH_KEY_PRESSED ((glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::QWERTY) || (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS && KEYBOARD == KEYBOARD_LANGUAGE::AZERTY))
@@ -93,6 +94,28 @@ static void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) 
 	(void)window; (void)xoffset;
 }
 
+static void	mouse_button_callback(GLFWwindow *window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS && !MOUSE.left_button_pressed) {
+		glfwGetCursorPos(window, &MOUSE.first_x, &MOUSE.first_y);
+		MOUSE.cur_x = MOUSE.last_x = MOUSE.first_x;
+		MOUSE.cur_y = MOUSE.last_y = MOUSE.first_y;
+		MOUSE.left_button_pressed = true;
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE && MOUSE.left_button_pressed)
+		MOUSE.left_button_pressed = false;
+
+	(void)mods;
+}
+
+static void	mouseHandler(GLFWwindow *window) {
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	if (MOUSE.left_button_pressed) {
+		MOUSE.last_x = MOUSE.cur_x;
+		MOUSE.last_y = MOUSE.cur_y;
+		glfwGetCursorPos(window, &MOUSE.cur_x, &MOUSE.cur_y);
+	}
+}
+
 // Handle the transformation of the object (keybind change with keyboard language)
 static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj) {
 	static float x_movement, y_movement, z_movement = 0;
@@ -128,7 +151,7 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 
 
 	/// Rotation of the object
-	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation
+	if (AUTOROTATE == ROTATION::NONE) { // Manual rotation with the keyboard
 		if (POSITIVE_PITCH_KEY_PRESSED)
 			pitch_angle += ROTATION_SPEED * FRAMETIME * SPEED;
 		else if (NEGATIVE_PITCH_KEY_PRESSED)
@@ -143,6 +166,12 @@ static void transformObjectHandler(GLFWwindow *window, Shader &shaders, OBJ &obj
 			roll_angle += ROTATION_SPEED * FRAMETIME * SPEED;
 		else if (NEGATIVE_ROLL_KEY_PRESSED)
 			roll_angle -= ROTATION_SPEED * FRAMETIME * SPEED;
+
+		if (MOUSE.left_button_pressed) { // Rotate the object with the mouse
+			yaw_angle -= (MOUSE.cur_x - MOUSE.last_x) * MOUSE_ROTATION_SPEED * FRAMETIME * SPEED;
+			pitch_angle -= (MOUSE.cur_y - MOUSE.last_y) * cos(toRadians(yaw_angle)) * MOUSE_ROTATION_SPEED * FRAMETIME * SPEED;
+			roll_angle += (MOUSE.cur_y - MOUSE.last_y) * sin(toRadians(yaw_angle)) * MOUSE_ROTATION_SPEED * FRAMETIME * SPEED;
+		}
 	}
 	else { // Auto-rotate the object, block manual rotation
 
@@ -224,6 +253,7 @@ void	handleEvents(GLFWwindow *window, OBJ &obj, Shader &shaders) {
 	recompilationHandler(window, shaders);
 	shaderSwitchHandler(window, shaders);
 	renderTextureHandler(window, shaders);
+	mouseHandler(window);
 
 	transformObjectHandler(window, shaders, obj);
 }

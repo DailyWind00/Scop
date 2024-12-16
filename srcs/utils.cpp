@@ -91,3 +91,17 @@ void	printVerbose(const string &message, bool newline) {
 			cout << endl;
 	}
 }
+
+// Clamp the value between min and max
+float	clamp(float value, float min, float max) {
+	if (value < min)
+		return min;
+	if (value > max)
+		return max;
+	return value;
+}
+
+// Convert degrees to radians
+float	toRadians(float degrees) {
+	return degrees * M_PI / 180;
+}

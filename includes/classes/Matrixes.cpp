@@ -220,7 +220,7 @@ RotationMatrix::RotationMatrix(float pitch, float yaw, float roll) {
 	RotationMatrix yaw_rotate(ROTATION::YAW, yaw);
 	RotationMatrix roll_rotate(ROTATION::ROLL, roll);
 
-	mat = (pitch_rotate * yaw_rotate * roll_rotate).getMatrix();
+	mat = (roll_rotate * yaw_rotate * pitch_rotate).getMatrix();
 }
 
 RotationMatrix::~RotationMatrix() {
